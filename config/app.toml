@@ -1,1 +1,1 @@
-registers = [ "App\\Web\\App", "App\\System\\App"]
+registers = [ "App\\Web\\App", "App\\System\\App", "App\\Data\\App"]
