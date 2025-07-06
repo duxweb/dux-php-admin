@@ -1,0 +1,54 @@
+{
+  "name": "duxweb/dux-lite-starter",
+  "description": "DuxLite 框架起始项目模板",
+  "type": "project",
+  "license": "MIT",
+  "keywords": ["dux-lite", "php", "framework", "slim"],
+  "authors": [
+    {
+      "name": "DuxWeb",
+      "email": "admin@dux.cn"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "duxweb/dux-lite": "^2.0.13",
+    "donatj/phpuseragentparser": "^1.10",
+    "league/mime-type-detection": "^1.16",
+    "jaybizzle/crawler-detect": "^1.3",
+    "duxweb/dux-lite-cloud": "dev-main",
+    "intervention/image": "^3.11",
+    "giggsey/libphonenumber-for-php": "^9.0",
+    "overtrue/easy-sms": "^3.1",
+    "symfony/mailer": "^7.3",
+    "yansongda/pay": "^3.7",
+    "godruoyi/php-snowflake": "^3.2",
+    "w7corp/easywechat": "^6.17",
+    "cebe/php-openapi": "^1.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "serve": "php -S localhost:8000 -t public"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "platform": {
+      "php": "8.2"
+    },
+    "allow-plugins": {
+      "duxweb/dux-lite-cloud": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

@@ -1,0 +1,48 @@
+{
+  "name": "dux-php-admin",
+  "type": "module",
+  "version": "0.0.0",
+  "author": "DuxWeb",
+  "license": "MIT",
+  "files": [
+    "README.md",
+    "package.json",
+    "web/dist"
+  ],
+  "scripts": {
+    "dev": "cd web && vite dev",
+    "build": "cd web && vite build",
+    "preview": "cd web && vite preview",
+    "lint": "cd web && eslint . --fix"
+  },
+  "dependencies": {
+    "@duxweb/dvha-core": "latest",
+    "@duxweb/dvha-naiveui": "latest",
+    "@duxweb/dvha-pro": "latest",
+    "@vueuse/core": "^13.5.0",
+    "@vueuse/integrations": "^13.5.0",
+    "axios": "^1.10.0",
+    "clsx": "^2.1.1",
+    "lodash-es": "^4.17.21",
+    "naive-ui": "^2.42.0",
+    "petite-vue-i18n": "^11.1.9",
+    "pinia": "^3.0.3",
+    "pinia-plugin-persistedstate": "^4.4.1",
+    "vue": "^3.5.17",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.16.2",
+    "@tanstack/eslint-plugin-query": "^5.81.2",
+    "@types/node": "^22.16.0",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vitejs/plugin-vue-jsx": "^5.0.1",
+    "eslint": "^9.30.1",
+    "eslint-plugin-format": "^1.0.1",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.2",
+    "vitest": "^3.2.4",
+    "vue-tsc": "^2.2.12"
+  }
+}

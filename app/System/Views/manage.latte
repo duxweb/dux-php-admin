@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{$title}</title>
+    <style>
+      [v-cloak],
+      [un-cloak] {
+        display: none;
+      }
+    </style>
+</head>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="app" v-cloak un-cloak></div>
+  <script>
+    window.duxConfig = {$config}
+  </script>
+  {if $vite["dev"]}
+  <script type="module" src="http://localhost:{$vite["port"]}/static/web/@vite/client"></script>
+  <script type="module" src="http://localhost:{$vite["port"]}/static/web/main.js"></script>
+  {else}
+  <link rel="stylesheet" href="/static/web/{$manifest['css']}" />
+  <script type="module" src="/static/web/{$manifest['js']}"></script>
+  {/if}
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+    "_readme": [
+        "This file relies on the Dux application to be in a locked state",
+        "Read more about it at https://www.dux.cn"
+    ],
+    "packages": [
+        {
+            "name": "duxweb/member",
+            "description": "User Basic Application",
+            "version": "0.0.1",
+            "app": "member"
+        }
+    ]
+}

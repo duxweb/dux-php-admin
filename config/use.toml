@@ -1,0 +1,14 @@
+[app]
+name = "我的 DuxLite 应用"
+debug = true
+timezone = "Asia/Shanghai"
+secret = "your-app-secret-key"
+domain = "http://localhost:8000"
+
+[vite]
+dev = false
+port = 5173
+
+
+[cloud]
+key = ""

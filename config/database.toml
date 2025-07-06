@@ -1,0 +1,9 @@
+[db.drivers.default]
+driver = "mysql"
+host = "localhost"
+database = "dux_admin"
+username = "root"
+password = "root"
+port = 3306
+prefix = "app_"
+
