@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  232
+  Hello World
 </template>
 
 <style scoped></style>
