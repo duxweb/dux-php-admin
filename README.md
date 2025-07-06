@@ -79,7 +79,7 @@
 ### 前端技术
 - **Vue 3** - 渐进式 JavaScript 框架
 - **Naive UI** - 现代化的 Vue 3 组件库
-- **DVHA PRO** - 专业的管理后台组件库
+- **DVHA PRO** - 基于无头 DVHA 的中后台前端框架
 - **TypeScript** - 类型安全的 JavaScript
 
 ### 数据库支持
@@ -257,8 +257,6 @@ php dux route:list      # 查看路由列表
 
 感谢以下优秀的开源项目：
 
-- [DuxLite](https://github.com/duxweb/dux-lite) - 基础框架
-- [DVHA PRO](https://duxweb.github.io/dvha/) - 前端组件库
 - [Vue.js](https://vuejs.org/) - 前端框架
 - [Naive UI](https://www.naiveui.com/) - UI 组件库
 - [Eloquent ORM](https://laravel.com/docs/eloquent) - 数据库 ORM
