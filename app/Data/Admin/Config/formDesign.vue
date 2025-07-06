@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { useOne, useUpdate } from '@duxweb/dvha-core'
 import { DuxFormEditor } from '@duxweb/dvha-pro'
+import { cloneDeep } from 'lodash-es'
 import { useMessage } from 'naive-ui'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const form = ref<any>({})
+const form = ref({})
 const message = useMessage()
 
-const { data: formData } = useOne({
+const { data } = useOne({
   path: `data/config/${route.params.id}/form`,
 })
 
@@ -23,12 +24,11 @@ const { mutate } = useUpdate({
   },
 })
 
-watch(formData, (val) => {
-    form.value = val?.data || {}
+watch(data, (val) => {
+  form.value = cloneDeep(val?.data || {})
 }, {
-  immediate: true
+  immediate: true,
 })
-
 
 function handleSave() {
   mutate({
@@ -37,11 +37,16 @@ function handleSave() {
     },
   })
 }
+
+function handleUpdateData(v) {
+  form.value = v
+}
 </script>
 
 <template>
   <DuxFormEditor
-    :data="form"
+    :data="data?.data || {}"
     @save="handleSave"
+    @update-data="handleUpdateData"
   />
 </template>

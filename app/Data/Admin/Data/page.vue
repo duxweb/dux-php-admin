@@ -1,14 +1,13 @@
 <script setup>
-import { DuxFormItem, DuxPageForm, DuxFormRenderer } from '@duxweb/dvha-pro'
 import { useOne } from '@duxweb/dvha-core'
-import { NInput, NInputNumber, NRadio, NRadioGroup } from 'naive-ui'
+import { DuxFormRenderer, DuxPageForm } from '@duxweb/dvha-pro'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { ref, computed } from 'vue'
 
 const route = useRoute()
 const id = route.params.id
 const pathList = route.path.split('/')
-const configName = id ? pathList[pathList.length - 3] :  pathList[pathList.length - 2]
+const configName = id ? pathList[pathList.length - 3] : pathList[pathList.length - 2]
 
 const { data: configData } = useOne({
   path: `data/config/${configName}/config`,

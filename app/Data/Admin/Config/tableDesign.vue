@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import type { DuxDynamicDataColumn } from '@duxweb/dvha-pro'
-import { DuxDynamicData, useModal, DuxPageForm, DuxFormItem } from '@duxweb/dvha-pro'
+import { DuxDynamicData, DuxFormItem, DuxPageForm, useModal } from '@duxweb/dvha-pro'
 import { NButton, NInput, NSelect } from 'naive-ui'
-import { useRoute } from 'vue-router'
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const modal = useModal()
 const route = useRoute()
-
 
 const filters: DuxDynamicDataColumn[] = [
   {
@@ -97,7 +96,6 @@ const filters: DuxDynamicDataColumn[] = [
     },
   },
 
-
   {
     key: 'setting',
     title: '设置',
@@ -115,7 +113,7 @@ const filters: DuxDynamicDataColumn[] = [
                 componentProps: {
                   row,
                 },
-              }).then(v => {
+              }).then((v) => {
                 row.setting = v
               }).catch(() => {})
             },
@@ -221,7 +219,7 @@ const columns: DuxDynamicDataColumn[] = [
                 componentProps: {
                   row,
                 },
-              }).then(v => {
+              }).then((v) => {
                 row.setting = v
               }).catch(() => {})
             },
@@ -240,23 +238,21 @@ const columns: DuxDynamicDataColumn[] = [
   },
 ]
 
-
 const model = ref({
   data: [] as Record<string, any>[],
   filter: [] as Record<string, any>[],
 })
 
-
 const id = route.params.id as string
-
 </script>
 
 <template>
-  <DuxPageForm  :data="model" :path="`data/config/${id}/table`" action="edit" label-placement="top">
+  <DuxPageForm :data="model" :path="`data/config/${id}/table`" action="edit" label-placement="top">
     <div class="container mx-auto flex flex-col gap-4">
       <DuxFormItem label="筛选配置">
         <DuxDynamicData
           v-model:value="model.filter"
+          :columns="filters"
           @create="() => {
             const data = [...model.filter]
             data.push({
@@ -268,12 +264,12 @@ const id = route.params.id as string
 
             model.filter = data
           }"
-          :columns="filters"
         />
       </DuxFormItem>
       <DuxFormItem label="表格配置">
         <DuxDynamicData
           v-model:value="model.data"
+          :columns="columns"
           @create="() => {
             const data = [...model.data]
             data.push({
@@ -285,7 +281,6 @@ const id = route.params.id as string
 
             model.data = data
           }"
-          :columns="columns"
         />
       </DuxFormItem>
     </div>
