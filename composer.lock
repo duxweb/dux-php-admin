@@ -1525,16 +1525,16 @@
         },
         {
             "name": "duxweb/dux-lite",
-            "version": "v2.0.14",
+            "version": "v2.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxweb/dux-lite.git",
-                "reference": "219af6f29723b4924b257e2708d6f28c74b6e401"
+                "reference": "d75604e3984eebf5ec14fbcbee99d8a018c31842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxweb/dux-lite/zipball/219af6f29723b4924b257e2708d6f28c74b6e401",
-                "reference": "219af6f29723b4924b257e2708d6f28c74b6e401",
+                "url": "https://api.github.com/repos/duxweb/dux-lite/zipball/d75604e3984eebf5ec14fbcbee99d8a018c31842",
+                "reference": "d75604e3984eebf5ec14fbcbee99d8a018c31842",
                 "shasum": ""
             },
             "require": {
@@ -1614,7 +1614,7 @@
                 "issues": "https://github.com/duxweb/dux-lite/issues",
                 "source": "https://github.com/duxweb/dux-lite"
             },
-            "time": "2025-07-06T15:25:46+00:00"
+            "time": "2025-07-06T15:39:46+00:00"
         },
         {
             "name": "duxweb/dux-lite-cloud",
