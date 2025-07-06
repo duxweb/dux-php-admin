@@ -101,7 +101,7 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/your-username/dux-php-admin.git
+git clone https://github.com/duxweb/dux-php-admin.git
 cd dux-php-admin
 
 # 安装 PHP 依赖
@@ -242,16 +242,16 @@ php dux route:list      # 查看路由列表
 
 如果您发现任何问题或有改进建议，请：
 
-1. 查看 [Issues](https://github.com/your-username/dux-php-admin/issues) 是否已有相关问题
+1. 查看 [Issues](https://github.com/duxweb/dux-php-admin/issues) 是否已有相关问题
 2. 创建新的 Issue 并详细描述问题
 3. 提供复现步骤和环境信息
 
 ## 📊 项目统计
 
-![GitHub stars](https://img.shields.io/github/stars/your-username/dux-php-admin?style=social)
-![GitHub forks](https://img.shields.io/github/forks/your-username/dux-php-admin?style=social)
-![GitHub issues](https://img.shields.io/github/issues/your-username/dux-php-admin)
-![GitHub license](https://img.shields.io/github/license/your-username/dux-php-admin)
+![GitHub stars](https://img.shields.io/github/stars/duxweb/dux-php-admin?style=social)
+![GitHub forks](https://img.shields.io/github/forks/duxweb/dux-php-admin?style=social)
+![GitHub issues](https://img.shields.io/github/issues/duxweb/dux-php-admin)
+![GitHub license](https://img.shields.io/github/license/duxweb/dux-php-admin)
 
 ## 🙏 致谢
 
