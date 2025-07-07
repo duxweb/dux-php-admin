@@ -8,5 +8,6 @@ services:
       - .:/app
     environment:
       DOCUMENT_ROOT: /app/public
+    command: ./dux worker:start
     tty: true
     stdin_open: true
