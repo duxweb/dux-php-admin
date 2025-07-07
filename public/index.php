@@ -16,4 +16,9 @@ header('Access-Control-Allow-Methods: *');
 header('Access-Control-Allow-Headers: *');
 header('Access-Control-Allow-Credentials: true');
 
-App::runWeb();
+if (function_exists('frankenphp_handle_request')) {
+    $maxRequests = (int)($_ENV['MAX_REQUESTS'] ?? 0);
+    App::runWorker($maxRequests);
+} else {
+    App::runWeb();
+}
