@@ -1525,16 +1525,16 @@
         },
         {
             "name": "duxweb/dux-lite",
-            "version": "v2.0.13",
+            "version": "v2.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxweb/dux-lite.git",
-                "reference": "fc644c92ca120a5208cd2a5fd12c255639f4614d"
+                "reference": "d75604e3984eebf5ec14fbcbee99d8a018c31842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxweb/dux-lite/zipball/fc644c92ca120a5208cd2a5fd12c255639f4614d",
-                "reference": "fc644c92ca120a5208cd2a5fd12c255639f4614d",
+                "url": "https://api.github.com/repos/duxweb/dux-lite/zipball/d75604e3984eebf5ec14fbcbee99d8a018c31842",
+                "reference": "d75604e3984eebf5ec14fbcbee99d8a018c31842",
                 "shasum": ""
             },
             "require": {
@@ -1614,7 +1614,7 @@
                 "issues": "https://github.com/duxweb/dux-lite/issues",
                 "source": "https://github.com/duxweb/dux-lite"
             },
-            "time": "2025-07-06T03:27:52+00:00"
+            "time": "2025-07-06T15:39:46+00:00"
         },
         {
             "name": "duxweb/dux-lite-cloud",
@@ -1622,17 +1622,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxweb/dux-lite-cloud.git",
-                "reference": "60c70d498fc66b49a9e9e680bede61cfc9763f6f"
+                "reference": "7462be71166eb11364695d60f4396772a2cc284a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxweb/dux-lite-cloud/zipball/60c70d498fc66b49a9e9e680bede61cfc9763f6f",
-                "reference": "60c70d498fc66b49a9e9e680bede61cfc9763f6f",
+                "url": "https://api.github.com/repos/duxweb/dux-lite-cloud/zipball/7462be71166eb11364695d60f4396772a2cc284a",
+                "reference": "7462be71166eb11364695d60f4396772a2cc284a",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^2.0",
-                "duxweb/dux-lite": "^2.0.3",
+                "duxweb/dux-lite": "^2.0.10",
                 "maennchen/zipstream-php": "^3.1"
             },
             "default-branch": true,
@@ -1665,7 +1665,7 @@
                 "issues": "https://github.com/duxweb/dux-lite-cloud/issues",
                 "source": "https://github.com/duxweb/dux-lite-cloud/tree/main"
             },
-            "time": "2025-06-28T02:44:39+00:00"
+            "time": "2025-07-06T07:34:05+00:00"
         },
         {
             "name": "eftec/bladeone",

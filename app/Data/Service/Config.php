@@ -11,8 +11,6 @@ class Config
 {
     public static function filter($query, $config, $params = []) {
 
-        $query->where('config_id', $config->id);
-
         $filters = $config->table_data['filters'] ?? [];
 
         foreach ($filters as $filter) {
@@ -99,7 +97,6 @@ class Config
             "config_id" => $config->id,
         ];
 
-        // 处理父级ID
         if (isset($data->parent_id)) {
             $formatData['parent_id'] = $data->parent_id;
         }

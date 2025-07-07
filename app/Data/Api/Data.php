@@ -45,7 +45,7 @@ class Data
             throw new ExceptionBusiness('数据集不支持列表查询');
         }
 
-        Config::filter($query, $request, $config);
+        Config::filter($query, $config);
 
         switch ($config->table_type) {
             case 'tree':
@@ -163,6 +163,8 @@ class Data
     private function query( $query, ServerRequestInterface $request, array $args, bool $force = false) {
         $config = $this->config($args['name']);
 
+        $query->where('config_id', $config->id);
+
         $jwt = self::decode($request);
         if ($config->api_user && !$jwt) {
             throw new ExceptionBusiness('Authorization error', 401);
@@ -171,8 +173,6 @@ class Data
         if (($config->api_user && $config->api_user_self) || $force) {
             $query->where('user_type', $jwt['sub'])->where('user_id', $jwt['id']);
         }
-
-        $query->where('config_id', $config->id);
 
         return $config;
     }

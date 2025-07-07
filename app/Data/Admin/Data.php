@@ -10,6 +10,7 @@ use App\Data\Service\Config;
 use Core\Resources\Action\Resources;
 use Core\Resources\Attribute\Resource;
 use Core\Validator\Data as ValidatorData;
+use Core\Validator\Validator;
 use Illuminate\Database\Eloquent\Builder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -50,6 +51,7 @@ class Data extends Resources
 
     public function format(ValidatorData $data, ServerRequestInterface $request, array $args): array
     {
+        $data = Validator::parser($request->getParsedBody(), []);
         return Config::format($data, $this->config);
     }
 

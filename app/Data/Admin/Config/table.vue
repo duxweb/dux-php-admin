@@ -158,9 +158,11 @@ const filterSchema: JsonSchemaNode[] = [
   <DuxTablePage
     path="data/config" :filter="filter" :filter-schema="filterSchema" :columns="columns" :actions="actions"
   >
-  <template #header>
-    <NAlert type="info">开启 API 鉴权后需要从 <NTag>/api/data/:label</NTag> 获取数据，关闭后从 <NTag>/data/:label</NTag> 获取数据</NAlert>
-  </template>
+    <template #header>
+      <NAlert type="info">
+        开启 API 鉴权后需要从 <NTag>/api/data/:label</NTag> 获取数据，关闭后从 <NTag>/data/:label</NTag> 获取数据
+      </NAlert>
+    </template>
   </DuxTablePage>
 </template>
 

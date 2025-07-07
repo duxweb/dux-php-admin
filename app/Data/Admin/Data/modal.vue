@@ -1,8 +1,7 @@
 <script setup>
-import { DuxFormItem, DuxModalForm, DuxFormRenderer } from '@duxweb/dvha-pro'
 import { useOne } from '@duxweb/dvha-core'
-import { NInput, NInputNumber, NRadio, NRadioGroup } from 'naive-ui'
-import { ref, computed } from 'vue'
+import { DuxFormRenderer, DuxModalForm } from '@duxweb/dvha-pro'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   id: {
@@ -16,14 +15,14 @@ const props = defineProps({
   config: {
     type: Object,
     required: false,
-  }
+  },
 })
 
 const { data: configData } = useOne({
   path: `data/config/${props.name}/config`,
   options: {
-    enabled: !props.config
-  }
+    enabled: !props.config,
+  },
 })
 
 const data = computed(() => {
