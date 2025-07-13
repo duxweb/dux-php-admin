@@ -9,7 +9,7 @@ export const typeConfig = {
   boolean: { color: 'error', icon: 'i-tabler:toggle-left' },
   array: { color: 'primary', icon: 'i-tabler:list' },
   object: { color: 'primary', icon: 'i-tabler:braces' },
-  default: { color: 'default', icon: 'i-tabler:question-mark' }
+  default: { color: 'default', icon: 'i-tabler:question-mark' },
 }
 
 // 获取类型颜色
@@ -40,14 +40,15 @@ export function formatExampleShort(example) {
 
 // 递归转换 Schema 为树形数据
 export function schemaToTree(schema, name = 'root', required = false) {
-  if (!schema) return null
+  if (!schema)
+    return null
 
   const node = {
     key: `${name}_${Date.now()}_${Math.random()}`,
     label: name,
     schema,
     required,
-    type: schema.type || 'any'
+    type: schema.type || 'any',
   }
 
   // 处理对象类型
@@ -72,7 +73,9 @@ export function getTreeData(schema) {
   if (schema?.type === 'object' && schema.properties) {
     Object.entries(schema.properties).forEach(([key, val]) => {
       const node = schemaToTree(val, key, schema.required?.includes(key))
-      if (node) result.push(node)
+      if (node) {
+        result.push(node)
+      }
     })
   }
 
@@ -88,7 +91,8 @@ export function renderLabel({ option }) {
     h('span', { class: 'font-medium text-sm' }, option.label),
     h(NTag, { type: config.color, size: 'small' }, { default: () => option.type }),
     option.required && h(NBadge, { value: '必需', type: 'error' }),
-    option.schema?.description && h('span', { class: 'text-xs text-muted ml-2' }, `- ${option.schema.description}`),
-    option.schema?.example !== undefined && h('span', { class: 'text-xs text-muted ml-2' }, `例: ${formatExampleShort(option.schema.example)}`)
+    option.schema?.title && h('span', { class: 'text-xs text-muted' }, `${option.schema.title}`),
+    option.schema?.description && h('span', { class: 'text-xs text-muted' }, `- ${option.schema.description}`),
+    option.schema?.example !== undefined && h('span', { class: 'text-xs text-muted' }, `例: ${formatExampleShort(option.schema.example)}`),
   ].filter(Boolean))
 }

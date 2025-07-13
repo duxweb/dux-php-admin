@@ -15,17 +15,21 @@ const props = defineProps({
 })
 
 const treeData = computed(() => {
-  if (!props.schema) return []
+  if (!props.schema)
+    return []
   return getTreeData(props.schema)
 })
 const expandedKeys = computed(() => treeData.value.map(item => item.key))
 </script>
 
 <template>
-  <div v-if="treeData.length" class="mb-4">
-    <div class="text-sm font-medium mb-2">{{ title }}</div>
-    <div class="border border-muted rounded-lg p-3 bg-elevated">
+  <div v-if="treeData.length">
+    <div class="text-sm font-medium mb-2">
+      {{ title }}
+    </div>
+    <div class="border border-muted rounded-lg p-3 bg-elevated overflow-auto">
       <NTree
+        class="min-w-100"
         :data="treeData"
         :render-label="renderLabel"
         :default-expanded-keys="expandedKeys"

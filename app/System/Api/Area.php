@@ -26,13 +26,13 @@ class Area
     #[Query(field: 'level', type: FieldEnum::INT, name: '地区等级', desc: '地区等级')]
     #[Query(field: 'parent', type: FieldEnum::STRING, name: '父级地区名', desc: '父级地区名')]
 
-    #[ResultData(field: 'data', type: FieldEnum::ARRAY, name: '地区列表', desc: '地区列表', root: true, children: [
+    #[ResultData(field: 'data', type: FieldEnum::ARRAY, name: '地区列表', desc: '地区列表', children: [
         new ResultData(field: 'name', type: FieldEnum::STRING, name: '地区名称', desc: '地区名称'),
         new ResultData(field: 'code', type: FieldEnum::STRING, name: '地区编码', desc: '地区编码'),
         new ResultData(field: 'parent_code', type: FieldEnum::STRING, name: '父级编码', desc: '父级编码'),
         new ResultData(field: 'level', type: FieldEnum::INT, name: '地区等级', desc: '地区等级'),
         new ResultData(field: 'leaf', type: FieldEnum::BOOL, name: '是否叶子节点', desc: '是否叶子节点'),
-    ])]
+    ], root: true)]
     public function list(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $params = $request->getQueryParams();

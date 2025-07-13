@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\System\Handler;
 
+use App\System\Models\SystemArea;
 use App\System\Models\SystemMenu;
 use Core\Handlers\ExceptionBusiness;
 use Core\Resources\Attribute\Action;
@@ -20,6 +21,19 @@ class ManageHandler
     {
         $menu = SystemMenu::getMenu($this->app);
         return send($response, "ok", $menu);
+    }
+
+
+    #[Action(methods: 'GET', route: '/area')]
+    public function area(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $params = $request->getQueryParams();
+        $level = $params['level'] ?: 0;
+        $name = $params['name'];
+        $model = new SystemArea();
+        $info = $model->query()->where('name', $name)->where('level', $level)->first();
+        $data = $model->query()->where('level', $level + 1)->where('parent_code', $name ? $info['code'] : 0)->get(["name as value", "name as label", "leaf"])->toArray();
+        return send($response, 'ok', $data);
     }
 
     #[Action(methods: 'POST', route: '/static')]

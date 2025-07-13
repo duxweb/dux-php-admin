@@ -15,7 +15,7 @@ class Upload extends \App\System\Extends\Upload
     public function sign(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $params = $request->getQueryParams();
-        return send($response, "ok", parent::uploadSign(filename: $params['name'], prefix: 'system'));
+        return send($response, "ok", parent::uploadSign(filename: $params['name'], mime: $params['mime'], prefix: 'system'));
     }
 
     #[Route(methods: 'PUT', route: '')]
@@ -32,7 +32,7 @@ class Upload extends \App\System\Extends\Upload
         $manager = !!$params['manager'];
         $folder = $params['folder'] ?: null;
         $mime = $params['mime'];
-        $data = parent::uploadLocal(
+        $data = parent::uploadStorage(
             hasType: 'admin',
             request: $request,
             manager: $manager,

@@ -71,8 +71,8 @@ function close() {
               value: 0,
             })"
           >
-            <template #default="{ value }">
-              <div class="flex gap-2 items-center">
+            <template #default="{ value, key }">
+              <div class="flex gap-2 items-center" :tag="key">
                 <NSelect
                   v-model:value="value.type" :options="[
                     {
@@ -93,8 +93,8 @@ function close() {
                     },
                   ]"
                 />
-                <NInput v-model:value="model.label" placeholder="状态名" />
-                <NInput v-model:value="model.value" placeholder="状态值" />
+                <NInput v-model:value="value.label" placeholder="状态名" />
+                <NInput v-model:value="value.value" placeholder="状态值" />
               </div>
             </template>
           </NDynamicInput>
@@ -102,7 +102,7 @@ function close() {
       </template>
 
       <template v-if="row.type === 'color'">
-        <DuxFormItem label="状态类型">
+        <DuxFormItem label="颜色类型">
           <NDynamicInput
             v-model:value="model.config" :on-create="(item) => ({
               type: 'success',
@@ -111,8 +111,8 @@ function close() {
               value: 0,
             })"
           >
-            <template #default="{ value }">
-              <div class="flex gap-2 items-center">
+            <template #default="{ value, key }">
+              <div :key="key" class="flex gap-2 items-center">
                 <NSelect
                   v-model:value="value.type" :options="[
                     {
@@ -133,9 +133,9 @@ function close() {
                     },
                   ]"
                 />
-                <DuxIconPicker v-model:value="model.icon" />
-                <NInput v-model:value="model.label" placeholder="状态名" />
-                <NInput v-model:value="model.value" placeholder="状态值" />
+                <DuxIconPicker v-model:value="value.icon" />
+                <NInput v-model:value="value.label" placeholder="状态名" />
+                <NInput v-model:value="value.value" placeholder="状态值" />
               </div>
             </template>
           </NDynamicInput>
@@ -151,8 +151,8 @@ function close() {
               icon: '',
             })"
           >
-            <template #default="{ value }">
-              <div class="flex gap-2 items-center">
+            <template #default="{ value, key }">
+              <div :key="key" class="flex gap-2 items-center">
                 <NInput v-model:value="value.label" placeholder="名称" />
                 <NInput v-model:value="value.value" placeholder="字段" />
                 <DuxIconPicker v-model:value="value.icon" />

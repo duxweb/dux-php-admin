@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\System\Models;
 
 use App\System\Data\Menu;
-use App\System\Service\Menu as ServiceMenu;
 use Core\App;
 use Core\Database\Attribute\AutoMigrate;
 use Core\Database\Model;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Connection;
 use Kalnoy\Nestedset\NestedSet;
 use Kalnoy\Nestedset\NodeTrait;
 
@@ -50,11 +48,6 @@ class SystemMenu extends Model
         return ['app'];
     }
 
-    public function install(Connection $db)
-    {
-        ServiceMenu::install($db, new Menu(), 'admin');
-    }
-
     public static function getMenu(string $app): array
     {
         $cache = App::cache()->get('system.menu.' . $app);
@@ -74,7 +67,7 @@ class SystemMenu extends Model
 
     public static function formatMenu(string $app): array
     {
-        $menus = self::scoped([ 'app' => $app ])->with('parent')->defaultOrder()->get();
+        $menus = self::scoped(['app' => $app])->with('parent')->defaultOrder()->get();
 
         $data = [];
         foreach ($menus as $index => $menu) {
@@ -86,7 +79,7 @@ class SystemMenu extends Model
                 'parent' => $menu->parent ? $menu->parent->name : '',
                 'hidden' => !!$menu['hidden'],
                 'sort' => $index,
-                'loader' => $menu->type === 'menu' ?'remote' : null,
+                'loader' => $menu->type === 'menu' ? 'remote' : null,
                 'meta' => [
                     'path' => $menu->loader,
                     'url' => $menu->url

@@ -4,91 +4,120 @@ declare(strict_types=1);
 
 namespace App\Data\Service;
 
+use App\Data\Models\Data as ModelsData;
 use App\Data\Models\DataConfig;
 use Core\Validator\Data;
 
 class Config
 {
+
+    public static function has($query, $config) {
+        if ($config->field_data['has']) {
+            foreach ($config->field_data['has'] as $relation) {
+                if ($relation['name'] && $relation['model']) {
+                    $relationName = $relation['name'];
+                    $modelClass = $relation['model'];
+                    $localKey = $relation['local_key'] ?? 'id';
+                    $foreignKey = $relation['foreign_key'] ?? 'id';
+                    $type = $relation['type'] ?? 'belongsTo';
+                    $jsonPath = "data->{$localKey}";
+                    
+                    ModelsData::resolveRelationUsing($relationName, function ($query) use ($modelClass, $foreignKey, $jsonPath, $type) {
+                        switch ($type) {
+                            case 'hasOne':
+                                return $query->hasOne($modelClass, $foreignKey, $jsonPath);
+                            case 'hasMany':
+                                return $query->hasMany($modelClass, $foreignKey, $jsonPath);
+                            case 'belongsTo':
+                            default:
+                                return $query->belongsTo($modelClass, $jsonPath, $foreignKey);
+                        }
+                    });
+                }
+            }
+
+            $relations = array_column($config->field_data['has'], 'name');
+
+            $query->with($relations);
+        }
+
+        $query->with(['config']);
+    }
+
     public static function filter($query, $config, $params = []) {
 
-        $filters = $config->table_data['filters'] ?? [];
+        $fields = $config->field_data['data'] ?? [];
 
-        foreach ($filters as $filter) {
-            $field = $filter['field'] ?? null;
-            $where = $filter['where'] ?? '=';
-            $type = $filter['type'] ?? 'text';
-            $name = $filter['name'] ?? $field;
 
-            if (!$field || !isset($params[$name])) {
+        foreach ($fields as $item) {
+            $field = $item['field'] ?? null;
+            $where = $item['where'] ?? '=';
+            $type = $item['type'] ?? 'text';
+
+            if (!$field || !isset($params[$field])) {
                 continue;
             }
 
-            $value = $params[$name];
+            $value = $params[$field];
 
-            if ($value === null || $value === '') {
+            if (!$value) {
                 continue;
             }
 
             $jsonPath = "data->$field";
 
-            switch ($type) {
-                case 'text':
-                    if ($where === 'like') {
+            switch ($where) {
+                case '!=':
+                    $query->where($jsonPath, '!=', $value);
+                    break;
+                case '>':
+                case '<':
+                case '>=':
+                case '<=':
+                    $query->where($jsonPath, $where, $value);
+                    break;
+                case 'like':
+                    if (in_array($type, ['string'])) {
                         $query->where($jsonPath, 'like', '%' . $value . '%');
-                    } else {
-                        $query->where($jsonPath, $where, $value);
+                    } elseif (is_array($value) && count($value) === 2) {
+                        $query->whereBetween($jsonPath, [$value[0], $value[1]]);
                     }
                     break;
-
-                case 'select':
-                case 'async-select':
-                case 'cascader':
-                    if (is_array($value)) {
-                        if ($where === '!=') {
-                            $query->where(function($q) use ($jsonPath, $value) {
-                                foreach ($value as $v) {
-                                    $q->where($jsonPath, '!=', $v);
-                                }
-                            });
-                        } else {
-                            $query->where(function($q) use ($jsonPath, $value) {
-                                foreach ($value as $v) {
-                                    $q->orWhere($jsonPath, '=', $v);
-                                }
-                            });
-                        }
-                    } else {
-                        $query->where($jsonPath, $where, $value);
-                    }
-                    break;
-
-                case 'daterange':
-                    if (is_array($value) && count($value) === 2) {
-                        $startDate = $value[0];
-                        $endDate = $value[1];
-
-                        if ($startDate && $endDate) {
-                            $query->whereBetween($jsonPath, [$startDate, $endDate]);
-                        } elseif ($startDate) {
-                            $query->where($jsonPath, '>=', $startDate);
-                        } elseif ($endDate) {
-                            $query->where($jsonPath, '<=', $endDate);
-                        }
-                    }
-                    break;
-
+                case '=':
                 default:
-                    // 默认处理
-                    if ($where === 'like') {
-                        $query->where($jsonPath, 'like', '%' . $value . '%');
-                    } else {
-                        $query->where($jsonPath, $where, $value);
-                    }
+                    $query->where($jsonPath, (int) $value);
                     break;
             }
         }
 
-        $query->orderBy('id');
+        $data = collect($fields);
+
+        foreach($params as $key => $value) {
+            if (!str_ends_with($key, '_sort')) {
+                continue;
+            }
+            $field =  substr($key, 0, -5);
+            $item = $data->where('field', $field)->first();
+            if (!$item) {
+                continue;
+            }
+            if (!$item['sort']) {
+                continue;
+            }
+
+            $jsonPath = "data->$field";
+            
+            switch ($value) {
+                case 'asc':
+                    $query->orderBy($jsonPath);
+                    break;
+                case 'desc':
+                    $query->orderByDesc($jsonPath);
+                    break;
+            }
+        }
+
+        $query->orderBy('id', $params['id_sort'] === 'desc' ? 'desc' :'asc');
     }
 
     public static function format(Data $data, DataConfig $config) {
@@ -101,16 +130,40 @@ class Config
             $formatData['parent_id'] = $data->parent_id;
         }
 
-        $systemFields = ['id', 'parent_id', 'config_id', 'user_type', 'user_id', 'created_at', 'updated_at'];
         $jsonData = [];
-        foreach ($data->toArray() as $key => $value) {
-            if (!in_array($key, $systemFields)) {
-                $jsonData[$key] = $value;
-            }
+        
+        foreach ($config->field_data['data'] as $fieldConfig) {
+            $field = $fieldConfig['field'];
+            $type = $fieldConfig['type'];
+            $defaultValue = $fieldConfig['default_value'] ?? null;
+            $value = $data->{$field} ?? $defaultValue;            
+            $jsonData[$field] = self::formatSaveValue($value, $type);
         }
 
         $formatData['data'] = $jsonData;
 
         return $formatData;
+    }
+
+    private static function formatSaveValue($value, string $type) {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        switch ($type) {
+            case 'int':
+                return (int) $value;
+            case 'decimal':
+                return (float) $value;
+            case 'boolean':
+                return (bool) $value;
+            case 'json':
+                return is_string($value) ? json_decode($value, true) : $value;
+            case 'string':
+            case 'datetime':
+            case 'date':
+            default:
+                return $value;
+        }
     }
 }

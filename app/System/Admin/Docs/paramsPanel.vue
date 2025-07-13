@@ -30,7 +30,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['height-change'])
+const emit = defineEmits(['heightChange'])
 
 const { copyText } = useClipboardWithMessage()
 
@@ -38,7 +38,7 @@ const isExpanded = ref(props.defaultExpanded)
 
 function toggleExpanded() {
   isExpanded.value = !isExpanded.value
-  emit('height-change')
+  emit('heightChange')
 }
 
 function handleCopy() {
@@ -48,7 +48,10 @@ function handleCopy() {
 
 <template>
   <div class="border border-muted rounded overflow-hidden">
-    <div :class="`p-4 bg-muted ${isExpanded ? 'border-b' : ''} border-muted cursor-pointer hover:bg-muted/80 transition-colors`" @click="toggleExpanded">
+    <div
+      :class="`p-4 bg-muted ${isExpanded ? 'border-b' : ''} border-muted cursor-pointer hover:bg-muted/80 transition-colors`"
+      @click="toggleExpanded"
+    >
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
           <div class="size-8 bg-primary/10 rounded-full flex items-center justify-center">
@@ -62,7 +65,9 @@ function handleCopy() {
                 <div class="size-3 i-tabler:copy text-primary" />
               </div>
             </div>
-            <div v-if="description" class="text-sm text-muted mt-1">{{ description }}</div>
+            <div v-if="description" class="text-sm text-muted mt-1">
+              {{ description }}
+            </div>
           </div>
         </div>
         <div class="flex items-center gap-2">

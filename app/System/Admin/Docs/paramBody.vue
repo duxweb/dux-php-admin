@@ -1,8 +1,8 @@
 <script setup>
 import { NTag } from 'naive-ui'
-import ParamsPanel from './paramsPanel'
-import SchemaTree from './components/SchemaTree'
 import CodeBlock from './components/CodeBlock'
+import SchemaTree from './components/SchemaTree'
+import ParamsPanel from './paramsPanel'
 
 const props = defineProps({
   param: {
@@ -11,10 +11,10 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['height-change'])
+const emit = defineEmits(['heightChange'])
 
 function handleHeightChange() {
-  emit('height-change')
+  emit('heightChange')
 }
 </script>
 
@@ -28,8 +28,12 @@ function handleHeightChange() {
     @height-change="handleHeightChange"
   >
     <div class="space-y-4">
-      <div v-for="(mediaType, contentType) in param.content" :key="contentType">
-        <NTag type="primary" size="small" class="mb-3">{{ contentType }}</NTag>
+      <div v-for="(mediaType, contentType) in param.content" :key="contentType" class="flex flex-col gap-4">
+        <div>
+          <NTag type="primary" size="small">
+            {{ contentType }}
+          </NTag>
+        </div>
 
         <SchemaTree
           v-if="mediaType.schema"
@@ -46,5 +50,3 @@ function handleHeightChange() {
     </div>
   </ParamsPanel>
 </template>
-
-

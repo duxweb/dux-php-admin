@@ -37,10 +37,20 @@ class Data extends Resources
         }
     }
 
+    public function getSorts(array $params): array
+    {
+        return [];
+    }
+
+    public function query(Builder $query): void
+    {
+        $query->where('config_id', $this->config->id);
+        Config::has($query, $this->config);
+    }
+
     public function queryMany(Builder $query, ServerRequestInterface $request, array $args): void
     {
         $params = $request->getQueryParams();
-
         Config::filter($query, $this->config, $params);
     }
 

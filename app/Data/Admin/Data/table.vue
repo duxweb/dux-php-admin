@@ -78,8 +78,10 @@ const columns = computed<TableColumn[]>(() => {
   // 添加 ID 列
   dynamicColumns.push({
     title: '#',
-    key: 'id',
+    key: 'id_sort',
     width: 100,
+    sorter: true,
+    render: row => row.id as number,
   })
 
   // 根据配置生成动态列
@@ -89,8 +91,10 @@ const columns = computed<TableColumn[]>(() => {
 
     const columnDef: TableColumn = {
       title: columnConfig.name,
-      key: columnConfig.field,
+      key: columnConfig.sort ? `${columnConfig.field}_sort` : columnConfig.field,
       minWidth: columnConfig.width || 150,
+      sorter: columnConfig.sort || false,
+      render: row => row[columnConfig.field] as any,
     }
 
     // 使用 useTableColumn 的渲染方法
@@ -126,7 +130,7 @@ const columns = computed<TableColumn[]>(() => {
         })
         break
       case 'status':
-        columnDef.render = column.renderColor({
+        columnDef.render = column.renderStatus({
           key: columnConfig.field,
           maps: Object.fromEntries(
             (columnConfig.setting?.config || []).map((item: any) => [

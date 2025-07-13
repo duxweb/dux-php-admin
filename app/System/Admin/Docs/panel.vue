@@ -1,9 +1,7 @@
 <script setup>
-import { DuxCard } from '@duxweb/dvha-pro'
-import { NBadge } from 'naive-ui'
-import { computed, ref, nextTick, watch } from 'vue'
-import Params from './params'
+import { computed } from 'vue'
 import PanelCard from './panelCard'
+import Params from './params'
 
 const props = defineProps({
   info: {
@@ -16,10 +14,10 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['height-change'])
+const emit = defineEmits(['heightChange'])
 
 function handleHeightChange() {
-  emit('height-change')
+  emit('heightChange')
 }
 
 const color = computed(() => {
@@ -62,7 +60,8 @@ const icon = computed(() => {
 })
 
 const hasParams = computed(() => {
-  if (!props.info || !props.info.api) return false
+  if (!props.info || !props.info.api)
+    return false
 
   if (props.type === 'body') {
     return !!props.info.api?.requestBody
@@ -71,19 +70,21 @@ const hasParams = computed(() => {
 })
 
 const paramCount = computed(() => {
-  if (!props.info || !props.info.api) return 0
+  if (!props.info || !props.info.api)
+    return 0
 
   if (props.type === 'body') {
     return props.info.api?.requestBody ? 1 : 0
   }
   return props.info.api?.parameters?.filter(p => p.in === props.type).length || 0
 })
-
 </script>
 
 <template>
-  <PanelCard v-if="hasParams" :title="title" :icon="icon" :color="color" :count="paramCount" @height-change="handleHeightChange">
+  <PanelCard
+    v-if="hasParams" :title="title" :icon="icon" :color="color" :count="paramCount"
+    @height-change="handleHeightChange"
+  >
     <Params :info="info" :type="type" @height-change="handleHeightChange" />
- </PanelCard>
-
+  </PanelCard>
 </template>

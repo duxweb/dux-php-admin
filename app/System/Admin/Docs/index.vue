@@ -1,10 +1,11 @@
 <script setup>
 import { useOne } from '@duxweb/dvha-core'
-import { DuxCard, DuxDrawEmpty, DuxPage, DuxTreeFilter } from '@duxweb/dvha-pro'
+import { DuxDrawEmpty, DuxPage, DuxTreeFilter } from '@duxweb/dvha-pro'
 import { useClipboard } from '@vueuse/core'
-import { NBadge, NButton, NCode, NScrollbar, NTag, useMessage } from 'naive-ui'
+import { NButton, NScrollbar, NTag, useMessage } from 'naive-ui'
 import { computed, h, onMounted, ref, watch } from 'vue'
 import Panel from './panel'
+import Request from './request'
 import Response from './response'
 
 const docs = ref([])
@@ -23,21 +24,23 @@ const filter = ref({
 })
 
 function getMethodType(method) {
+  method = method?.toUpperCase()
   switch (method) {
-    case 'get':
+    case 'GET':
       return 'primary'
-    case 'post':
-      return 'success'
-    case 'put':
-      return 'warning'
-    case 'delete':
-      return 'error'
-    case 'patch':
+    case 'POST':
       return 'info'
+    case 'PUT':
+      return 'warning'
+    case 'DELETE':
+      return 'error'
+    case 'PATCH':
+      return 'pink'
     default:
       return 'default'
   }
 }
+
 const info = ref({})
 
 const { data, refetch } = useOne({
@@ -71,100 +74,164 @@ function handleCopy(path) {
   copy(path)
   message.success('复制成功')
 }
+
+const devOpen = ref(false)
 </script>
 
 <template>
   <DuxPage :scrollbar="false" :card="false">
-    <div class="flex gap-2 h-full">
-      <div class="w-64">
+    <div class="flex gap-2 h-full relative">
+      <div
+        class="flex-1 lg:flex-none lg:w-70" :class="[
+          info.type && info.type !== 'tag' ? 'hidden lg:block' : '',
+
+        ]"
+      >
         <DuxTreeFilter
           v-model:value="filter.id"
           path="docs/catalogs"
           :data="docs"
           key-field="id"
           label-field="name"
+          :indent="14"
+          :render-prefix="({ option }) => {
+            return h(NTag, {
+              type: getMethodType(option.method),
+              size: 'small',
+            }, {
+              default: () => option.method,
+            })
+          }"
           :render-label="({ option }) => {
             return h('div', {
-              class: 'flex items-center gap-2 py-1',
+              class: `flex items-center gap-2 ${option.method ? 'py-2' : 'text-muted'}`,
             }, [
               h('div', {
-                class: 'flex flex-col flex-1 min-w-0',
+                class: 'flex-1 flex flex-col gap-1 min-w-0',
               }, [
                 h('div', {
-                  class: 'text-sm flex-1 min-w-0',
+                  class: 'text-sm',
                 }, option.name),
-                h('div', {
-                  class: 'text-muted text-xs',
-                }, option.path),
+                option.method ? h('div', {
+                  class: 'flex items-center gap-1 text-xs',
+                }, [
+                  h('div', {
+                    class: `text-${getMethodType(option.method)}`,
+                  }, option.method),
+                  h('div', {
+                    class: 'text-muted',
+                  }, option.path),
+                ]) : null,
+
               ]),
-              option.method ? h(NTag, {
-                type: getMethodType(option.method),
-                size: 'small',
-              }, () => option.method) : null,
+
             ])
           }"
         />
       </div>
-      <div class="flex-1">
-        <NScrollbar>
-        <div v-if="info.type === 'tag' || !info.type" class="size-full flex items-center justify-center">
-          <div class="flex flex-col items-center gap-2">
-            <DuxDrawEmpty class="size-30 mb-4" />
-            <div class="text-base">
-              {{ info.tag?.name || '打开文档' }}
-            </div>
-            <div class="text-muted">
-              {{ info.tag?.description || '请选择左侧菜单查看文档' }}
-            </div>
+      <div
+        v-if="info.type === 'tag' || !info.type"
+        class="hidden lg:block  flex-1 min-w-0 size-full flex items-center justify-center"
+      >
+        <div class="flex flex-col items-center justify-center gap-2 h-full">
+          <DuxDrawEmpty class="size-30 mb-4" />
+          <div class="text-base">
+            {{ info.tag?.name || '打开文档' }}
+          </div>
+          <div class="text-muted">
+            {{ info.tag?.description || '请选择左侧菜单查看文档' }}
           </div>
         </div>
-        <div v-else class="flex flex-col gap-2">
-          <div class="space-y-4">
-            <div class="shadow-sm text-white rounded p-4 relative overflow-hidden" :class="`bg-${getMethodType(info.api.method)}`">
-              <div class="flex items-center gap-2 mb-4">
-                <div class="p-2.5 bg-white/80 rounded-full flex items-center justify-center">
-                  <div class="size-5 i-tabler:api text-primary" />
-                </div>
-                <div class="flex flex-col gap-0.5">
-                  <h3 class="text-lg font-semibold leading-none">
-                    {{ info.api.summary || info.api.operationId }}
-                  </h3>
-                  <div class="text-sm text-white/50">
-                    {{ info.api.operationId }}
-                  </div>
-                </div>
+      </div>
+      <div
+        v-else
+        class="h-full flex-1 min-w-0 flex flex-col gap-2"
+      >
+        <div
+          class="shadow-sm text-white rounded p-4 relative overflow-hidden flex-none"
+          :class="`bg-${getMethodType(info.api.method)}`"
+        >
+          <div class="flex justify-between  mb-4">
+            <div class="flex items-center gap-2">
+              <div class="p-2.5 bg-white/80 rounded-full flex items-center justify-center">
+                <div class="size-5 i-tabler:api text-primary" />
               </div>
-
-              <div class="flex items-center gap-2">
-                <div class="bg-white/30 rounded px-3 py-1 font-mono text-white/90">
-                  {{ info.api.method?.toUpperCase() }}
-                </div>
-                <div class="font-mono text-base bg-white/30 px-3 py-1 rounded text-white/90">
-                  {{ info.api.path }}
-                </div>
-                <div class="border border-white/80 rounded bg-white/10 gap-2 flex items-center px-3 py-1 hover:bg-white/20 cursor-pointer transition" @click="() => handleCopy(info.api.path)">
-                  <div class="size-4 i-tabler:copy" />
-                  复制
+              <div class="flex flex-col gap-0.5">
+                <h3 class="text-lg font-semibold leading-none">
+                  {{ info.api.summary || info.api.operationId }}
+                </h3>
+                <div class="text-sm text-white/50">
+                  {{ info.api.operationId }}
                 </div>
               </div>
             </div>
-
-            <div v-if="info.api.description" class="text-sm text-muted bg-white/30 dark:bg-black/10 p-3 rounded">
-              {{ info.api.description }}
+            <div class="block lg:hidden">
+              <NButton secondary circle @click="filter.id = []">
+                <template #icon>
+                  <div class="i-tabler:x size-4" />
+                </template>
+              </NButton>
             </div>
+          </div>
 
-            <div class="grid gap-2">
-              <Panel :info="info" type="path" />
-              <Panel :info="info" type="query" />
-              <Panel :info="info" type="header" />
-              <Panel :info="info" type="body" />
-
-              <Response v-if="info.api && info.api.responses" :responses="info.api.responses" />
+          <div class="flex justify-between">
+            <div class="flex items-center gap-2 tr">
+              <div class="bg-white/30 rounded px-3 py-1 font-mono text-white/90">
+                {{ info.api.method?.toUpperCase() }}
+              </div>
+              <div
+                class="font-mono text-base bg-white/30 px-3 py-1 rounded hidden lg:block"
+              >
+                {{ info.api.path }}
+              </div>
+              <div
+                class="border border-white/80 rounded bg-white/10 gap-2 flex items-center px-3 py-1 hover:bg-white/20 cursor-pointer transition"
+                @click="() => handleCopy(info.api.path)"
+              >
+                <div class="size-4 i-tabler:copy" />
+                复制
+              </div>
             </div>
-
+            <div>
+              <div
+                class="border border-white/80 rounded bg-white/10 gap-2 flex items-center px-3 py-1 hover:bg-white/20 cursor-pointer transition"
+                @click="() => devOpen = !devOpen"
+              >
+                <div class="size-4 i-tabler:send" />
+                调试
+              </div>
+            </div>
           </div>
         </div>
-      </NScrollbar>
+        <div
+          class="flex-1 min-h-0 gap-2 self-stretch relative flex"
+        >
+          <div
+            class="flex-1" :class="[
+              devOpen ? 'hidden lg:flex' : '',
+            ]"
+          >
+            <NScrollbar>
+              <div class="space-y-4">
+                <div v-if="info.api.description" class="text-sm text-muted bg-white/30 dark:bg-black/10 p-3 rounded">
+                  {{ info.api.description }}
+                </div>
+
+                <div class="grid gap-2">
+                  <Panel :info="info" type="path" />
+                  <Panel :info="info" type="query" />
+                  <Panel :info="info" type="header" />
+                  <Panel :info="info" type="body" />
+
+                  <Response v-if="info.api && info.api.responses" :responses="info.api.responses" />
+                </div>
+              </div>
+            </NScrollbar>
+          </div>
+          <div v-if="devOpen" class="flex-1 absolute inset-0 lg:inset-auto lg:static">
+            <Request :info="info" />
+          </div>
+        </div>
       </div>
     </div>
   </DuxPage>

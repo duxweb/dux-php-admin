@@ -1,9 +1,9 @@
 <script setup>
 import { useClipboard } from '@vueuse/core'
-import { NBadge, NButton, NCode, NInput, NTag, useMessage } from 'naive-ui'
+import { useMessage } from 'naive-ui'
 import { computed, ref } from 'vue'
-import ParamItem from './paramItem'
 import ParamBody from './paramBody'
+import ParamItem from './paramItem'
 
 const props = defineProps({
   info: {
@@ -16,7 +16,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['height-change'])
+const emit = defineEmits(['heightChange'])
 
 const { copy } = useClipboard()
 const message = useMessage()
@@ -24,7 +24,8 @@ const message = useMessage()
 const parameterValues = ref({})
 
 const parameters = computed(() => {
-  if (!props.info || !props.info.api) return []
+  if (!props.info || !props.info.api)
+    return []
 
   if (props.type === 'body') {
     return props.info.api?.requestBody ? [props.info.api.requestBody] : []
@@ -33,7 +34,7 @@ const parameters = computed(() => {
 })
 
 function handleHeightChange() {
-  emit('height-change')
+  emit('heightChange')
 }
 
 function getTypeColor(type) {
@@ -71,7 +72,6 @@ function formatExample(example) {
   }
   return String(example)
 }
-
 </script>
 
 <template>

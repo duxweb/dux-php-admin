@@ -22,13 +22,24 @@ class Upload
         $data['params'] = [
             ...$data['params'],
             'key' => $pathInfo['path'],
-            'url' => $object->publicUrl($pathInfo['path']),
+            'Content-Type' => $pathInfo['mime'],
         ];
+
+        // 针对傻逼腾讯兼容特殊处理
+        if (str_contains($data['url'], '.myqcloud.com')) {
+            foreach ($data['params'] as $key => $value) {
+                $key = str_replace('X-Amz-', 'X-cos-', $key);
+                $data['params'][$key] = $value;
+            }
+        }
+
+        $data['uploadUrl'] = $data['url'];
+        $data['url'] = $object->publicUrl($pathInfo['path']);
 
         return $data;
     }
 
-    public function uploadLocal(string $hasType, ServerRequestInterface $request, ?bool $manager = false, ?string $mime = '', ?string $folder = '', ?string $prefix = '')
+    public function uploadStorage(string $hasType, ServerRequestInterface $request, ?bool $manager = false, ?string $mime = '', ?string $driver = '', ?string $folder = '', ?string $prefix = '')
     {
         $file = $this->validateUploadedFile($request);
         $filename = $file->getClientFilename();
@@ -37,16 +48,16 @@ class Upload
         $this->validateFileBasics($filename, $fileSize);
 
         $resource = $this->getFileResource($file);
-        $pathInfo = ServiceUpload::generatePathContent($resource, $filename,$mime, $prefix);
+        $pathInfo = ServiceUpload::generatePathContent($resource, $filename, $mime, $prefix);
 
         ServiceUpload::validateFile($pathInfo['ext'], $fileSize);
         rewind($resource);
 
-        $object = Storage::getObject('local');
+        $object = Storage::getObject($driver);
         $object->writeStream($pathInfo['path'], $resource);
 
         return $manager
-            ? $this->save('local', $pathInfo['path'], $pathInfo['name'], $pathInfo['ext'], (int)$fileSize, $pathInfo['mime'], $hasType, (int)$folder)
+            ? $this->save($driver, $pathInfo['path'], $pathInfo['name'], $pathInfo['ext'], (int)$fileSize, $pathInfo['mime'], $hasType, (int)$folder)
             : $this->buildFileResponse($object->publicUrl($pathInfo['path']), $pathInfo['name'], $fileSize, $pathInfo['mime'], $pathInfo['ext']);
     }
 

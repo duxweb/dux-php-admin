@@ -1,0 +1,104 @@
+{
+    "name": "duxweb/member",
+    "description": "User Basic Application",
+    "version": "0.0.4",
+    "adminMenu": [
+        {
+            "type": "directory",
+            "label": "用户",
+            "name": "member",
+            "label_lang": "member",
+            "path": null,
+            "icon": "i-tabler:users",
+            "loader": null,
+            "hidden": false,
+            "sort": 900,
+            "children": [
+                {
+                    "type": "directory",
+                    "label": "用户管理",
+                    "name": "member.userGroup",
+                    "label_lang": "member.userGroup",
+                    "path": null,
+                    "icon": null,
+                    "loader": null,
+                    "hidden": false,
+                    "children": [
+                        {
+                            "type": "menu",
+                            "label": "用户列表",
+                            "name": "member.user.list",
+                            "label_lang": "member.user.list",
+                            "path": "member/user",
+                            "icon": null,
+                            "loader": "Member/User/table",
+                            "hidden": false
+                        },
+                        {
+                            "type": "menu",
+                            "label": "等级管理",
+                            "name": "member.level.list",
+                            "label_lang": "member.level.list",
+                            "path": "member/level",
+                            "icon": null,
+                            "loader": "Member/Level/table",
+                            "hidden": false
+                        }
+                    ]
+                },
+                {
+                    "type": "directory",
+                    "label": "用户事务",
+                    "name": "member.workGroup",
+                    "label_lang": "member.workGroup",
+                    "path": null,
+                    "icon": null,
+                    "loader": null,
+                    "hidden": false,
+                    "children": [
+                        {
+                            "type": "menu",
+                            "label": "用户通知",
+                            "name": "member.notice.list",
+                            "label_lang": "member.notice.list",
+                            "path": "member/notice",
+                            "icon": null,
+                            "loader": "Member/Notice/table",
+                            "hidden": false
+                        },
+                        {
+                            "type": "menu",
+                            "label": "用户反馈",
+                            "name": "member.feedback.list",
+                            "label_lang": "member.feedback.list",
+                            "path": "member/feedback",
+                            "icon": null,
+                            "loader": "Member/Feedback/table",
+                            "hidden": false
+                        },
+                        {
+                            "type": "menu",
+                            "label": "昵称黑名单",
+                            "name": "member.blockNickname.list",
+                            "label_lang": "member.blockNickname.list",
+                            "path": "member/blockNickname",
+                            "icon": null,
+                            "loader": "Member/BlockNickname/table",
+                            "hidden": false
+                        }
+                    ]
+                },
+                {
+                    "type": "menu",
+                    "label": "用户设置",
+                    "name": "member.setting",
+                    "label_lang": "member.setting",
+                    "path": "member/setting",
+                    "icon": null,
+                    "loader": "Member/Setting/form",
+                    "hidden": false
+                }
+            ]
+        }
+    ]
+}

@@ -89,10 +89,10 @@ const columns: TableColumn[] = [
     }),
   },
   {
-    title: '操作',
-    key: 'action',
+    title: '设计',
+    key: ' design',
     align: 'center',
-    width: 220,
+    width: 140,
     fixed: 'right',
     render: action.renderTable({
       align: 'center',
@@ -114,6 +114,25 @@ const columns: TableColumn[] = [
           type: 'request',
           content: '确定重新生产数据菜单？',
           path: id => `data/config/${id}/menu`,
+        },
+      ],
+    }),
+  },
+  {
+    title: '操作',
+    key: 'action',
+    align: 'center',
+    width: 180,
+    fixed: 'right',
+    render: action.renderTable({
+      align: 'center',
+      type: 'button',
+      text: true,
+      items: [
+        {
+          label: '字段',
+          type: 'link',
+          path: id => `data/config/${id}/field`,
         },
         {
           label: '编辑',

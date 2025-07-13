@@ -1,14 +1,26 @@
 <script setup lang="ts">
 import type { DuxDynamicDataColumn } from '@duxweb/dvha-pro'
+import { useOne } from '@duxweb/dvha-core'
 import { DuxDynamicData, DuxFormItem, DuxPageForm, useModal } from '@duxweb/dvha-pro'
-import { NButton, NInput, NSelect } from 'naive-ui'
-import { ref } from 'vue'
+import { NAutoComplete, NButton, NCheckbox, NInput, NSelect } from 'naive-ui'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const modal = useModal()
 const route = useRoute()
 
-const filters: DuxDynamicDataColumn[] = [
+const { data: fieldData } = useOne({
+  path: `data/config/${route.params.id}/field`,
+})
+
+const fieldOptions = computed(() => {
+  return fieldData.value?.data?.data?.map((item: any) => ({
+    label: item.field,
+    value: item.field,
+  })) || []
+})
+
+const filters = computed<DuxDynamicDataColumn[]>(() => [
   {
     key: 'name',
     title: '名称',
@@ -23,45 +35,14 @@ const filters: DuxDynamicDataColumn[] = [
     key: 'field',
     title: '字段',
     schema: {
-      tag: NInput,
+      tag: NAutoComplete,
       attrs: {
         'v-model:value': 'row.field',
+        'options': fieldOptions.value,
       },
     },
   },
-  {
-    key: 'where',
-    title: '条件',
-    width: 150,
-    schema: {
-      tag: NSelect,
-      attrs: {
-        'v-model:value': 'row.where',
-        'options': [
-          {
-            label: '等于',
-            value: '=',
-          },
-          {
-            label: '不等于',
-            value: '!=',
-          },
-          {
-            label: '大于',
-            value: '>',
-          },
-          {
-            label: '小于',
-            value: '<',
-          },
-          {
-            label: '包含',
-            value: 'like',
-          },
-        ],
-      },
-    },
-  },
+
   {
     key: 'type',
     title: '类型',
@@ -130,9 +111,9 @@ const filters: DuxDynamicDataColumn[] = [
       ]
     },
   },
-]
+])
 
-const columns: DuxDynamicDataColumn[] = [
+const columns = computed<DuxDynamicDataColumn[]>(() => [
   {
     key: 'name',
     title: '名称',
@@ -147,9 +128,10 @@ const columns: DuxDynamicDataColumn[] = [
     key: 'field',
     title: '字段',
     schema: {
-      tag: NInput,
+      tag: NAutoComplete,
       attrs: {
         'v-model:value': 'row.field',
+        'options': fieldOptions.value,
       },
     },
   },
@@ -236,7 +218,18 @@ const columns: DuxDynamicDataColumn[] = [
       ]
     },
   },
-]
+  {
+    key: 'sort',
+    title: '排序',
+    width: 80,
+    schema: {
+      tag: NCheckbox,
+      attrs: {
+        'v-model:checked': 'row.sort',
+      },
+    },
+  },
+])
 
 const model = ref({
   data: [] as Record<string, any>[],
@@ -276,6 +269,7 @@ const id = route.params.id as string
               name: '',
               field: '',
               type: 'text',
+              sort: false,
               setting: {},
             })
 

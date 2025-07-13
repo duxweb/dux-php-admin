@@ -6,6 +6,13 @@ use App\Data\Models\Data as ModelsData;
 use App\Data\Models\DataConfig;
 use App\Data\Service\Config;
 use Core\App;
+use Core\Docs\Attribute\Api;
+use Core\Docs\Attribute\Docs;
+use Core\Docs\Attribute\Params;
+use Core\Docs\Attribute\Payload;
+use Core\Docs\Attribute\Query;
+use Core\Docs\Attribute\ResultData;
+use Core\Docs\Enum\FieldEnum;
 use Core\Handlers\ExceptionBusiness;
 use Core\Route\Attribute\Route;
 use Core\Route\Attribute\RouteGroup;
@@ -16,11 +23,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 #[RouteGroup(app: 'web', route: '/data/{name}', name: 'data')]
+#[Docs(name: '公开数据集')]
 class Data
 {
     public $api = false;
 
-    private function config($name) {
+    private function config($name)
+    {
         $config = DataConfig::query()->where('label', $name)->first();
         if (!$config) {
             throw new ExceptionBusiness('数据集不存在');
@@ -33,6 +42,9 @@ class Data
     }
 
     #[Route(methods: 'GET', route: '')]
+    #[Api(name: '数据列表', payloadExample: ['limit' => 20])]
+    #[Query(field: 'limit', type: FieldEnum::INT, name: '分页大小', required: false, desc: '每页记录数，默认20')]
+    #[ResultData(field: 'data', type: FieldEnum::ARRAY, name: '数据列表', desc: '数据集列表数据，根据不同数据集配置返回不同结构', root: true)]
     public function list(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $params = $request->getQueryParams();
@@ -45,7 +57,7 @@ class Data
             throw new ExceptionBusiness('数据集不支持列表查询');
         }
 
-        Config::filter($query, $config);
+        Config::filter($query, $config, $params);
 
         switch ($config->table_type) {
             case 'tree':
@@ -58,16 +70,19 @@ class Data
                 $list = $query->paginate($params['limit'] ?: 20);
         }
 
-        $data = format_data($list, function($item) {
+        $data = format_data($list, function ($item) {
             return $item->transform();
         });
         return send($response, 'ok', ...$data);
     }
 
     #[Route(methods: 'GET', route: '/{id}')]
+    #[Api(name: '数据详情')]
+    #[Params(field: 'id', type: FieldEnum::INT, name: '数据ID', required: true)]
+    #[ResultData(field: 'data', type: FieldEnum::OBJECT, name: '数据详情', desc: '数据集详细信息，根据不同数据集配置返回不同结构', root: true)]
     public function info(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = (int) $args['id'];
+        $id = (int)$args['id'];
         $query = ModelsData::query();
 
         $config = $this->query($query, $request, $args, false);
@@ -81,13 +96,15 @@ class Data
             throw new ExceptionBusiness('数据不存在');
         }
 
-        $data = format_data($info, function($item) {
+        $data = format_data($info, function ($item) {
             return $item->transform();
         });
         return send($response, 'ok', ...$data);
     }
 
     #[Route(methods: 'POST', route: '')]
+    #[Api(name: '创建数据', payloadExample: ['field1' => 'value1', 'field2' => 'value2'])]
+    #[Payload(field: 'data', type: FieldEnum::OBJECT, name: '数据内容', desc: '数据内容，根据不同数据集配置字段不同')]
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $config = $this->config($args['name']);
@@ -105,8 +122,8 @@ class Data
         $data = Config::format($data, $config);
 
         if ($jwt) {
-            $data['user_type'] = $jwt['sub'];
-            $data['user_id'] = $jwt['id'];
+            $data['has_type'] = $jwt['sub'];
+            $data['has_id'] = $jwt['id'];
         }
 
         ModelsData::query()->create($data);
@@ -115,9 +132,12 @@ class Data
     }
 
     #[Route(methods: 'PUT', route: '/{id}')]
+    #[Api(name: '更新数据', payloadExample: ['field1' => 'new_value1', 'field2' => 'new_value2'])]
+    #[Params(field: 'id', type: FieldEnum::INT, name: '数据ID', required: true)]
+    #[Payload(field: 'data', type: FieldEnum::OBJECT, name: '数据内容', desc: '要更新的数据内容，根据不同数据集配置字段不同')]
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = (int) $args['id'];
+        $id = (int)$args['id'];
         $query = ModelsData::query();
 
         $config = $this->query($query, $request, $args, true);
@@ -138,10 +158,12 @@ class Data
     }
 
     #[Route(methods: 'DELETE', route: '/{id}')]
+    #[Api(name: '删除数据')]
+    #[Params(field: 'id', type: FieldEnum::INT, name: '数据ID', required: true)]
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
 
-        $id = (int) $args['id'];
+        $id = (int)$args['id'];
         $query = ModelsData::query();
 
         $config = $this->query($query, $request, $args, true);
@@ -160,7 +182,8 @@ class Data
         return send($response, 'ok');
     }
 
-    private function query( $query, ServerRequestInterface $request, array $args, bool $force = false) {
+    private function query($query, ServerRequestInterface $request, array $args, bool $force = false)
+    {
         $config = $this->config($args['name']);
 
         $query->where('config_id', $config->id);
@@ -171,8 +194,10 @@ class Data
         }
 
         if (($config->api_user && $config->api_user_self) || $force) {
-            $query->where('user_type', $jwt['sub'])->where('user_id', $jwt['id']);
+            $query->where('has_type', $jwt['sub'])->where('has_id', $jwt['id']);
         }
+
+        Config::has($query, $config);
 
         return $config;
     }
@@ -188,7 +213,7 @@ class Data
         if (!$jwt->sub || !$jwt->id) {
             return null;
         }
-        return (array) $jwt;
+        return (array)$jwt;
     }
 
 }

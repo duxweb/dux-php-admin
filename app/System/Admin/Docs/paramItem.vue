@@ -1,8 +1,8 @@
 <script setup>
 import { NTag } from 'naive-ui'
-import ParamsPanel from './paramsPanel'
 import CodeBlock from './components/CodeBlock'
 import { getTypeColor, getTypeIcon } from './hooks/useSchema'
+import ParamsPanel from './paramsPanel'
 
 const props = defineProps({
   param: {
@@ -11,10 +11,10 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['height-change'])
+const emit = defineEmits(['heightChange'])
 
 function handleHeightChange() {
-  emit('height-change')
+  emit('heightChange')
 }
 </script>
 

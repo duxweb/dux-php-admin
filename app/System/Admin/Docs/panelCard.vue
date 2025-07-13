@@ -1,8 +1,6 @@
 <script setup>
 import { DuxCard } from '@duxweb/dvha-pro'
-import { NBadge } from 'naive-ui'
-import { computed, ref, nextTick, watch } from 'vue'
-import Params from './params'
+import { nextTick, ref, watch } from 'vue'
 
 const props = defineProps({
   title: {
@@ -28,8 +26,10 @@ const contentRef = ref(null)
 const contentHeight = ref('auto')
 const isUpdating = ref(false)
 
-const updateHeight = async () => {
-  if (!contentRef.value || isUpdating.value) return
+async function updateHeight() {
+  if (!contentRef?.value || isUpdating.value) {
+    return
+  }
 
   isUpdating.value = true
 
@@ -48,7 +48,8 @@ const updateHeight = async () => {
           }
         }, 300)
       })
-    } else {
+    }
+    else {
       const height = contentRef.value.scrollHeight
       contentHeight.value = `${height}px`
       await nextTick()
@@ -56,7 +57,8 @@ const updateHeight = async () => {
         contentHeight.value = '0px'
       })
     }
-  } finally {
+  }
+  finally {
     setTimeout(() => {
       isUpdating.value = false
     }, 300)
@@ -65,8 +67,10 @@ const updateHeight = async () => {
 
 // 防抖处理子组件高度变化
 let heightChangeTimer = null
+
 function handleHeightChange() {
-  if (!isOpen.value) return
+  if (!isOpen.value)
+    return
 
   clearTimeout(heightChangeTimer)
   heightChangeTimer = setTimeout(() => {
@@ -85,7 +89,6 @@ function handleHeightChange() {
 }
 
 watch(isOpen, updateHeight, { immediate: true })
-
 </script>
 
 <template>
@@ -108,7 +111,9 @@ watch(isOpen, updateHeight, { immediate: true })
           <h4 class="font-medium" :class="`text-${color}`">
             {{ title }}
           </h4>
-          <div class="flex items-center justify-center text-white/80 size-5 text-sm leading-none rounded-full bg-primary">
+          <div
+            class="flex items-center justify-center text-white/80 size-5 text-sm leading-none rounded-full bg-primary"
+          >
             {{ count }}
           </div>
         </div>

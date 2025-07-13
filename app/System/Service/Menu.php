@@ -16,18 +16,19 @@ class Menu
 
         $existingMenus = $db->table('system_menu')->where('app', $app)->pluck('name')->toArray();
 
-        $newMenus = array_filter($menuData, function($menu) use ($existingMenus) {
+        $newMenus = array_filter($menuData, function ($menu) use ($existingMenus) {
             return !in_array($menu['name'], $existingMenus);
         });
 
         if (!empty($newMenus)) {
-            usort($newMenus, function($a, $b) {
+            usort($newMenus, function ($a, $b) {
                 return $a['id'] <=> $b['id'];
             });
             $db->table('system_menu')->insert($newMenus);
         }
 
         SystemMenu::scoped(['app' => $app])->fixTree();
+        SystemMenu::clearMenu($app);
 
         return $menuData;
     }
@@ -36,8 +37,13 @@ class Menu
     {
         $currentId = $startId;
         $allItems = [];
-        $parentIdMap = [];
 
+        $parentIdMap = SystemMenu::query()
+            ->where('app', $app)
+            ->pluck('id', 'name')
+            ->toArray();
+
+        // 收集所有菜单项
         foreach ($menuGroups as $group) {
             if (is_array($group)) {
                 if (self::isMenuItem($group)) {
@@ -52,7 +58,8 @@ class Menu
             }
         }
 
-        usort($allItems, function($a, $b) {
+        // 按sort字段排序
+        usort($allItems, function ($a, $b) {
             $sortA = $a['sort'] ?? null;
             $sortB = $b['sort'] ?? null;
 
@@ -60,36 +67,36 @@ class Menu
                 return $sortA <=> $sortB;
             }
 
-            if ($sortA !== null && $sortB === null) {
-                return -1;
-            }
-            if ($sortA === null && $sortB !== null) {
-                return 1;
-            }
-
-            return 0;
+            return ($sortA !== null) ? -1 : (($sortB !== null) ? 1 : 0);
         });
 
+        // 分配ID和嵌套集字段
         $sortOrder = 1;
         foreach ($allItems as &$item) {
-            $item['id'] = $currentId;
-            $item['_lft'] = $sortOrder;
+            if (isset($parentIdMap[$item['name']])) {
+                // 已存在菜单保持原ID
+                $item['id'] = $parentIdMap[$item['name']];
+            } else {
+                // 新菜单分配新ID
+                $item['id'] = $currentId;
+                $parentIdMap[$item['name']] = $currentId;
+                $currentId++;
+            }
+            $item['_lft'] = $sortOrder++;
             $item['_rgt'] = 0;
-            $parentIdMap[$item['name']] = $currentId;
-            $currentId++;
-            $sortOrder++;
-
             unset($item['sort']);
         }
 
+        // 处理父级关系
         foreach ($allItems as &$item) {
-            if (!isset($item['parent']) || $item['parent'] === null) {
+            if (empty($item['parent'])) {
                 $item['parent_id'] = null;
-            } elseif (is_string($item['parent']) && isset($parentIdMap[$item['parent']])) {
+            } elseif (isset($parentIdMap[$item['parent']])) {
                 $item['parent_id'] = $parentIdMap[$item['parent']];
             } else {
+                // 创建孤立菜单容器（如果不存在）
                 if (!isset($parentIdMap['orphaned'])) {
-                    $allItems[] = [
+                    $orphanedMenu = [
                         'id' => $currentId,
                         'name' => 'orphaned',
                         'label' => '孤立菜单',
@@ -103,18 +110,17 @@ class Menu
                         'url' => null,
                         'buttons' => null,
                         'hidden' => 0,
-                        '_lft' => $sortOrder,
+                        '_lft' => $sortOrder++,
                         '_rgt' => 0,
                     ];
-                    $parentIdMap['orphaned'] = $currentId;
-                    $currentId++;
-                    $sortOrder++;
+                    $allItems[] = $orphanedMenu;
+                    $parentIdMap['orphaned'] = $currentId++;
                 }
                 $item['parent_id'] = $parentIdMap['orphaned'];
             }
 
+            // 统一设置通用字段
             unset($item['parent']);
-
             $item['app'] = $app;
             $item['url'] = $item['url'] ?? null;
             $item['buttons'] = $item['buttons'] ?? null;

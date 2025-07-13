@@ -2,6 +2,8 @@
 
 namespace App\System\Web;
 
+use App\System\Models\SystemStorage;
+use App\System\Service\Config;
 use Core\App;
 use Core\Route\Attribute\Route;
 use Core\Route\Attribute\RouteGroup;
@@ -23,6 +25,13 @@ class Manage
         $data = json_decode(file_get_contents(public_path('/static/web/.vite/manifest.json')) ?: '', true);
         $vite = App::config('use')->get('vite', []);
         $lang = App::config('use')->get('app.lang', 'en-US');
+
+        $systemConfig = Config::getJsonValue('system');
+        try {
+            $storage = SystemStorage::query()->find($systemConfig['storage']);
+        } catch (\Exception $e) {
+            $storage = null;
+        }
 
         $assign = [
             "title" => App::config('use')->get('app.name'),
@@ -60,6 +69,9 @@ class Manage
                                 "path" => "system/profile",
                             ]
                         ],
+                        'upload' => [
+                            'driver' => $storage ? $storage->type : 'local',
+                        ]
                     ],
                 ],
             ],

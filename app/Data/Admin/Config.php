@@ -7,6 +7,8 @@ namespace App\Data\Admin;
 use App\Data\Models\DataConfig;
 use App\System\Models\SystemMenu;
 use Core\App;
+use Core\Database\Attribute\AutoMigrate;
+use Core\Handlers\ExceptionBusiness;
 use Core\Resources\Action\Resources;
 use Core\Resources\Attribute\Action;
 use Core\Resources\Attribute\Resource;
@@ -74,14 +76,17 @@ class Config extends Resources
         return [
             "name" => ["required", "数据名称不能为空"],
             "label" => [
-                ["required", "数据标签不能为空"],
-                 [function ($field, $value, $params, $fields) use ($args) {
+                ["required", "数据标识不能为空"],
+                [function ($field, $value) {
+                    return $value !== 'data' && $value !== 'config';
+                }, '数据标识不支持 data 和 config'],
+                [function ($field, $value, $params, $fields) use ($args) {
                     $model = DataConfig::query()->where('label', $fields['label']);
                     if ($args['id']) {
                         $model->where("id", "<>", $args['id']);
                     }
                     return !$model->exists();
-                }, '数据标签已存在']
+                }, '数据标识已存在']
             ],
         ];
     }
@@ -134,6 +139,72 @@ class Config extends Resources
         return send($response, 'ok');
     }
 
+    #[Action(methods: 'GET', route: '/models')]
+    public function models(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $models = [];
+        $attributes = App::attributes();
+        
+        foreach ($attributes as $attribute) {
+            if (empty($attribute['annotations'])) {
+                continue;
+            }
+            
+            foreach ($attribute['annotations'] as $annotation) {
+                if ($annotation['name'] === AutoMigrate::class) {
+                    $className = $attribute['class'];
+                    $modelName = substr($className, strrpos($className, '\\') + 1);
+
+                    $models[] = [
+                        'label' => $modelName,
+                        'value' => $className,
+                    ];
+                    break;
+                }
+            }
+        }
+        
+        usort($models, function($a, $b) {
+            return strcasecmp($a['label'], $b['label']);
+        });
+        
+        return send($response, 'ok', $models);
+    }
+
+    #[Action(methods: 'GET', route: '/{id}/field')]
+    public function fieldDesign(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $id = (int) $args['id'];
+        $info = DataConfig::query()->find($id);
+        return send($response, 'ok', $info->field_data);
+    }
+
+    #[Action(methods: 'PUT', route: '/{id}/field')]
+    public function fieldSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $data = $request->getParsedBody();
+        $id = (int) $args['id'];
+        $info = DataConfig::query()->find($id);
+
+        $systemFields = ['id', 'parent_id', 'config_id', 'has_type', 'has_id', 'created_at', 'updated_at'];
+
+        foreach ($data['data'] as $vo) {
+            if (in_array($vo['field'], $systemFields)) {
+                throw new ExceptionBusiness('字段名不能使用系统保留字');
+            }
+        }
+
+        foreach ($data['has'] as $vo) {
+            if ($vo['name'] === 'has' || $vo['name'] === 'config') {
+                throw new ExceptionBusiness('关联配置不能使用保留名');
+            }
+        }
+
+        $info->field_data = $data;
+        $info->save();
+        return send($response, 'ok');
+    }
+
     #[Action(methods: 'POST', route: '/{id}/menu')]
     public function menu(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
@@ -143,9 +214,11 @@ class Config extends Resources
         $prefix = 'data.' . $info->label;
 
         $menuInfo = SystemMenu::query()->with(['parent'])->where('name', $prefix . '.list')->first();
+        $parentInfo = SystemMenu::query()->where('name', 'data')->first();
 
         $listMenu = [
             'app' => 'admin',
+            'parent_id' => $parentInfo->id,
             'label' => $info->name,
             'label_lang' => $prefix . '.list',
             'name' => $prefix . '.list',
