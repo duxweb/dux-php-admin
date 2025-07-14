@@ -6,6 +6,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [0.0.7] - 2025-07-13
+
+- feat: 增加主题配置
+
 ## [0.0.6] - 2025-07-13
 
 - feat: 增加 JSON 关系查询库

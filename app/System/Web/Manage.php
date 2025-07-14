@@ -10,6 +10,8 @@ use Core\Route\Attribute\RouteGroup;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function DI\get;
+
 #[RouteGroup(app: 'web', route: '/manage')]
 class Manage
 {
@@ -49,8 +51,11 @@ class Manage
                 'theme' => [
                     'logo' => null,
                     'darkLogo' => null,
+                    "appLogo" => null,
+                    "appDarkLogo" => null,
                     'banner' => null,
                     'darkBanner' => null,
+                    ...App::config('use')->get('theme', []),
                 ],
                 'copyright' => App::config('use')->get('app.copyright'),
                 'manage' => [

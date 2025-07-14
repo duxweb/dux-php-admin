@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cfc98e951e2531cc5e0911a2334db144",
+    "content-hash": "c9aca8e06371878ef1c4767ef7d3d24f",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1525,16 +1525,16 @@
         },
         {
             "name": "duxweb/dux-lite",
-            "version": "v2.0.22",
+            "version": "v2.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxweb/dux-lite.git",
-                "reference": "2962ba413756d5d8bdb8a0b74d9148f5ed2edbfa"
+                "reference": "57cebc71b0453916e1f2ee4eaf9072b163cf4b28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxweb/dux-lite/zipball/2962ba413756d5d8bdb8a0b74d9148f5ed2edbfa",
-                "reference": "2962ba413756d5d8bdb8a0b74d9148f5ed2edbfa",
+                "url": "https://api.github.com/repos/duxweb/dux-lite/zipball/57cebc71b0453916e1f2ee4eaf9072b163cf4b28",
+                "reference": "57cebc71b0453916e1f2ee4eaf9072b163cf4b28",
                 "shasum": ""
             },
             "require": {
@@ -1614,7 +1614,7 @@
                 "issues": "https://github.com/duxweb/dux-lite/issues",
                 "source": "https://github.com/duxweb/dux-lite"
             },
-            "time": "2025-07-10T05:53:50+00:00"
+            "time": "2025-07-14T06:01:39+00:00"
         },
         {
             "name": "duxweb/dux-lite-cloud",
