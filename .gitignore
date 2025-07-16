@@ -6,6 +6,7 @@ logs
 /vendor
 public/uploads
 public/upload
+.cunzhi-memory
 
 
 config/*.dev.toml
