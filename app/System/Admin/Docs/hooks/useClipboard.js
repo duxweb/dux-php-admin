@@ -14,11 +14,14 @@ export function useClipboardWithMessage() {
     let text
     if (example === null) {
       text = 'null'
-    } else if (example === undefined) {
+    }
+    else if (example === undefined) {
       text = 'undefined'
-    } else if (typeof example === 'object') {
+    }
+    else if (typeof example === 'object') {
       text = JSON.stringify(example, null, 2)
-    } else {
+    }
+    else {
       text = String(example)
     }
     copyText(text)
@@ -26,6 +29,6 @@ export function useClipboardWithMessage() {
 
   return {
     copyText,
-    copyExample
+    copyExample,
   }
 }

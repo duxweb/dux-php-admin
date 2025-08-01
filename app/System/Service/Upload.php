@@ -77,7 +77,7 @@ class Upload
             throw new ExceptionBusiness('文件大小超过限制 (' . ($config['upload_size'] / 1024 / 1024) . 'MB)');
         }
 
-        if ($extension && !in_array(strtolower($extension), array_map('strtolower', $config['upload_ext']))) {
+        if ($extension && $config['upload_ext'] && !in_array(strtolower($extension), array_map('strtolower', $config['upload_ext']))) {
             throw new ExceptionBusiness('不支持的文件扩展名: ' . $extension);
         }
     }

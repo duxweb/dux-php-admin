@@ -1,5 +1,5 @@
 <script setup>
-import { DuxCodeEditor, DuxFormItem, DuxModalForm } from '@duxweb/dvha-pro'
+import { DuxCodeEditor, DuxFileUpload, DuxFormItem, DuxImageUpload, DuxModalForm } from '@duxweb/dvha-pro'
 import { NInput, NInputNumber, NRadio, NRadioGroup, NSwitch } from 'naive-ui'
 import { ref } from 'vue'
 
@@ -39,6 +39,12 @@ const model = ref({
         <NRadio value="json">
           JSON
         </NRadio>
+        <NRadio value="image">
+          图片
+        </NRadio>
+        <NRadio value="file">
+          文件
+        </NRadio>
       </NRadioGroup>
     </DuxFormItem>
     <DuxFormItem label="参数">
@@ -54,6 +60,8 @@ const model = ref({
           </NRadio>
         </NRadioGroup>
         <DuxCodeEditor v-if="model.type === 'json'" v-model:value="model.value" language="json" />
+        <DuxImageUpload v-if="model.type === 'image'" v-model:value="model.value" />
+        <DuxFileUpload v-if="model.type === 'file'" v-model:value="model.value" />
       </div>
     </DuxFormItem>
     <DuxFormItem label="备注">

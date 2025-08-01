@@ -83,16 +83,18 @@ export function getTreeData(schema) {
 }
 
 // 树节点渲染
-export function renderLabel({ option }) {
-  const config = typeConfig[option.type] || typeConfig.default
+export function renderLabel(copyText) {
+  return ({ option }) => {
+    const config = typeConfig[option.type] || typeConfig.default
 
-  return h('div', { class: 'flex items-center gap-2 py-1' }, [
-    h('div', { class: `size-4 ${config.icon}` }),
-    h('span', { class: 'font-medium text-sm' }, option.label),
-    h(NTag, { type: config.color, size: 'small' }, { default: () => option.type }),
-    option.required && h(NBadge, { value: '必需', type: 'error' }),
-    option.schema?.title && h('span', { class: 'text-xs text-muted' }, `${option.schema.title}`),
-    option.schema?.description && h('span', { class: 'text-xs text-muted' }, `- ${option.schema.description}`),
-    option.schema?.example !== undefined && h('span', { class: 'text-xs text-muted' }, `例: ${formatExampleShort(option.schema.example)}`),
-  ].filter(Boolean))
+    return h('div', { class: 'flex items-center gap-2 py-1' }, [
+      h('div', { class: `size-4 ${config.icon}` }),
+      h('span', { class: 'font-medium text-sm', onClick: () => copyText(option.label) }, option.label),
+      h(NTag, { type: config.color, size: 'small' }, { default: () => option.type }),
+      option.required && h(NBadge, { value: '必需', type: 'error' }),
+      option.schema?.title && h('span', { class: 'text-xs text-muted' }, `${option.schema.title}`),
+      option.schema?.description && h('span', { class: 'text-xs text-muted' }, `- ${option.schema.description}`),
+      option.schema?.example !== undefined && h('span', { class: 'text-xs text-muted' }, `例: ${formatExampleShort(option.schema.example)}`),
+    ].filter(Boolean))
+  }
 }

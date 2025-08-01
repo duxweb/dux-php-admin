@@ -1,8 +1,8 @@
 <script setup>
 import { DuxCard } from '@duxweb/dvha-pro'
-import { nextTick, ref, watch } from 'vue'
+import { ref } from 'vue'
 
-const props = defineProps({
+defineProps({
   title: {
     type: String,
     required: true,
@@ -22,73 +22,6 @@ const props = defineProps({
 })
 
 const isOpen = ref(true)
-const contentRef = ref(null)
-const contentHeight = ref('auto')
-const isUpdating = ref(false)
-
-async function updateHeight() {
-  if (!contentRef?.value || isUpdating.value) {
-    return
-  }
-
-  isUpdating.value = true
-
-  try {
-    if (isOpen.value) {
-      contentHeight.value = '0px'
-      await nextTick()
-      const height = contentRef.value.scrollHeight
-      requestAnimationFrame(() => {
-        contentHeight.value = `${height}px`
-
-        // 动画完成后设置为 auto
-        setTimeout(() => {
-          if (isOpen.value) {
-            contentHeight.value = 'auto'
-          }
-        }, 300)
-      })
-    }
-    else {
-      const height = contentRef.value.scrollHeight
-      contentHeight.value = `${height}px`
-      await nextTick()
-      requestAnimationFrame(() => {
-        contentHeight.value = '0px'
-      })
-    }
-  }
-  finally {
-    setTimeout(() => {
-      isUpdating.value = false
-    }, 300)
-  }
-}
-
-// 防抖处理子组件高度变化
-let heightChangeTimer = null
-
-function handleHeightChange() {
-  if (!isOpen.value)
-    return
-
-  clearTimeout(heightChangeTimer)
-  heightChangeTimer = setTimeout(() => {
-    if (contentRef.value && isOpen.value) {
-      const height = contentRef.value.scrollHeight
-      contentHeight.value = `${height}px`
-
-      // 短暂延迟后设置为 auto
-      setTimeout(() => {
-        if (isOpen.value) {
-          contentHeight.value = 'auto'
-        }
-      }, 100)
-    }
-  }, 100)
-}
-
-watch(isOpen, updateHeight, { immediate: true })
 </script>
 
 <template>
@@ -119,7 +52,7 @@ watch(isOpen, updateHeight, { immediate: true })
         </div>
         <div class="flex items-center gap-2">
           <div
-            class="p-1 bg-white/50 rounded-full transition-all duration-300"
+            class="p-1 bg-white/50 rounded-full"
             :class="[`text-${color}`, isOpen ? 'rotate-180' : '']"
           >
             <div class="size-4 i-tabler:chevron-down" />
@@ -128,13 +61,8 @@ watch(isOpen, updateHeight, { immediate: true })
       </div>
     </template>
 
-    <div
-      class="overflow-hidden transition-all duration-300 ease-in-out"
-      :style="{ height: contentHeight }"
-    >
-      <div ref="contentRef" @height-change="handleHeightChange">
-        <slot />
-      </div>
+    <div v-if="isOpen">
+      <slot />
     </div>
   </DuxCard>
 </template>

@@ -179,7 +179,7 @@ const filterSchema: JsonSchemaNode[] = [
   >
     <template #header>
       <NAlert type="info">
-        开启 API 鉴权后需要从 <NTag>/api/data/:label</NTag> 获取数据，关闭后从 <NTag>/data/:label</NTag> 获取数据
+        开启 API 鉴权后需要从 API 获取数据，关闭后可直接获取数据
       </NAlert>
     </template>
   </DuxTablePage>

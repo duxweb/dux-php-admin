@@ -7,7 +7,7 @@
         {
             "name": "duxweb/data",
             "description": "Data Application",
-            "version": "0.0.13",
+            "version": "0.0.14",
             "phpDependencies": {
                 "cebe/php-openapi": "^1.8"
             },
@@ -62,7 +62,7 @@
         {
             "name": "duxweb/system",
             "description": "System Application",
-            "version": "0.0.7",
+            "version": "0.0.9",
             "phpDependencies": {
                 "duxweb/dux-lite": "^2.0.13",
                 "duxweb/dux-lite-cloud": "dev-main",
@@ -330,6 +330,37 @@
                 }
             ],
             "app": "system"
+        },
+        {
+            "name": "duxweb/safe",
+            "description": "Safe Application",
+            "version": "0.0.2",
+            "adminMenu": [
+                {
+                    "type": "directory",
+                    "label": "内容安全",
+                    "parent": "system",
+                    "name": "safe",
+                    "label_lang": "safe",
+                    "path": null,
+                    "loader": null,
+                    "hidden": false,
+                    "sort": 90,
+                    "children": [
+                        {
+                            "type": "menu",
+                            "label": "安全设置",
+                            "name": "safe.setting",
+                            "label_lang": "safe.setting",
+                            "path": "safe/setting",
+                            "icon": null,
+                            "loader": "Safe/Setting/form",
+                            "hidden": false
+                        }
+                    ]
+                }
+            ],
+            "app": "safe"
         }
     ]
 }

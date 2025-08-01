@@ -1,10 +1,10 @@
 <script setup>
 import { NTag } from 'naive-ui'
 import { computed } from 'vue'
+import CodeBlock from './components/CodeBlock'
+import SchemaTree from './components/SchemaTree'
 import PanelCard from './panelCard'
 import ParamsPanel from './paramsPanel'
-import SchemaTree from './components/SchemaTree'
-import CodeBlock from './components/CodeBlock'
 
 const props = defineProps({
   responses: {
@@ -18,8 +18,12 @@ const responseCount = computed(() => {
 })
 
 function getStatusType(statusCode) {
-  if (statusCode.startsWith('2')) return 'success'
-  if (statusCode.startsWith('4')) return 'warning'
+  if (statusCode.startsWith('2')) {
+    return 'success'
+  }
+  if (statusCode.startsWith('4')) {
+    return 'warning'
+  }
   return 'error'
 }
 </script>
@@ -51,7 +55,9 @@ function getStatusType(statusCode) {
           <div v-for="(content, mediaType) in response.content" :key="mediaType">
             <div class="flex items-center gap-2 mb-3">
               <span class="text-sm text-muted">Content-Type:</span>
-              <NTag size="small">{{ mediaType }}</NTag>
+              <NTag size="small">
+                {{ mediaType }}
+              </NTag>
             </div>
 
             <div v-if="content.schema" class="space-y-4">

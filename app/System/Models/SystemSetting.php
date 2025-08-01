@@ -31,6 +31,8 @@ class SystemSetting extends Model
                 return (float) $this->value;
             case "boolean":
                 return (bool) $this->value;
+            case "file":
+            return json_decode($this->value, true);
             default:
                 return (string) $this->value;
         }
@@ -42,6 +44,8 @@ class SystemSetting extends Model
             'number' => '数字',
             'boolean' => '布尔',
             'json' => 'JSON',
+            'image' => '图片',
+            'file' => '文件',
             default => '字符串',
         };
     }

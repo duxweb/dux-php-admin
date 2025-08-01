@@ -30,7 +30,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['heightChange'])
+// const emit = defineEmits(['heightChange']) // 已移除事件处理
 
 const { copyText } = useClipboardWithMessage()
 
@@ -38,7 +38,7 @@ const isExpanded = ref(props.defaultExpanded)
 
 function toggleExpanded() {
   isExpanded.value = !isExpanded.value
-  emit('heightChange')
+  // 移除 heightChange 事件，减少不必要的事件传播
 }
 
 function handleCopy() {
@@ -49,7 +49,7 @@ function handleCopy() {
 <template>
   <div class="border border-muted rounded overflow-hidden">
     <div
-      :class="`p-4 bg-muted ${isExpanded ? 'border-b' : ''} border-muted cursor-pointer hover:bg-muted/80 transition-colors`"
+      :class="`p-4 bg-muted ${isExpanded ? 'border-b' : ''} border-muted cursor-pointer hover:bg-muted/80`"
       @click="toggleExpanded"
     >
       <div class="flex items-center justify-between">
@@ -72,7 +72,7 @@ function handleCopy() {
         </div>
         <div class="flex items-center gap-2">
           <NBadge :value="required ? '必需' : '可选'" :type="required ? 'error' : 'info'" />
-          <div class="p-1 bg-primary/10 rounded-full transition-all duration-300" :class="{ 'rotate-180': isExpanded }">
+          <div class="p-1 bg-primary/10 rounded-full" :class="{ 'rotate-180': isExpanded }">
             <div class="size-4 i-tabler:chevron-down text-primary" />
           </div>
         </div>

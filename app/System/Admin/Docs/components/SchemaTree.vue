@@ -1,6 +1,7 @@
 <script setup>
 import { NTree } from 'naive-ui'
 import { computed } from 'vue'
+import { useClipboardWithMessage } from '../hooks/useClipboard'
 import { getTreeData, renderLabel } from '../hooks/useSchema'
 
 const props = defineProps({
@@ -20,6 +21,8 @@ const treeData = computed(() => {
   return getTreeData(props.schema)
 })
 const expandedKeys = computed(() => treeData.value.map(item => item.key))
+
+const { copyText } = useClipboardWithMessage()
 </script>
 
 <template>
@@ -31,7 +34,7 @@ const expandedKeys = computed(() => treeData.value.map(item => item.key))
       <NTree
         class="min-w-100"
         :data="treeData"
-        :render-label="renderLabel"
+        :render-label="renderLabel(copyText)"
         :default-expanded-keys="expandedKeys"
         block-line
       />

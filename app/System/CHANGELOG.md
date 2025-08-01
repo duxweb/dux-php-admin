@@ -7,6 +7,16 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+
+## [0.0.9] - 2025-07-17
+
+- feat: 增加短信通道
+
+## [0.0.8] - 2025-07-17
+
+- fix: 修正部分上传问题
+
 ## [0.0.7] - 2025-07-13
 
 - feat: 增加主题配置

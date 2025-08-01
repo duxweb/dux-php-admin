@@ -4,18 +4,12 @@ import CodeBlock from './components/CodeBlock'
 import { getTypeColor, getTypeIcon } from './hooks/useSchema'
 import ParamsPanel from './paramsPanel'
 
-const props = defineProps({
+const _props = defineProps({
   param: {
     type: Object,
     required: true,
   },
 })
-
-const emit = defineEmits(['heightChange'])
-
-function handleHeightChange() {
-  emit('heightChange')
-}
 </script>
 
 <template>
@@ -26,7 +20,6 @@ function handleHeightChange() {
     :required="param.required || false"
     :default-expanded="false"
     :copyable="true"
-    @height-change="handleHeightChange"
   >
     <template #title-suffix>
       <NTag :type="getTypeColor(param.schema?.type || 'string')" size="small">

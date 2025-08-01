@@ -14,11 +14,11 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['heightChange'])
-
-function handleHeightChange() {
-  emit('heightChange')
-}
+// 移除不必要的事件处理
+// const emit = defineEmits(['heightChange'])
+// function handleHeightChange() {
+//   emit('heightChange')
+// }
 
 const color = computed(() => {
   switch (props.type) {
@@ -83,8 +83,7 @@ const paramCount = computed(() => {
 <template>
   <PanelCard
     v-if="hasParams" :title="title" :icon="icon" :color="color" :count="paramCount"
-    @height-change="handleHeightChange"
   >
-    <Params :info="info" :type="type" @height-change="handleHeightChange" />
+    <Params :info="info" :type="type" />
   </PanelCard>
 </template>

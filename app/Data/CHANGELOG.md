@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [0.0.14] - 2025-07-17
+
+- fix: 修正部分性能问题
+
 ## [0.0.13] - 2025-07-13
 
 - feat: 增加字段配置
