@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [0.1.5] - 2025-08-03
+
+- fix: 修正无限滚动的缓存 key
+
 ## [0.1.4] - 2025-08-03
 
 - feat: 增加演示模式开关

@@ -79,7 +79,7 @@ function deleteMemo(memo) {
 
 function refreshData() {
   statsRefetch()
-  invalidate('system/memo')
+  invalidate('infinite:system/memo')
 }
 </script>
 
