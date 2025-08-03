@@ -4,6 +4,8 @@ namespace App\System\Admin;
 
 use App\System\Models\SystemDept;
 use App\System\Models\SystemUser;
+use App\System\Service\Notice;
+use App\System\Service\SystemNotice;
 use Core\Resources\Action\Resources;
 use Core\Resources\Attribute\Resource;
 use Core\Validator\Data;
@@ -99,5 +101,10 @@ class User extends Resources
             };
         }
         return $formatData;
+    }
+
+    public function createAfter(Data $data, mixed $info): void
+    {
+        Notice::sendToUser(SystemUser::class, $info->id, "账号创建成功", "恭喜您，账号创建成功，请勿泄露账号信息。");
     }
 }

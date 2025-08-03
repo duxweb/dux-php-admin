@@ -6,141 +6,180 @@ use Core\Resources\Attribute\Action;
 use Core\Resources\Attribute\Resource;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use App\Member\Models\MemberUser;
-use App\Community\Models\CommunityContent;
-use App\Content\Models\Article;
-use App\Community\Enum\ContentEnum;
-use Illuminate\Support\Facades\DB;
+use App\System\Models\SystemUser;
+use App\System\Models\SystemMemo;
+use App\System\Models\SystemNotice;
+use App\System\Models\SystemBulletin;
+use App\System\Models\LogLogin;
+use App\System\Models\LogOperate;
+use App\System\Service\Config;
 use Carbon\Carbon;
 use Core\App;
+use Core\Handlers\ExceptionBusiness;
 
-#[Resource(app: 'admin',  route: '/system/home', name: 'system.home', actions: false)]
+#[Resource(app: 'admin', route: '/system/home', name: 'system.home', actions: false)]
 class Home
 {
-    #[Action(methods: 'GET', route: '/info', name: 'info')]
-    public function info(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    #[Action(methods: 'GET', route: '/stats', name: 'stats')]
+    public function stats(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        // 获取时间范围
-        $now = now();
-        $sevenDaysAgo = now()->subDays(7);
-        $fourteenDaysAgo = now()->subDays(14);
+        $auth = $request->getAttribute('auth');
+        $userId = (int)$auth['id'];
+        $today = now()->format('Y-m-d');
 
-        // 查询用户总数和增长率
-        $userTotal = MemberUser::query()->count();
-        $userThisWeek = MemberUser::query()
-            ->where('created_at', '>=', $sevenDaysAgo)
-            ->where('created_at', '<', $now)
+        // 备忘录统计
+        $memoTotal = SystemMemo::query()
+            ->where('user_has', SystemUser::class)
+            ->where('user_id', $userId)
             ->count();
-        $userLastWeek = MemberUser::query()
-            ->where('created_at', '>=', $fourteenDaysAgo)
-            ->where('created_at', '<', $sevenDaysAgo)
+        
+        $memoPending = SystemMemo::query()
+            ->where('user_has', SystemUser::class)
+            ->where('user_id', $userId)
+            ->where('is_completed', false) // 未完成的备忘录
             ->count();
-        $userGrowth = $userLastWeek > 0 ? round(($userThisWeek - $userLastWeek) / $userLastWeek * 100, 2) : 0;
 
-        // 查询笔记总数和增长率
-        $noteTotal = CommunityContent::query()->where('type', ContentEnum::NOTE->value)->count();
-        $noteThisWeek = CommunityContent::query()
-            ->where('type', ContentEnum::NOTE->value)
-            ->where('created_at', '>=', $sevenDaysAgo)
-            ->where('created_at', '<', $now)
+        // 今日操作统计
+        $todayOperate = LogOperate::query()
+            ->whereDate('created_at', $today)
+            ->where('user_type', SystemUser::class)
+            ->where('user_id', $userId)
             ->count();
-        $noteLastWeek = CommunityContent::query()
-            ->where('type', ContentEnum::NOTE->value)
-            ->where('created_at', '>=', $fourteenDaysAgo)
-            ->where('created_at', '<', $sevenDaysAgo)
-            ->count();
-        $noteGrowth = $noteLastWeek > 0 ? round(($noteThisWeek - $noteLastWeek) / $noteLastWeek * 100, 2) : 0;
 
-        // 查询招求租总数和增长率
-        $rentTotal = CommunityContent::query()->where('type', ContentEnum::RENT->value)->count();
-        $rentThisWeek = CommunityContent::query()
-            ->where('type', ContentEnum::RENT->value)
-            ->where('created_at', '>=', $sevenDaysAgo)
-            ->where('created_at', '<', $now)
+        // 登录记录统计
+        $loginTotal = LogLogin::query()
+            ->where('user_type', SystemUser::class)
+            ->where('user_id', $userId)
             ->count();
-        $rentLastWeek = CommunityContent::query()
-            ->where('type', ContentEnum::RENT->value)
-            ->where('created_at', '>=', $fourteenDaysAgo)
-            ->where('created_at', '<', $sevenDaysAgo)
-            ->count();
-        $rentGrowth = $rentLastWeek > 0 ? round(($rentThisWeek - $rentLastWeek) / $rentLastWeek * 100, 2) : 0;
 
-        // 查询文章总数和增长率
-        $articleTotal = Article::query()->count();
-        $articleThisWeek = Article::query()
-            ->where('created_at', '>=', $sevenDaysAgo)
-            ->where('created_at', '<', $now)
+        // 最近操作统计（最近7天）
+        $recentOperate = LogOperate::query()
+            ->where('created_at', '>=', now()->subDays(7))
+            ->where('user_type', SystemUser::class)
+            ->where('user_id', $userId)
             ->count();
-        $articleLastWeek = Article::query()
-            ->where('created_at', '>=', $fourteenDaysAgo)
-            ->where('created_at', '<', $sevenDaysAgo)
+
+        // 未读通知数量
+        $unreadNotices = SystemNotice::query()
+            ->where('user_has', SystemUser::class)
+            ->where('user_id', $userId)
+            ->where('is_read', false)
             ->count();
-        $articleGrowth = $articleLastWeek > 0 ? round(($articleThisWeek - $articleLastWeek) / $articleLastWeek * 100, 2) : 0;
+
+        // 系统公告总数（当前用户可见）
+        $bulletinTotal = SystemBulletin::query()
+            ->where('status', 1) // 已发布状态
+            ->count();
 
         $data = [
-            'user' => [
-                'total' => $userTotal,
-                'growth' => abs($userGrowth),
-                'this_week' => $userThisWeek,
-                'last_week' => $userLastWeek,
-                'type' => $userGrowth >= 0 ? 'up' : 'down'
+            'memo' => [
+                'total' => $memoTotal,
+                'pending' => $memoPending
             ],
-            'note' => [
-                'total' => $noteTotal,
-                'growth' => abs($noteGrowth),
-                'this_week' => $noteThisWeek,
-                'last_week' => $noteLastWeek,
-                'type' => $noteGrowth >= 0 ? 'up' : 'down'
+            'operate' => [
+                'today' => $todayOperate,
+                'recent' => $recentOperate
             ],
-            'rent' => [
-                'total' => $rentTotal,
-                'growth' => abs($rentGrowth),
-                'this_week' => $rentThisWeek,
-                'last_week' => $rentLastWeek,
-                'type' => $rentGrowth >= 0 ? 'up' : 'down'
+            'login' => [
+                'total' => $loginTotal
             ],
-            'article' => [
-                'total' => $articleTotal,
-                'growth' => abs($articleGrowth),
-                'this_week' => $articleThisWeek,
-                'last_week' => $articleLastWeek,
-                'type' => $articleGrowth >= 0 ? 'up' : 'down'
+            'notice' => [
+                'unread' => $unreadNotices
+            ],
+            'bulletin' => [
+                'total' => $bulletinTotal
             ]
+        ];
+
+        $system = Config::getJsonValue('system');
+
+        $data['info'] = [
+            'title' => $system['title'],
+            'copyright' => $system['copyright'],
+            'website' => $system['website'],
         ];
 
         return send($response, "ok", $data);
     }
 
-    #[Action(methods: 'GET', route: '/user/trend', name: 'user.trend')]
-    public function userTrend(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    #[Action(methods: 'GET', route: '/profile', name: 'profile')]
+    public function profile(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        // 获取最近30天的日期范围
-        $end = now()->endOfDay();
-        $start = now()->subDays(29)->startOfDay();
+        $auth = $request->getAttribute('auth');
+        $userId = (int)$auth['id'];
 
-        // 查询每天的新增用户数
-        $trends = MemberUser::query()
+        // 获取用户信息
+        $user = SystemUser::query()->find($userId);
+        if (!$user) {
+            throw new ExceptionBusiness('用户不存在');
+        }
+
+        // 获取最后登录时间
+        $lastLogin = LogLogin::query()
+            ->where('user_type', SystemUser::class)
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        // 格式化时间 - 使用Laravel的人性化时间格式
+        $loginAtFormatted = $lastLogin?->created_at?->locale('zh')->diffForHumans() ?? '从未登录';
+        $createdAtFormatted = $user->created_at?->locale('zh')->diffForHumans() ?? '-';
+
+        $data = [
+            'id' => $user->id,
+            'username' => $user->username,
+            'nickname' => $user->nickname,
+            'avatar' => $user->avatar,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'role_name' => $user->role?->name ?? '管理员',
+            'dept_name' => $user->dept?->name ?? '',
+            'status' => $user->status,
+            'status_text' => $user->status ? '正常' : '禁用',
+            'login_at' => $lastLogin?->created_at?->format('Y-m-d H:i:s'),
+            'login_at_formatted' => $loginAtFormatted,
+            'created_at' => $user->created_at?->format('Y-m-d H:i:s'),
+            'created_at_formatted' => $createdAtFormatted,
+        ];
+
+        return send($response, "ok", $data);
+    }
+
+    #[Action(methods: 'GET', route: '/operate', name: 'operate')]
+    public function operate(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        $auth = $request->getAttribute('auth');
+        $userId = (int)$auth['id'];
+        
+        // 获取最近7天的日期范围
+        $end = now()->endOfDay();
+        $start = now()->subDays(6)->startOfDay();
+
+        // 查询每天的操作数据
+        $operateData = LogOperate::query()
             ->select([
                 App::db()->getConnection()->raw('DATE(created_at) as date'),
                 App::db()->getConnection()->raw('COUNT(*) as count')
             ])
             ->where('created_at', '>=', $start)
             ->where('created_at', '<=', $end)
+            ->where('user_type', SystemUser::class)
+            ->where('user_id', $userId)
             ->groupBy('date')
             ->orderBy('date')
             ->get();
 
-        // 生成完整的30天日期数组
+        // 生成完整的7天日期数组
         $dates = [];
         $counts = [];
         $current = Carbon::parse($start);
 
         while ($current <= $end) {
             $currentDate = $current->format('Y-m-d');
-            $dates[] = $currentDate;
+            $dates[] = $current->format('m-d');
 
             // 查找当天的数据
-            $dayData = $trends->firstWhere('date', $currentDate);
+            $dayData = $operateData->firstWhere('date', $currentDate);
             $counts[] = $dayData ? $dayData->count : 0;
 
             $current->addDay();
@@ -148,220 +187,14 @@ class Home
 
         $data = [
             'labels' => $dates,
-            'datasets' => [
+            'data' => [
                 [
-                    'title' => '新增用户数',
+                    'name' => '操作次数',
                     'data' => $counts
                 ]
-            ]
+            ],
+            'smooth' => true
         ];
-
-        return send($response, "ok", $data);
-    }
-
-    #[Action(methods: 'GET', route: '/content/trend', name: 'content.trend')]
-    public function contentTrend(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        // 获取最近30天的日期范围
-        $end = now()->endOfDay();
-        $start = now()->subDays(29)->startOfDay();
-
-        // 查询每天的笔记和招求租数量
-        $trends = CommunityContent::query()
-            ->select([
-                App::db()->getConnection()->raw('DATE(created_at) as date'),
-                'type',
-                App::db()->getConnection()->raw('COUNT(*) as count')
-            ])
-            ->where('created_at', '>=', $start)
-            ->where('created_at', '<=', $end)
-            ->groupBy('date', 'type')
-            ->orderBy('date')
-            ->get();
-
-        // 生成完整的30天日期数组
-        $dates = [];
-        $noteCounts = [];
-        $rentCounts = [];
-        $current = Carbon::parse($start);
-
-        while ($current <= $end) {
-            $currentDate = $current->format('Y-m-d');
-            $dates[] = $currentDate;
-
-            // 查找当天的笔记数据
-            $noteDayData = $trends->first(function ($item) use ($currentDate) {
-                return $item->date === $currentDate && $item->type === ContentEnum::NOTE->value;
-            });
-            $noteCounts[] = $noteDayData ? $noteDayData->count : 0;
-
-            // 查找当天的招求租数据
-            $rentDayData = $trends->first(function ($item) use ($currentDate) {
-                return $item->date === $currentDate && $item->type === ContentEnum::RENT->value;
-            });
-            $rentCounts[] = $rentDayData ? $rentDayData->count : 0;
-
-            $current->addDay();
-        }
-
-        $data = [
-            'labels' => $dates,
-            'datasets' => [
-                [
-                    'title' => '笔记数量',
-                    'data' => $noteCounts
-                ],
-                [
-                    'title' => '招求租数量',
-                    'data' => $rentCounts
-                ]
-            ]
-        ];
-
-        return send($response, "ok", $data);
-    }
-
-    #[Action(methods: 'GET', route: '/content/top', name: 'content.top')]
-    public function contentTop(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        $params = $request->getQueryParams();
-        $limit = 10;
-
-        // 构建查询
-        $query = CommunityContent::query()
-            ->with(['user' => function ($query) {
-                $query->select('id', 'nickname', 'avatar');
-            }])
-            ->select([
-                'id',
-                'user_id',
-                'content',
-                'image',
-                'video',
-                'comment',
-                'praise',
-                'collect',
-                'created_at'
-            ]);
-
-        // 根据不同排序方式设置排序
-
-
-
-        switch ($params['key']) {
-            case 'comment':
-                if ($params['order'] === 'desc') {
-                    $query->orderByDesc('comment');
-                } else {
-                    $query->orderBy('comment');
-                }
-                break;
-            case 'praise':
-                if ($params['order'] === 'desc') {
-                    $query->orderByDesc('praise');
-                } else {
-                    $query->orderBy('praise');
-                }
-                break;
-            case 'collect':
-                if ($params['order'] === 'desc') {
-                    $query->orderByDesc('collect');
-                } else {
-                    $query->orderBy('collect');
-                }
-                break;
-            default:
-                $query->orderByDesc('comment');
-        }
-
-        $list = $query->limit($limit)->get();
-
-        $data = [];
-        foreach ($list as $item) {
-            $data[] = [
-                'id' => $item->id,
-                'cover' => $item->cover_image,
-                'content' => mb_substr($item->content, 0, 50),
-                'comment' => $item->comment,
-                'praise' => $item->praise,
-                'collect' => $item->collect,
-                'created_at' => $item->created_at->format('Y-m-d H:i:s'),
-                'user' => [
-                    'id' => $item->user->id,
-                    'nickname' => $item->user->nickname,
-                    'avatar' => $item->user->avatar,
-                ]
-            ];
-        }
-
-        return send($response, "ok", $data);
-    }
-
-    #[Action(methods: 'GET', route: '/user/top', name: 'user.top')]
-    public function userTop(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        $params = $request->getQueryParams();
-        $limit = 9;
-
-        // 构建用户查询
-        $query = MemberUser::query()
-            ->select([
-                'id',
-                'nickname',
-                'avatar',
-                'tel',
-                'fans_count',
-            ])
-            ->withCount([
-                'contents as note_count' => function ($query) {
-                    $query->where('type', ContentEnum::NOTE->value);
-                },
-                'contents as rent_count' => function ($query) {
-                    $query->where('type', ContentEnum::RENT->value);
-                }
-            ]);
-
-        // 根据不同排序方式设置排序
-        switch ($params['key']) {
-            case 'note_count':
-                if ($params['order'] === 'desc') {
-                    $query->orderByDesc('note_count');
-                } else {
-                    $query->orderBy('note_count');
-                }
-                break;
-            case 'rent_count':
-                if ($params['order'] === 'desc') {
-                    $query->orderByDesc('rent_count');
-                } else {
-                    $query->orderBy('rent_count');
-                }
-                break;
-            case 'fans_count':
-                if ($params['order'] === 'desc') {
-                    $query->orderByDesc('fans_count');
-                } else {
-                    $query->orderBy('fans_count');
-                }
-                break;
-            default:
-                $query->orderByDesc('fans_count');
-        }
-
-        $list = $query->limit($limit)->get();
-
-        $data = [];
-        foreach ($list as $item) {
-            $data[] = [
-                'id' => $item->id,
-                'nickname' => $item->nickname ?: '-',
-                'avatar' => $item->avatar,
-                'tel' => $item->format_tel,
-                'fans_count' => $item->fans_count,
-                'note_count' => $item->note_count,
-                'rent_count' => $item->rent_count,
-            ];
-        }
 
         return send($response, "ok", $data);
     }

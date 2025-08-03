@@ -157,9 +157,6 @@ const operateColumns: TableColumn[] = [
           <DuxFormItem label="邮箱" description="可以联系到您的邮箱" path="email">
             <NInput v-model:value="form.email" />
           </DuxFormItem>
-          <DuxFormItem label="语言" description="界面语言，不选择可手动切换" path="lang">
-            <NSelect v-model:value="form.lang" :options="langList" clearable />
-          </DuxFormItem>
           <DuxFormItem label="密码" description="不修改密码请留空" path="password">
             <NInput v-model:value="form.password" type="password" :input-props="{ autocomplete: 'new-password' }" />
           </DuxFormItem>

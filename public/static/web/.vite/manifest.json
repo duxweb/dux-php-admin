@@ -1,141 +1,160 @@
 {
   "../node_modules/@duxweb/dvha-core/dist/esm/components/loader/loader.js": {
-    "file": "assets/loader-08V0W-Gf.js",
+    "file": "assets/loader-DKCQPsE8.js",
     "name": "loader",
     "src": "../node_modules/@duxweb/dvha-core/dist/esm/components/loader/loader.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BCq3D0lD.js",
-      "_vendor-lodash-Cwra0HQr.js",
-      "_vendor-tools-Dpu1PaXY.js",
+      "_vendor-dux-BFgTIWjW.js",
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-tools-DrP_QXNr.js",
       "_vendor-loader-oH2KerV-.js",
-      "_vendor-vue-DhmHF6T1.js",
-      "_vendor-vueuse-DAgSjsg2.js",
-      "_vendor-pinia-DtJZ8aZg.js",
-      "_vendor-naive-CfU4HarF.js",
-      "_vendor-echarts-WS0dNiAY.js",
-      "_vendor-editor-BfycqkWO.js",
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-vueuse-rPLwgZrD.js",
+      "_vendor-pinia-BVrVtJC5.js",
+      "_vendor-naive-B6pvj3p_.js",
+      "_vendor-echarts-C9MFLFDr.js",
+      "_vendor-editor-B-N6spzh.js",
       "_vendor-ace-BiCsOx2U.js",
-      "_vendor-vee-BM0txFR5.js"
+      "_vendor-vee-B3NbUnae.js"
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/data/selectModal.js": {
-    "file": "assets/selectModal-DUIHt5Dy.js",
+    "file": "assets/selectModal-CvlCD0yU.js",
     "name": "selectModal",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/data/selectModal.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BCq3D0lD.js",
-      "_vendor-echarts-WS0dNiAY.js",
-      "_vendor-editor-BfycqkWO.js",
+      "_vendor-dux-BFgTIWjW.js",
+      "_vendor-echarts-C9MFLFDr.js",
+      "_vendor-editor-B-N6spzh.js",
       "_vendor-ace-BiCsOx2U.js",
-      "_vendor-tools-Dpu1PaXY.js",
-      "_vendor-naive-CfU4HarF.js",
-      "_vendor-vue-DhmHF6T1.js",
-      "_vendor-pinia-DtJZ8aZg.js",
-      "_vendor-lodash-Cwra0HQr.js",
-      "_vendor-vueuse-DAgSjsg2.js",
-      "_vendor-vee-BM0txFR5.js"
+      "_vendor-tools-DrP_QXNr.js",
+      "_vendor-naive-B6pvj3p_.js",
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-pinia-BVrVtJC5.js",
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-vueuse-rPLwgZrD.js",
+      "_vendor-vee-B3NbUnae.js"
+    ]
+  },
+  "../node_modules/@duxweb/dvha-pro/dist/esm/components/flowEditor/components/jsonEditor.js": {
+    "file": "assets/jsonEditor-D7ZK_Uf3.js",
+    "name": "jsonEditor",
+    "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/flowEditor/components/jsonEditor.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-dux-BFgTIWjW.js",
+      "_vendor-naive-B6pvj3p_.js",
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-pinia-BVrVtJC5.js",
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-vueuse-rPLwgZrD.js",
+      "_vendor-tools-DrP_QXNr.js",
+      "_vendor-echarts-C9MFLFDr.js",
+      "_vendor-editor-B-N6spzh.js",
+      "_vendor-ace-BiCsOx2U.js",
+      "_vendor-vee-B3NbUnae.js"
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/json.js": {
-    "file": "assets/json-DEwW0AyB.js",
+    "file": "assets/json-FdrNHKhR.js",
     "name": "json",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/json.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-vueuse-DAgSjsg2.js",
-      "_vendor-dux-BCq3D0lD.js",
-      "_vendor-vue-DhmHF6T1.js",
-      "_vendor-pinia-DtJZ8aZg.js",
-      "_vendor-lodash-Cwra0HQr.js",
-      "_vendor-naive-CfU4HarF.js",
-      "_vendor-tools-Dpu1PaXY.js",
-      "_vendor-echarts-WS0dNiAY.js",
-      "_vendor-editor-BfycqkWO.js",
+      "_vendor-vueuse-rPLwgZrD.js",
+      "_vendor-dux-BFgTIWjW.js",
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-pinia-BVrVtJC5.js",
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-naive-B6pvj3p_.js",
+      "_vendor-tools-DrP_QXNr.js",
+      "_vendor-echarts-C9MFLFDr.js",
+      "_vendor-editor-B-N6spzh.js",
       "_vendor-ace-BiCsOx2U.js",
-      "_vendor-vee-BM0txFR5.js"
+      "_vendor-vee-B3NbUnae.js"
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/options.js": {
-    "file": "assets/options-DwEfLSlV.js",
+    "file": "assets/options-Bse_HRqL.js",
     "name": "options",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/options.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-vueuse-DAgSjsg2.js",
-      "_vendor-dux-BCq3D0lD.js",
-      "_vendor-vue-DhmHF6T1.js",
-      "_vendor-naive-CfU4HarF.js",
-      "_vendor-pinia-DtJZ8aZg.js",
-      "_vendor-lodash-Cwra0HQr.js",
-      "_vendor-tools-Dpu1PaXY.js",
-      "_vendor-echarts-WS0dNiAY.js",
-      "_vendor-editor-BfycqkWO.js",
+      "_vendor-vueuse-rPLwgZrD.js",
+      "_vendor-dux-BFgTIWjW.js",
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-naive-B6pvj3p_.js",
+      "_vendor-pinia-BVrVtJC5.js",
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-tools-DrP_QXNr.js",
+      "_vendor-echarts-C9MFLFDr.js",
+      "_vendor-editor-B-N6spzh.js",
       "_vendor-ace-BiCsOx2U.js",
-      "_vendor-vee-BM0txFR5.js"
+      "_vendor-vee-B3NbUnae.js"
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/json.js": {
-    "file": "assets/json-wk8_eSib.js",
+    "file": "assets/json-C5OIIgYy.js",
     "name": "json",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/json.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BCq3D0lD.js",
-      "_vendor-vue-DhmHF6T1.js",
-      "_vendor-pinia-DtJZ8aZg.js",
-      "_vendor-lodash-Cwra0HQr.js",
-      "_vendor-vueuse-DAgSjsg2.js",
-      "_vendor-naive-CfU4HarF.js",
-      "_vendor-tools-Dpu1PaXY.js",
-      "_vendor-echarts-WS0dNiAY.js",
-      "_vendor-editor-BfycqkWO.js",
+      "_vendor-dux-BFgTIWjW.js",
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-pinia-BVrVtJC5.js",
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-vueuse-rPLwgZrD.js",
+      "_vendor-naive-B6pvj3p_.js",
+      "_vendor-tools-DrP_QXNr.js",
+      "_vendor-echarts-C9MFLFDr.js",
+      "_vendor-editor-B-N6spzh.js",
       "_vendor-ace-BiCsOx2U.js",
-      "_vendor-vee-BM0txFR5.js"
+      "_vendor-vee-B3NbUnae.js"
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/preview.js": {
-    "file": "assets/preview-ykx_X2oF.js",
+    "file": "assets/preview-B_H_CN4r.js",
     "name": "preview",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/preview.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BCq3D0lD.js",
-      "_vendor-vue-DhmHF6T1.js",
-      "_vendor-pinia-DtJZ8aZg.js",
-      "_vendor-lodash-Cwra0HQr.js",
-      "_vendor-vueuse-DAgSjsg2.js",
-      "_vendor-naive-CfU4HarF.js",
-      "_vendor-tools-Dpu1PaXY.js",
-      "_vendor-echarts-WS0dNiAY.js",
-      "_vendor-editor-BfycqkWO.js",
+      "_vendor-dux-BFgTIWjW.js",
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-pinia-BVrVtJC5.js",
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-vueuse-rPLwgZrD.js",
+      "_vendor-naive-B6pvj3p_.js",
+      "_vendor-tools-DrP_QXNr.js",
+      "_vendor-echarts-C9MFLFDr.js",
+      "_vendor-editor-B-N6spzh.js",
       "_vendor-ace-BiCsOx2U.js",
-      "_vendor-vee-BM0txFR5.js"
+      "_vendor-vee-B3NbUnae.js"
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/icon/iconPicker.js": {
-    "file": "assets/iconPicker-CEBc-6oG.js",
+    "file": "assets/iconPicker-CyDeeUDU.js",
     "name": "iconPicker",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/icon/iconPicker.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BCq3D0lD.js",
-      "_vendor-vueuse-DAgSjsg2.js",
+      "_vendor-dux-BFgTIWjW.js",
+      "_vendor-vueuse-rPLwgZrD.js",
       "../node_modules/@iconify-json/tabler/icons.json",
-      "_vendor-vue-DhmHF6T1.js",
-      "_vendor-naive-CfU4HarF.js",
-      "_vendor-pinia-DtJZ8aZg.js",
-      "_vendor-lodash-Cwra0HQr.js",
-      "_vendor-tools-Dpu1PaXY.js",
-      "_vendor-echarts-WS0dNiAY.js",
-      "_vendor-editor-BfycqkWO.js",
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-naive-B6pvj3p_.js",
+      "_vendor-pinia-BVrVtJC5.js",
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-tools-DrP_QXNr.js",
+      "_vendor-echarts-C9MFLFDr.js",
+      "_vendor-editor-B-N6spzh.js",
       "_vendor-ace-BiCsOx2U.js",
-      "_vendor-vee-BM0txFR5.js"
+      "_vendor-vee-B3NbUnae.js"
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.css.js": {
-    "file": "assets/uno.css-DEGnlllo.js",
+    "file": "assets/uno.css-BrzO7X8R.js",
     "name": "uno.css",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.css.js",
     "isDynamicEntry": true
@@ -150,29 +169,30 @@
     "file": "assets/vendor-ace-BiCsOx2U.js",
     "name": "vendor-ace"
   },
-  "_vendor-dux-BCq3D0lD.js": {
-    "file": "assets/vendor-dux-BCq3D0lD.js",
+  "_vendor-dux-BFgTIWjW.js": {
+    "file": "assets/vendor-dux-BFgTIWjW.js",
     "name": "vendor-dux",
     "imports": [
-      "_vendor-vue-DhmHF6T1.js",
-      "_vendor-pinia-DtJZ8aZg.js",
-      "_vendor-lodash-Cwra0HQr.js",
-      "_vendor-vueuse-DAgSjsg2.js",
-      "_vendor-naive-CfU4HarF.js",
-      "_vendor-tools-Dpu1PaXY.js",
-      "_vendor-echarts-WS0dNiAY.js",
-      "_vendor-editor-BfycqkWO.js",
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-pinia-BVrVtJC5.js",
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-vueuse-rPLwgZrD.js",
+      "_vendor-naive-B6pvj3p_.js",
+      "_vendor-tools-DrP_QXNr.js",
+      "_vendor-echarts-C9MFLFDr.js",
+      "_vendor-editor-B-N6spzh.js",
       "_vendor-ace-BiCsOx2U.js",
-      "_vendor-vee-BM0txFR5.js"
+      "_vendor-vee-B3NbUnae.js"
     ],
     "dynamicImports": [
       "../node_modules/@duxweb/dvha-core/dist/esm/components/loader/loader.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/data/selectModal.js",
+      "../node_modules/@duxweb/dvha-pro/dist/esm/components/flowEditor/components/jsonEditor.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/json.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/options.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/options.js",
-      "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/json.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/options.js",
+      "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/json.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/json.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/preview.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/icon/iconPicker.js",
@@ -180,90 +200,90 @@
       "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.css.js"
     ]
   },
-  "_vendor-echarts-WS0dNiAY.js": {
-    "file": "assets/vendor-echarts-WS0dNiAY.js",
+  "_vendor-echarts-C9MFLFDr.js": {
+    "file": "assets/vendor-echarts-C9MFLFDr.js",
     "name": "vendor-echarts",
     "imports": [
-      "_vendor-vue-DhmHF6T1.js"
+      "_vendor-vue-D0kJe6Vx.js"
     ]
   },
-  "_vendor-editor-BfycqkWO.js": {
-    "file": "assets/vendor-editor-BfycqkWO.js",
+  "_vendor-editor-B-N6spzh.js": {
+    "file": "assets/vendor-editor-B-N6spzh.js",
     "name": "vendor-editor",
     "imports": [
-      "_vendor-lodash-Cwra0HQr.js",
-      "_vendor-vue-DhmHF6T1.js"
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-vue-D0kJe6Vx.js"
     ]
   },
   "_vendor-loader-oH2KerV-.js": {
     "file": "assets/vendor-loader-oH2KerV-.js",
     "name": "vendor-loader"
   },
-  "_vendor-lodash-Cwra0HQr.js": {
-    "file": "assets/vendor-lodash-Cwra0HQr.js",
+  "_vendor-lodash-C5S6ylcr.js": {
+    "file": "assets/vendor-lodash-C5S6ylcr.js",
     "name": "vendor-lodash"
   },
-  "_vendor-naive-CfU4HarF.js": {
-    "file": "assets/vendor-naive-CfU4HarF.js",
+  "_vendor-naive-B6pvj3p_.js": {
+    "file": "assets/vendor-naive-B6pvj3p_.js",
     "name": "vendor-naive",
     "imports": [
-      "_vendor-vue-DhmHF6T1.js",
-      "_vendor-lodash-Cwra0HQr.js"
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-lodash-C5S6ylcr.js"
     ]
   },
-  "_vendor-pinia-DtJZ8aZg.js": {
-    "file": "assets/vendor-pinia-DtJZ8aZg.js",
+  "_vendor-pinia-BVrVtJC5.js": {
+    "file": "assets/vendor-pinia-BVrVtJC5.js",
     "name": "vendor-pinia",
     "imports": [
-      "_vendor-vue-DhmHF6T1.js"
+      "_vendor-vue-D0kJe6Vx.js"
     ]
   },
-  "_vendor-tools-Dpu1PaXY.js": {
-    "file": "assets/vendor-tools-Dpu1PaXY.js",
+  "_vendor-tools-DrP_QXNr.js": {
+    "file": "assets/vendor-tools-DrP_QXNr.js",
     "name": "vendor-tools",
     "imports": [
-      "_vendor-lodash-Cwra0HQr.js"
+      "_vendor-lodash-C5S6ylcr.js"
     ]
   },
-  "_vendor-vee-BM0txFR5.js": {
-    "file": "assets/vendor-vee-BM0txFR5.js",
+  "_vendor-vee-B3NbUnae.js": {
+    "file": "assets/vendor-vee-B3NbUnae.js",
     "name": "vendor-vee",
     "imports": [
-      "_vendor-vue-DhmHF6T1.js"
+      "_vendor-vue-D0kJe6Vx.js"
     ]
   },
-  "_vendor-vue-DhmHF6T1.js": {
-    "file": "assets/vendor-vue-DhmHF6T1.js",
+  "_vendor-vue-D0kJe6Vx.js": {
+    "file": "assets/vendor-vue-D0kJe6Vx.js",
     "name": "vendor-vue"
   },
-  "_vendor-vueuse-DAgSjsg2.js": {
-    "file": "assets/vendor-vueuse-DAgSjsg2.js",
+  "_vendor-vueuse-rPLwgZrD.js": {
+    "file": "assets/vendor-vueuse-rPLwgZrD.js",
     "name": "vendor-vueuse",
     "imports": [
-      "_vendor-vue-DhmHF6T1.js"
+      "_vendor-vue-D0kJe6Vx.js"
     ]
   },
   "main.ts": {
-    "file": "assets/index-Bq3ZwDFM.js",
+    "file": "assets/index-BnX2Uq4W.js",
     "name": "index",
     "src": "main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor-vue-DhmHF6T1.js",
-      "_vendor-dux-BCq3D0lD.js",
-      "_vendor-naive-CfU4HarF.js",
-      "_vendor-pinia-DtJZ8aZg.js",
-      "_vendor-lodash-Cwra0HQr.js",
-      "_vendor-vueuse-DAgSjsg2.js",
-      "_vendor-tools-Dpu1PaXY.js",
-      "_vendor-echarts-WS0dNiAY.js",
-      "_vendor-editor-BfycqkWO.js",
+      "_vendor-vue-D0kJe6Vx.js",
+      "_vendor-dux-BFgTIWjW.js",
+      "_vendor-naive-B6pvj3p_.js",
+      "_vendor-pinia-BVrVtJC5.js",
+      "_vendor-lodash-C5S6ylcr.js",
+      "_vendor-vueuse-rPLwgZrD.js",
+      "_vendor-tools-DrP_QXNr.js",
+      "_vendor-echarts-C9MFLFDr.js",
+      "_vendor-editor-B-N6spzh.js",
       "_vendor-ace-BiCsOx2U.js",
-      "_vendor-vee-BM0txFR5.js"
+      "_vendor-vee-B3NbUnae.js"
     ]
   },
   "style.css": {
-    "file": "assets/style-CVshbE8n.css",
+    "file": "assets/style-Fi_MiXQv.css",
     "src": "style.css"
   }
 }

@@ -28,6 +28,9 @@ const model = ref({
           <DuxFormItem label="版权信息" description="浏览器底部版权信息" path="copyright">
             <NInput v-model:value="model.copyright" />
           </DuxFormItem>
+          <DuxFormItem label="官方网站" description="浏览器官网跳转信息" path="website">
+            <NInput v-model:value="model.website" />
+          </DuxFormItem>
         </DuxFormLayout>
       </DuxPanelCard>
     </NTabPane>

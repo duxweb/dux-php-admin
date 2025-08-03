@@ -8,7 +8,6 @@ use Core\Database\Attribute\AutoMigrate;
 use Core\Database\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Connection;
-use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 #[AutoMigrate]
 class SystemUser extends Model
@@ -35,6 +34,7 @@ class SystemUser extends Model
     public function seed(Connection $db)
     {
         $db->table($this->table)->insert([
+            'role_id' => 1,
             'username' => 'admin',
             'nickname' => 'Admin',
             'password' => password_hash('admin', PASSWORD_DEFAULT),

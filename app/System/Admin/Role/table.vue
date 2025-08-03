@@ -53,7 +53,7 @@ const actions: UseActionItem[] = [
     color: 'primary',
     icon: 'i-tabler:plus',
     type: 'link',
-    path: '/system/role/create',
+    path: 'system/role/create',
   },
 ]
 

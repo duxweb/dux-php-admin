@@ -115,21 +115,3 @@ const filterSchema: JsonSchemaNode[] = [
 </template>
 
 <style scoped></style>
-
-<route lang="json">
-[
-  {
-    "label": "系统设置",
-    "name": "system.settingGroup",
-    "parent": "system",
-    "sort": 800
-  },
-  {
-    "label": "参数管理",
-    "name": "system.setting",
-    "path": "system/setting",
-    "loader": "system/setting/table",
-    "parent": "system.settingGroup"
-  }
-]
-</route>

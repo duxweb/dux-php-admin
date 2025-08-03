@@ -129,6 +129,9 @@ const id = computed(() => {
         >
           <template #suffix>
             <NCheckbox
+              :style="{
+                '--n-border': '1px solid rgb(var(--ui-border-accented))'
+              }"
               :value="group.name" :checked="model.permission.includes(group.name)"
               @update:checked="(v) => changeGroup(v, group.name)"
             />
@@ -136,7 +139,7 @@ const id = computed(() => {
           <div v-if="group?.children?.length > 0" class="grid grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-6">
             <label v-for="(item, key) in group?.children" :key="key" class="gap-2 flex items-center">
               <NCheckbox
-                :value="item.name" :label="item.label" :checked="model.permission.includes(item.name)"
+                :value="item.name" :label="item.label || item.name" :checked="model.permission.includes(item.name)"
                 @update:checked="(v) => changeNode(v, item.name)"
               />
             </label>

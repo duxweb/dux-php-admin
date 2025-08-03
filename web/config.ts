@@ -101,6 +101,7 @@ function injectConfig(config: IConfig): IConfig {
         notFound: DuxPro.DuxPage404,
         loading: DuxPro.DuxPageLoading,
         error: DuxPro.DuxPage500,
+        exception: DuxPro.DuxPageException,
       },
       routes: [
         {

@@ -16,12 +16,6 @@ class ManageHandler
 {
     protected string $app = 'admin';
 
-    #[Action(methods: 'GET', route: '/router')]
-    public function router(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        $menu = SystemMenu::getMenu($this->app);
-        return send($response, "ok", $menu);
-    }
 
 
     #[Action(methods: 'GET', route: '/area')]

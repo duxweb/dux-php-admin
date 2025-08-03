@@ -55,6 +55,7 @@ class Manage
                     "appDarkLogo" => null,
                     'banner' => null,
                     'darkBanner' => null,
+                    'layout' => 'app',
                     ...App::config('use')->get('theme', []),
                 ],
                 'copyright' => App::config('use')->get('app.copyright'),
@@ -68,15 +69,26 @@ class Manage
                         'apiRoutePath' => '/router',
                         'userMenus' => [
                             [
+                                'key' => 'notice',
+                                "label" => "我的通知",
+                                "icon" => "i-tabler:bell",
+                                "path" => "system/notice",
+                            ],
+                            [
                                 'key' => 'setting',
                                 "label" => "个人资料",
                                 "icon" => "i-tabler:settings",
                                 "path" => "system/profile",
-                            ]
+                            ],
                         ],
                         'upload' => [
                             'driver' => $storage ? $storage->type : 'local',
-                        ]
+                        ],
+                        'notice' => [
+                            'status' => true,
+                            'path' => 'system/notice',
+                            'route' => 'notice'
+                        ],
                     ],
                 ],
             ],
