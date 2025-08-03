@@ -16,6 +16,8 @@ use Core\Handlers\ExceptionBusiness;
 use Core\Permission\PermissionMiddleware;
 use Core\Resources\Resource;
 use Core\Route\Route;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
 class App extends AppExtend
 {

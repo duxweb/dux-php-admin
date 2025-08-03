@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [0.1.4] - 2025-08-03
+
+- feat: 增加演示模式开关
+
 ## [0.1.3] - 2025-08-03
 
 - fix: 修正系统备忘录样式

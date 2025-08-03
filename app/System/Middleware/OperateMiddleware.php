@@ -3,6 +3,7 @@
 namespace App\System\Middleware;
 
 use App\System\Models\LogOperate;
+use Core\App;
 use donatj\UserAgent\UserAgentParser;
 use Core\Handlers\ExceptionBusiness;
 use Illuminate\Support\Str;
@@ -43,6 +44,15 @@ class OperateMiddleware
         if (!$id) {
             return $response;
         }
+
+         $method = $request->getMethod();
+        if ($method != 'GET' && $method != 'OPTIONS') {
+            $example = App::config('use')->get('app.example', false);
+            if ($example) {
+                throw new ExceptionBusiness('演示模式，操作无效');
+            }
+        }
+
         $useragent = $request->getHeaderLine("user-agent");
         $time = round(microtime(true) - $startTime, 3);
         $route = RouteContext::fromRequest($request)->getRoute();
