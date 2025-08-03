@@ -6,14 +6,16 @@ use Core\Route\Attribute\RouteGroup;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-#[RouteGroup(app: 'web', route: '/test')]
+#[RouteGroup(app: 'web', route: '/')]
 class HelloController
 {
 
     #[Route(methods: 'GET', route: '')]
     public function index(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return sendText($response, 'Hello <a href="/hello">Dux Lite</a>');
+        return $response
+        ->withHeader('Location', '/manage')
+        ->withStatus(302);
     }
 
     #[Route(methods: 'GET', route: '/hello')]
