@@ -63,7 +63,7 @@ class SystemMemo extends Model
                 'content' => '花时间了解系统各个功能模块，提高工作效率。可以查看帮助文档或参加培训。',
                 'priority' => 1, // 低优先级
                 'is_completed' => true,
-                'completed_at' => now()->subDays(1),
+                'remind_at' => null,
                 'created_at' => now()->subDays(3),
                 'updated_at' => now()->subDays(1),
             ]

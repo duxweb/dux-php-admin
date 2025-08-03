@@ -60,9 +60,40 @@
             "app": "data"
         },
         {
+            "name": "duxweb/safe",
+            "description": "Safe Application",
+            "version": "0.0.4",
+            "adminMenu": [
+                {
+                    "type": "directory",
+                    "label": "内容安全",
+                    "parent": "system",
+                    "name": "safe",
+                    "label_lang": "safe",
+                    "path": null,
+                    "loader": null,
+                    "hidden": false,
+                    "sort": 90,
+                    "children": [
+                        {
+                            "type": "menu",
+                            "label": "安全设置",
+                            "name": "safe.setting",
+                            "label_lang": "safe.setting",
+                            "path": "safe/setting",
+                            "icon": null,
+                            "loader": "Safe/Setting/form",
+                            "hidden": false
+                        }
+                    ]
+                }
+            ],
+            "app": "safe"
+        },
+        {
             "name": "duxweb/system",
             "description": "System Application",
-            "version": "0.0.9",
+            "version": "0.1.3",
             "phpDependencies": {
                 "duxweb/dux-lite": "^2.0.13",
                 "duxweb/dux-lite-cloud": "dev-main",
@@ -98,13 +129,22 @@
                     "children": [
                         {
                             "type": "menu",
+                            "label": "系统公告",
+                            "name": "system.bulletin.list",
+                            "label_lang": "system.bulletin.list",
+                            "path": "system/bulletin",
+                            "icon": null,
+                            "loader": "System/Bulletin/table",
+                            "hidden": false
+                        },
+                        {
+                            "type": "menu",
                             "label": "接口文档",
                             "name": "system.docs",
                             "label_lang": "system.docs",
                             "path": "system/docs",
                             "loader": "System/Docs/index",
-                            "hidden": false,
-                            "sort": 0
+                            "hidden": false
                         },
                         {
                             "type": "directory",
@@ -318,49 +358,48 @@
                         },
                         {
                             "type": "menu",
-                            "label": "个人信息",
-                            "name": "system.profile",
-                            "label_lang": "system.profile",
+                            "label": "我的公告",
+                            "name": "system.board.index",
+                            "label_lang": "system.board.index",
+                            "path": "system/board",
+                            "icon": null,
+                            "loader": "System/Board/index",
+                            "hidden": true
+                        },
+                        {
+                            "type": "menu",
+                            "label": "我的备忘",
+                            "name": "system.memo.list",
+                            "label_lang": "system.memo.list",
+                            "path": "system/memo",
+                            "icon": null,
+                            "loader": "System/Memo/table",
+                            "hidden": true
+                        },
+                        {
+                            "type": "menu",
+                            "label": "个人资料",
+                            "name": "system.profile.info",
+                            "label_lang": "system.profile.info",
                             "path": "system/profile",
                             "icon": null,
                             "loader": "System/Profile/index",
+                            "hidden": true
+                        },
+                        {
+                            "type": "menu",
+                            "label": "我的通知",
+                            "name": "system.notice.list",
+                            "label_lang": "system.notice.list",
+                            "path": "system/notice",
+                            "icon": null,
+                            "loader": "System/Notice/index",
                             "hidden": true
                         }
                     ]
                 }
             ],
             "app": "system"
-        },
-        {
-            "name": "duxweb/safe",
-            "description": "Safe Application",
-            "version": "0.0.2",
-            "adminMenu": [
-                {
-                    "type": "directory",
-                    "label": "内容安全",
-                    "parent": "system",
-                    "name": "safe",
-                    "label_lang": "safe",
-                    "path": null,
-                    "loader": null,
-                    "hidden": false,
-                    "sort": 90,
-                    "children": [
-                        {
-                            "type": "menu",
-                            "label": "安全设置",
-                            "name": "safe.setting",
-                            "label_lang": "safe.setting",
-                            "path": "safe/setting",
-                            "icon": null,
-                            "loader": "Safe/Setting/form",
-                            "hidden": false
-                        }
-                    ]
-                }
-            ],
-            "app": "safe"
         }
     ]
 }

@@ -1,7 +1,7 @@
 <script setup>
-import { useCustom, useCustomMutation, useInvalidate, useInfiniteList } from '@duxweb/dvha-core'
+import { useCustom, useCustomMutation, useInfiniteList, useInvalidate } from '@duxweb/dvha-core'
 import { DuxBlockEmpty, DuxPage, useModal } from '@duxweb/dvha-pro'
-import { NButton, NSpin, NTime, NInfiniteScroll, NTab, NTabs } from 'naive-ui'
+import { NButton, NInfiniteScroll, NSpin, NTab, NTabs, NTime } from 'naive-ui'
 import { ref, watch } from 'vue'
 
 const modal = useModal()
@@ -24,7 +24,7 @@ function handleTabChange(value) {
   filters.value.tab = value
 }
 
-const { data, isLoading, fetchNextPage, hasNextPage, refetch } = useInfiniteList({
+const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteList({
   path: 'system/memo',
   filters: filters.value,
 })
@@ -43,8 +43,7 @@ const { mutateAsync: deleteMutate } = useCustomMutation({
   method: 'delete',
 })
 
-
-function handleCreate(memo) {
+function handleCreate() {
   modal.show({
     title: '新建备忘录',
     component: () => import('./form.vue'),
@@ -144,7 +143,7 @@ function refreshData() {
             >
               <!-- 便签纸效果 -->
               <div
-                class="relative p-5 rounded-lg flex flex-col hover:shadow-xl transition-all duration-300"
+                class="relative p-5 rounded-lg flex flex-col hover:shadow-xl transition-all duration-300 shadow-[0_0_0_1px_rgba(255,255,255.02)_inset] dark:shadow-none"
                 :class="{
                   // 高优先级 - 错误色
                   'bg-error/10 border-error/20 hover:bg-error/20': memo.priority === 3,
@@ -154,20 +153,19 @@ function refreshData() {
                   'bg-info/10 border-info/20 hover:bg-info/20': memo.priority === 1,
                 }"
                 style="
-                  border-width: 1px; 
-                  box-shadow: 0 0 0 1px rgba(255,255,255,0.5) inset;
+                  border-width: 1px;
                   clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
                 "
               >
                 <!-- 折角阴影效果 -->
-                <div 
+                <div
                   class="absolute size-4 top-0 right-0 opacity-50 border"
                   :class="{
                     'bg-error border-error-700': memo.priority === 3,
                     'bg-warning border-warning-700': memo.priority === 2,
                     'bg-info border-info-700': memo.priority === 1,
                   }"
-                ></div>
+                />
 
                 <div class="flex flex-col gap-3 h-full relative">
                   <!-- 标题 -->
@@ -213,7 +211,7 @@ function refreshData() {
 
                   <!-- 底部信息 -->
                   <div class="flex items-center justify-between mt-auto pt-2">
-                    <div 
+                    <div
                       class="text-xs opacity-60"
                       :class="{
                         'text-error-600': memo.priority === 3,
@@ -223,7 +221,6 @@ function refreshData() {
                     >
                       <NTime :time="new Date(memo.created_at)" format="MM-dd" />
                     </div>
-
                   </div>
                 </div>
                 <!-- 操作按钮 - 圆形小按钮 -->
@@ -243,13 +240,12 @@ function refreshData() {
                     @click="toggleComplete(memo)"
                   >
                     <i
-                      :class="[
+                      class="text-xs" :class="[
                         memo.is_completed ? 'i-tabler:rotate-clockwise' : 'i-tabler:check',
-                        'text-xs',
                         {
                           'text-green-600 dark:text-green-400': !memo.is_completed,
                           'text-orange-600 dark:text-orange-400': memo.is_completed,
-                        }
+                        },
                       ]"
                     />
                   </button>
@@ -265,14 +261,10 @@ function refreshData() {
           </div>
 
           <div v-if="isLoading" class="flex justify-center py-2">
-            <NSpin></NSpin>
+            <NSpin />
           </div>
         </NInfiniteScroll>
-
-
       </div>
-
-
     </div>
   </DuxPage>
 </template>

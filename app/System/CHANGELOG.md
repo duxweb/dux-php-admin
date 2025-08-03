@@ -4,11 +4,13 @@ All notable changes to this project will be documented in this file.
 
 
 
+## [0.1.3] - 2025-08-03
 
+- fix: 修正系统备忘录样式
 
+## [0.1.1] - 2025-08-03
 
-
-
+- fix: 备忘录数据同步问题
 
 ## [0.1.0] - 2025-08-03
 
@@ -42,7 +44,7 @@ All notable changes to this project will be documented in this file.
 ## [0.0.3] - 2025-07-08
 
 - chore: 更新版本号
-- �
+- �
 
 ## [0.0.2] - 2025-07-06
 
