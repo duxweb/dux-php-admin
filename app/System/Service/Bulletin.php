@@ -119,6 +119,9 @@ class Bulletin
                            ->whereJsonContains('target_roles', $user->role_id);
                   });
             });
+        } else {
+            // 没有用户信息时，只显示全部用户的公告
+            $query->where('target_type', 1);
         }
 
         // 时间过滤

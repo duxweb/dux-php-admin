@@ -9,6 +9,12 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [0.1.0] - 2025-08-03
+
+- feat通知 公告 与备忘录功能
+- feat: 增加首页默认数据
+
 ## [0.0.9] - 2025-07-17
 
 - feat: 增加短信通道

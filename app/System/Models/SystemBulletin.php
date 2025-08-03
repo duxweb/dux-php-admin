@@ -48,6 +48,8 @@ class SystemBulletin extends Model
                 'content' => '恭喜您成功部署了 Dux 管理系统！系统已完成初始化配置，您现在可以开始使用各项功能。如有问题请查看官方文档或联系技术支持。',
                 'status' => 1,
                 'type' => 2, // 公告类型
+                'target_type' => 1, // 全部用户
+                'publish_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -57,6 +59,8 @@ class SystemBulletin extends Model
                 'content' => '感谢您选择 Dux 管理系统。我们致力于为您提供高效、稳定的后台管理解决方案。请定期关注系统更新，获取最新功能和安全补丁。',
                 'status' => 1,
                 'type' => 1, // 通知类型
+                'target_type' => 1, // 全部用户
+                'publish_at' => now()->subDays(1),
                 'created_at' => now()->subDays(1),
                 'updated_at' => now()->subDays(1),
             ],
@@ -66,6 +70,8 @@ class SystemBulletin extends Model
                 'content' => '为了您的账户安全，建议您：1. 定期修改密码；2. 不要在公共场所登录；3. 及时退出登录。如发现异常登录请立即联系管理员。',
                 'status' => 1,
                 'type' => 1, // 通知类型
+                'target_type' => 1, // 全部用户
+                'publish_at' => now()->subDays(2),
                 'created_at' => now()->subDays(2),
                 'updated_at' => now()->subDays(2),
             ]

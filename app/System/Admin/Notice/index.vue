@@ -1,7 +1,7 @@
 <script setup>
 import { useCustom, useCustomMutation, useInvalidate, useList } from '@duxweb/dvha-core'
 import { DuxBlockEmpty, DuxPage } from '@duxweb/dvha-pro'
-import { NBadge, NButton, NPagination, NSpin, NTab, NTabs, NTime } from 'naive-ui'
+import { NBadge, NButton, NPagination, NSpin, NTab, NTabs, NTime, NScrollbar } from 'naive-ui'
 import { ref, watch } from 'vue'
 
 const loading = ref(false)
@@ -119,89 +119,91 @@ function deleteNotice(notice) {
       </div>
 
       <!-- 消息列表 -->
-      <div class="flex-1 flex flex-col gap-3">
+      <div class="flex-1 min-h-0 flex flex-col gap-3">
         <div v-if="!loading && !data?.data.length" class="p-6 bg-default dark:bg-elevated rounded-lg border border-muted">
           <DuxBlockEmpty text="暂无消息" desc="暂未发现更多消息" />
         </div>
 
-        <div v-else class="flex flex-col gap-3">
-          <NSpin :show="loading">
-            <div
-              v-for="notice in data?.data || []"
-              :key="notice.id"
-              class="group bg-default dark:bg-elevated rounded-lg border border-muted p-4 transition-all duration-200 hover:shadow-md cursor-pointer"
-              @click="handleNoticeClick(notice)"
-            >
-              <div class="flex items-start justify-between gap-4">
-                <div class="flex-1 min-w-0 flex flex-col">
-                  <!-- 标题和状态 -->
-                  <div class="flex items-center gap-2 mb-2">
-                    <div v-if="notice.url?.startsWith('http')">
-                      <div class="i-tabler:external-link size-4.5" />
+        <NSpin v-else  :show="loading" class="h-full" content-class="h-full">
+          <NScrollbar>
+            <div class="flex flex-col gap-3">
+              <div
+                v-for="notice in data?.data || []"
+                :key="notice.id"
+                class="group bg-default dark:bg-elevated rounded-lg border border-muted p-4 transition-all duration-200 hover:shadow-md cursor-pointer"
+                @click="handleNoticeClick(notice)"
+              >
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex-1 min-w-0 flex flex-col">
+                    <!-- 标题和状态 -->
+                    <div class="flex items-center gap-2 mb-2">
+                      <div v-if="notice.url?.startsWith('http')">
+                        <div class="i-tabler:external-link size-4.5" />
+                      </div>
+                      <h3
+                        class="font-medium text-base truncate"
+                        :class="{
+                          'text-muted': notice.read,
+                        }"
+                      >
+                        {{ notice.title }}
+                      </h3>
+                      <div v-if="!notice.read" class="w-2 h-2 bg-primary rounded-full" />
                     </div>
-                    <h3
-                      class="font-medium text-base truncate"
+
+                    <!-- 内容 -->
+                    <p
+                      v-if="notice.content"
+                      class="text-sm leading-relaxed line-clamp-2"
                       :class="{
+                        'text-toned': !notice.read,
                         'text-muted': notice.read,
                       }"
                     >
-                      {{ notice.title }}
-                    </h3>
-                    <div v-if="!notice.read" class="w-2 h-2 bg-primary rounded-full" />
-                  </div>
+                      {{ notice.content }}
+                    </p>
 
-                  <!-- 内容 -->
-                  <p
-                    v-if="notice.content"
-                    class="text-sm leading-relaxed line-clamp-2"
-                    :class="{
-                      'text-toned': !notice.read,
-                      'text-muted': notice.read,
-                    }"
-                  >
-                    {{ notice.content }}
-                  </p>
+                    <!-- 底部信息 -->
+                    <div class="flex items-center justify-between text-xs text-muted">
+                      <div class="flex items-center gap-4">
+                        <span>{{ notice.desc }}</span>
+                        <span v-if="notice.read_at" class="flex items-center gap-1">
+                          <span>已读于</span>
+                          <NTime :time="new Date(notice.read_at)" format="MM-dd HH:mm" />
+                        </span>
+                      </div>
 
-                  <!-- 底部信息 -->
-                  <div class="flex items-center justify-between text-xs text-muted">
-                    <div class="flex items-center gap-4">
-                      <span>{{ notice.desc }}</span>
-                      <span v-if="notice.read_at" class="flex items-center gap-1">
-                        <span>已读于</span>
-                        <NTime :time="new Date(notice.read_at)" format="MM-dd HH:mm" />
-                      </span>
-                    </div>
-
-                    <!-- 操作按钮 -->
-                    <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <NButton
-                        v-if="!notice.read"
-                        circle
-                        type="primary"
-                        secondary
-                        @click="markRead(notice)"
-                      >
-                        <template #icon>
-                          <i class="i-tabler:check text-base" />
-                        </template>
-                      </NButton>
-                      <NButton
-                        circle
-                        type="error"
-                        secondary
-                        @click="deleteNotice(notice)"
-                      >
-                        <template #icon>
-                          <i class="i-tabler:trash text-base" />
-                        </template>
-                      </NButton>
+                      <!-- 操作按钮 -->
+                      <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <NButton
+                          v-if="!notice.read"
+                          circle
+                          type="primary"
+                          secondary
+                          @click="markRead(notice)"
+                        >
+                          <template #icon>
+                            <i class="i-tabler:check text-base" />
+                          </template>
+                        </NButton>
+                        <NButton
+                          circle
+                          type="error"
+                          secondary
+                          @click="deleteNotice(notice)"
+                        >
+                          <template #icon>
+                            <i class="i-tabler:trash text-base" />
+                          </template>
+                        </NButton>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </NSpin>
-        </div>
+          </NScrollbar>
+        </NSpin>
       </div>
 
       <div class="flex justify-center mt-4">

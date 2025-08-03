@@ -69,10 +69,22 @@ class Manage
                         'apiRoutePath' => '/router',
                         'userMenus' => [
                             [
+                                'key' => 'board',
+                                "label" => "我的公告",
+                                "icon" => "i-tabler:pinned",
+                                "path" => "system/board",
+                            ],
+                            [
                                 'key' => 'notice',
                                 "label" => "我的通知",
                                 "icon" => "i-tabler:bell",
                                 "path" => "system/notice",
+                            ],
+                            [
+                                'key' => ' memo',
+                                "label" => "我的备忘",
+                                "icon" => "i-tabler:message",
+                                "path" => "system/memo",
                             ],
                             [
                                 'key' => 'setting',
