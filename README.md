@@ -83,41 +83,76 @@ flowchart TD
 
 ## 🚀 快速开始
 
+以下步骤基于「快速开始」文档精简而来，完整说明请查看文档：
+https://github.com/duxweb/dux-php-admin-docs/blob/main/guide/getting-started.md
+
 ### 环境要求
 
-- **PHP**: 8.2 或更高版本
-- **扩展**: PDO、JSON、OpenSSL、Fileinfo、Mbstring
-- **数据库**: MySQL 5.7+、SQLite 3.8+
-- **Web服务器**: Nginx（推荐）、Apache
+- **PHP**: 8.2+
+- **Composer**: 2.0+
+- **数据库**: MySQL 8.0+ / PostgreSQL 13+ / SQLite 3.0+
+- **Web 服务器**: Nginx 1.20+ / Apache 2.4+
+- **PHP 扩展（必需）**: pdo、对应数据库驱动（pdo_mysql/pdo_pgsql/pdo_sqlite）、mbstring、json、curl、zip、xml
+- **PHP 扩展（推荐）**: opcache、gd
 
-### 安装
+### 安装项目
 
-#### 使用 Composer 创建项目
+优先使用 Composer 创建项目：
 
 ```bash
-# 创建新项目
-composer create-project duxweb/dux-php-admin my-project
+# 创建并进入项目
+composer create-project duxweb/dux-php-admin my-admin
+cd my-admin
+```
 
-# 进入项目目录
-cd my-project
+或从 Git 克隆源码：
 
-# 配置环境变量
-cp .env.example .env
-
-# 安装依赖并初始化
+```bash
+git clone https://github.com/duxweb/dux-php-admin.git my-admin
+cd my-admin
 composer install
-php dux install
 ```
 
-### 启动开发服务器
+### 基础配置
+
+编辑 `config/use.toml`（示例）：
+
+```toml
+[app]
+name = "Dux PHP Admin"
+debug = true
+timezone = "Asia/Shanghai"
+secret = "your-32-character-secret-key-here"
+domain = "http://localhost:8000"
+```
+
+配置数据库 `config/database.toml`（MySQL 示例）：
+
+```toml
+[db.drivers.default]
+driver = "mysql"
+host = "127.0.0.1"
+port = 3306
+database = "dux_admin"
+username = "root"
+password = "your_password"
+prefix = "app_"
+```
+
+### 初始化与运行
 
 ```bash
-# 启动开发服务器
-php dux serve
+# 同步数据库与菜单结构
+php dux db:sync
+php dux menu:sync
 
-# 访问 http://localhost:8000
-# 默认管理员账号：admin / 123456
+# 启动开发服务器（PHP 内置服务）
+php -S localhost:8000 -t public
 ```
+
+打开浏览器访问：
+- 系统首页: http://localhost:8000
+- 管理后台: http://localhost:8000/manage
 
 ## 💻 使用示例
 
