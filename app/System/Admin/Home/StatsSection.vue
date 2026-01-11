@@ -4,7 +4,7 @@ import { computed } from 'vue'
 
 // 获取统计数据
 const { data: statsData } = useCustom({
-  path: 'system/home/stats'
+  path: 'system/home/stats',
 })
 
 // 统计卡片数据
@@ -36,14 +36,14 @@ const statsCards = computed(() => [
     icon: 'i-tabler:clock',
     bgColor: 'bg-orange/10',
     iconColor: 'text-orange',
-  }
+  },
 ])
 </script>
 
 <template>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    <DuxCard 
-      v-for="card in statsCards" 
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+    <DuxCard
+      v-for="card in statsCards"
       :key="card.title"
       class="p-4 relative"
     >
@@ -56,11 +56,11 @@ const statsCards = computed(() => [
             {{ card.value }}
           </p>
         </div>
-        <div 
+        <div
           class="flex items-center justify-center w-12 h-12 rounded-lg transition-transform group-hover:scale-110"
           :class="[card.bgColor]"
         >
-          <i :class="[card.icon, card.iconColor, 'text-xl']" />
+          <i class="text-xl" :class="[card.icon, card.iconColor]" />
         </div>
       </div>
     </DuxCard>

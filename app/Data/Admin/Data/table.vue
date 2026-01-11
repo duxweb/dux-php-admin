@@ -127,6 +127,7 @@ const columns = computed<TableColumn[]>(() => {
       case 'switch':
         columnDef.render = column.renderSwitch({
           key: columnConfig.field,
+          path: `data/data/${configName}`,
         })
         break
       case 'status':

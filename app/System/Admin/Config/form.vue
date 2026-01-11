@@ -22,17 +22,34 @@ const model = ref({
           </NButton>
         </template>
         <DuxFormLayout class="px-4" divider label-placement="setting" label-align="right">
-          <DuxFormItem label="系统标题" description="浏览器头部标题" path="title">
+          <DuxFormItem label="系统标题" description="浏览器标题与登录页面名称" path="title">
             <NInput v-model:value="model.title" />
           </DuxFormItem>
-          <DuxFormItem label="版权信息" description="浏览器底部版权信息" path="copyright">
+          <DuxFormItem label="版权信息" description="登录页面系统版权信息" path="copyright">
             <NInput v-model:value="model.copyright" />
-          </DuxFormItem>
-          <DuxFormItem label="官方网站" description="浏览器官网跳转信息" path="website">
-            <NInput v-model:value="model.website" />
           </DuxFormItem>
         </DuxFormLayout>
       </DuxPanelCard>
+
+      <DuxPanelCard title="标志配置" description="后台系统的基本信息" class="mt-4">
+        <DuxFormLayout class="px-4" divider label-placement="setting" label-align="right">
+          <DuxFormItem label="完整标志 （亮色）" description="针对登录页面等长方形 LOGO" path="logo_light">
+            <NInput v-model:value="model.logo_light" />
+          </DuxFormItem>
+          <DuxFormItem label="完整标志 （暗色）" description="针对登录页面等长方形 LOGO" path="logo_dark">
+            <NInput v-model:value="model.logo_dark" />
+          </DuxFormItem>
+
+          <DuxFormItem label="图标标志 （亮色）" description="针对菜单等方形 LOGO" path="app_logo_light">
+            <NInput v-model:value="model.app_logo_light" />
+          </DuxFormItem>
+          <DuxFormItem label="图标标志 （暗色）" description="针对菜单等方形 LOGO" path="app_logo_dark">
+            <NInput v-model:value="model.app_logo_dark" />
+          </DuxFormItem>
+
+        </DuxFormLayout>
+      </DuxPanelCard>
+
     </NTabPane>
     <NTabPane name="upload" tab="上传配置" display-directive="show">
       <DuxPanelCard title="上传配置" description="上传配置">

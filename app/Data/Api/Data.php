@@ -121,9 +121,61 @@ class Data
         $data = Validator::parser($request->getParsedBody(), []);
         $data = Config::format($data, $config);
 
+        // 保存来源 IP
+        $data['ip'] = function_exists('get_ip') ? get_ip() : ($request->getServerParams()['REMOTE_ADDR'] ?? '');
+
+        // 绑定用户信息（如需）
+        
         if ($jwt) {
             $data['has_type'] = $jwt['sub'];
             $data['has_id'] = $jwt['id'];
+        }
+
+        // 去重：相同数据不允许重复提交
+        if ($config->post_retry) {
+            $dupQuery = ModelsData::query()->where('config_id', $data['config_id']);
+            if (!empty($data['data']) && is_array($data['data'])) {
+                foreach ($data['data'] as $k => $v) {
+                    $dupQuery->where("data->$k", $v);
+                }
+            }
+            if ($dupQuery->exists()) {
+                throw new ExceptionBusiness('请勿重复提交');
+            }
+        }
+
+        // 限流：X 分钟窗口内 X 条
+        $limit = (int)($config->post_limit ?? 0);
+        if ($limit > 0) {
+            $minutes = (int)($config->post_window ?? 1);
+            if ($minutes < 1) { $minutes = 1; }
+            $startTime = date('Y-m-d H:i:s', time() - ($minutes * 60));
+            $limitQuery = ModelsData::query()
+                ->where('config_id', $data['config_id'])
+                ->where('created_at', '>=', $startTime);
+
+            switch ((int)($config->post_tactics ?? 0)) {
+                case 1: // 按 IP
+                    $limitQuery->where('ip', $data['ip'] ?? '');
+                    break;
+                case 2: // 按用户
+                    if ($jwt) {
+                        $limitQuery->where('has_type', $jwt['sub'])->where('has_id', $jwt['id']);
+                    } else {
+                        // 未登录时按 IP 限流
+                        $limitQuery->where('ip', $data['ip'] ?? '');
+                    }
+                    break;
+                case 0: // 整体
+                default:
+                    // 不附加维度条件
+                    break;
+            }
+
+            $count = $limitQuery->count();
+            if ($count >= $limit) {
+                throw new ExceptionBusiness('提交过于频繁，请稍后再试');
+            }
         }
 
         ModelsData::query()->create($data);

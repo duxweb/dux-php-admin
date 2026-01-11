@@ -15,8 +15,16 @@ const model = ref({
   label: '',
   table_type: 'pages',
   form_type: 'modal',
+  // 列表默认排序（基于ID）
+  id_sort: 'asc',
+  // 提交策略
+  post_retry: false,
+  post_limit: 0,
+  post_window: 1,
+  post_tactics: 0,
   api_sign: false,
   api_user: false,
+  api_user_self: false,
   api_list: false,
   api_info: false,
   api_create: false,
@@ -111,6 +119,55 @@ const model = ref({
       <NCheckbox v-model:checked="model.api_delete">
         删除
       </NCheckbox>
+    </DuxFormItem>
+
+    <DuxFormItem label="默认排序" tooltip="针对数据ID的默认排序，用于后台与API">
+      <NRadioGroup v-model:value="model.id_sort">
+        <NRadio value="asc">
+          升序
+        </NRadio>
+        <NRadio value="desc">
+          倒序
+        </NRadio>
+      </NRadioGroup>
+    </DuxFormItem>
+
+    <DuxFormItem label="提交去重" tooltip="开启后，相同内容将被判定为重复并拒绝创建">
+      <NRadioGroup v-model:value="model.post_retry">
+        <NRadio :value="true">
+          开启
+        </NRadio>
+        <NRadio :value="false">
+          关闭
+        </NRadio>
+      </NRadioGroup>
+    </DuxFormItem>
+
+    <DuxFormItem label="限流" tooltip="设置为 0 表示不限制；格式：X 分钟 / X 条">
+      <div class="flex items-center gap-3 w-full">
+        <div class="flex-1">
+          <NInput v-model:value="model.post_window" type="number" placeholder="分钟" />
+        </div>
+        <div>分钟 /</div>
+        <div class="flex-1">
+          <NInput v-model:value="model.post_limit" type="number" placeholder="条数" />
+        </div>
+        <div>条</div>
+      </div>
+    </DuxFormItem>
+
+    <DuxFormItem label="限流策略" tooltip="整体：全局共用额度；按IP：每个IP独立；按用户：每个登录用户独立">
+      <NRadioGroup v-model:value="model.post_tactics">
+        <NRadio :value="0">
+          整体
+        </NRadio>
+        <NRadio :value="1">
+          按IP
+        </NRadio>
+        <NRadio :value="2">
+          按用户
+        </NRadio>
+      </NRadioGroup>
     </DuxFormItem>
   </DuxModalForm>
 </template>

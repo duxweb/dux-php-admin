@@ -1,6 +1,6 @@
 <script setup>
 import { DuxFormItem, DuxModalForm } from '@duxweb/dvha-pro'
-import { NInput, NRadioGroup, NRadio } from 'naive-ui'
+import { NInput, NRadio, NRadioGroup } from 'naive-ui'
 import { ref } from 'vue'
 
 const model = ref({

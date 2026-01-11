@@ -117,7 +117,10 @@ class Config
             }
         }
 
-        $query->orderBy('id', $params['id_sort'] === 'desc' ? 'desc' :'asc');
+        // 默认排序：优先使用请求参数，其次配置项，默认 asc
+        $order = $params['id_sort'] ?? ($config->id_sort ?? 'asc');
+        $order = strtolower((string)$order) === 'desc' ? 'desc' : 'asc';
+        $query->orderBy('id', $order);
     }
 
     public static function format(Data $data, DataConfig $config) {

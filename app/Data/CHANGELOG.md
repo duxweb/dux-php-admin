@@ -11,6 +11,16 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+
+## [0.0.16] - 2025-12-03
+
+- 更新字段可选复制
+
+## [0.0.15] - 2025-10-17
+
+- feat: 限流功能,优化表单管理
+
 ## [0.0.14] - 2025-07-17
 
 - fix: 修正部分性能问题

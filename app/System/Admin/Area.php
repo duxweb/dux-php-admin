@@ -47,8 +47,6 @@ class Area extends Resources
     public function import(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
 
-        $data = $request->getParsedBody();
-
         $files = $request->getUploadedFiles();
         $file = $files['file'];
 
@@ -57,16 +55,49 @@ class Area extends Resources
 
         $data = (new FastExcel)->import($tempFile);
 
+        // Map both the legacy Chinese headers and the new English headers.
+        $columnMap = [
+            'province_name' => ['NAME_PROV', '省'],
+            'province_code' => ['CODE_PROV', '省编码'],
+            'city_name' => ['NAME_CITY', '市'],
+            'city_code' => ['CODE_CITY', '市编码'],
+            'district_name' => ['NAME_COUN', '区县'],
+            'district_code' => ['CODE_COUN', '区县编码'],
+            'town_name' => ['NAME_TOWN', '乡镇街道'],
+            'town_code' => ['CODE_TOWN', '乡镇街道编码'],
+        ];
+
+        $extract = static function (array $row, array $keys): string {
+            foreach ($keys as $key) {
+                if (array_key_exists($key, $row)) {
+                    $value = trim((string)$row[$key]);
+                    if ($value !== '') {
+                        return $value;
+                    }
+                }
+            }
+            return '';
+        };
+
         $newData = [];
         foreach ($data as $key => $vo) {
+            $provinceName = $extract($vo, $columnMap['province_name']);
+            $provinceCode = $extract($vo, $columnMap['province_code']);
+            $cityName = $extract($vo, $columnMap['city_name']);
+            $cityCode = $extract($vo, $columnMap['city_code']);
+            $districtName = $extract($vo, $columnMap['district_name']);
+            $districtCode = $extract($vo, $columnMap['district_code']);
+            $townName = $extract($vo, $columnMap['town_name']);
+            $townCode = $extract($vo, $columnMap['town_code']);
+
             // 处理省级数据
-            if (!empty($vo['省']) && !empty($vo['省编码'])) {
-                $provinceKey = $vo['省编码'] . ':1';
+            if ($provinceName !== '' && $provinceCode !== '') {
+                $provinceKey = $provinceCode . ':1';
                 if (!isset($newData[$provinceKey])) {
                     $newData[$provinceKey] = [
                         'parent_code' => 0,
-                        'code' => $vo['省编码'],
-                        'name' => $vo['省'],
+                        'code' => $provinceCode,
+                        'name' => $provinceName,
                         'level' => 1,
                         'leaf' => true,
                     ];
@@ -74,55 +105,55 @@ class Area extends Resources
             }
 
             // 处理市级数据
-            if (!empty($vo['市']) && !empty($vo['市编码'])) {
-                $cityKey = $vo['市编码'] . ':2';
+            if ($cityName !== '' && $cityCode !== '') {
+                $cityKey = $cityCode . ':2';
                 if (!isset($newData[$cityKey])) {
                     $newData[$cityKey] = [
-                        'parent_code' => $vo['省编码'],
-                        'code' => $vo['市编码'],
-                        'name' => $vo['市'],
+                        'parent_code' => $provinceCode,
+                        'code' => $cityCode,
+                        'name' => $cityName,
                         'level' => 2,
                         'leaf' => true,
                     ];
                     // 更新省级为非叶子节点
-                    if (isset($newData[$vo['省编码'] . ':1'])) {
-                        $newData[$vo['省编码'] . ':1']['leaf'] = false;
+                    if ($provinceCode !== '' && isset($newData[$provinceCode . ':1'])) {
+                        $newData[$provinceCode . ':1']['leaf'] = false;
                     }
                 }
             }
 
             // 处理区县数据
-            if (!empty($vo['区县']) && !empty($vo['区县编码'])) {
-                $districtKey = $vo['区县编码'] . ':3';
+            if ($districtName !== '' && $districtCode !== '') {
+                $districtKey = $districtCode . ':3';
                 if (!isset($newData[$districtKey])) {
                     $newData[$districtKey] = [
-                        'parent_code' => $vo['市编码'],
-                        'code' => $vo['区县编码'],
-                        'name' => $vo['区县'],
+                        'parent_code' => $cityCode,
+                        'code' => $districtCode,
+                        'name' => $districtName,
                         'level' => 3,
                         'leaf' => true,
                     ];
                     // 更新市级为非叶子节点
-                    if (isset($newData[$vo['市编码'] . ':2'])) {
-                        $newData[$vo['市编码'] . ':2']['leaf'] = false;
+                    if ($cityCode !== '' && isset($newData[$cityCode . ':2'])) {
+                        $newData[$cityCode . ':2']['leaf'] = false;
                     }
                 }
             }
 
             // 处理乡镇街道数据
-            if (!empty($vo['乡镇街道']) && !empty($vo['乡镇街道编码'])) {
-                $townKey = $vo['乡镇街道编码'] . ':4';
+            if ($townName !== '' && $townCode !== '') {
+                $townKey = $townCode . ':4';
                 if (!isset($newData[$townKey])) {
                     $newData[$townKey] = [
-                        'parent_code' => $vo['区县编码'],
-                        'code' => $vo['乡镇街道编码'],
-                        'name' => $vo['乡镇街道'],
+                        'parent_code' => $districtCode,
+                        'code' => $townCode,
+                        'name' => $townName,
                         'level' => 4,
                         'leaf' => true,
                     ];
                     // 更新区县为非叶子节点
-                    if (isset($newData[$vo['区县编码'] . ':3'])) {
-                        $newData[$vo['区县编码'] . ':3']['leaf'] = false;
+                    if ($districtCode !== '' && isset($newData[$districtCode . ':3'])) {
+                        $newData[$districtCode . ':3']['leaf'] = false;
                     }
                 }
             }

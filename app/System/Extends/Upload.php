@@ -43,7 +43,7 @@ class Upload
     {
         $file = $this->validateUploadedFile($request);
         $filename = $file->getClientFilename();
-        $fileSize = $file->getSize();
+        $fileSize = $file->getSize();;
 
         $this->validateFileBasics($filename, $fileSize);
 
@@ -110,7 +110,8 @@ class Upload
 
     private function validateUploadedFile(ServerRequestInterface $request)
     {
-        $file = $request->getUploadedFiles()['file'] ?? null;
+        $files = $request->getUploadedFiles() ?? null;
+        $file = $files[array_key_first($files)];
         if (!$file) {
             throw new ExceptionBusiness('File not found');
         }

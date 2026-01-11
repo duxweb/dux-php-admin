@@ -35,27 +35,43 @@ class Manage extends ManageHandler
 
     private function filterMenuByPermission(array $menu, array $permissions): array
     {
+        // 第一步：过滤出有权限的菜单项和所有目录
         $filtered = array_filter($menu, function ($item) use ($permissions) {
-            if (empty($item['name'])) {
+            // 目录（没有 path）保留
+            if (empty($item['path'])) {
                 return true;
             }
+            // 菜单项需要检查权限
             return in_array($item['name'], $permissions, true);
         });
 
-        $validNames = [];
-        foreach ($filtered as $item) {
-            if (!empty($item['name'])) {
-                $validNames[] = $item['name'];
+        // 第二步：递归删除空目录
+        $hasChanges = true;
+        while ($hasChanges) {
+            $hasChanges = false;
+            
+            // 统计每个父级的子项数量
+            $childrenCount = [];
+            foreach ($filtered as $item) {
+                if (!empty($item['parent'])) {
+                    $childrenCount[$item['parent']] = ($childrenCount[$item['parent']] ?? 0) + 1;
+                }
             }
+            
+            // 过滤掉没有子项的目录
+            $newFiltered = [];
+            foreach ($filtered as $item) {
+                // 如果是目录且没有子项，跳过
+                if (empty($item['path']) && (!isset($childrenCount[$item['name']]) || $childrenCount[$item['name']] === 0)) {
+                    $hasChanges = true;
+                    continue;
+                }
+                $newFiltered[] = $item;
+            }
+            
+            $filtered = $newFiltered;
         }
 
-        $result = array_filter($filtered, function ($item) use ($validNames) {
-            if (empty($item['parent'])) {
-                return true;
-            }
-            return in_array($item['parent'], $validNames, true);
-        });
-
-        return array_values($result);
+        return array_values($filtered);
     }
 }

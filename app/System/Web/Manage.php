@@ -10,8 +10,6 @@ use Core\Route\Attribute\RouteGroup;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function DI\get;
-
 #[RouteGroup(app: 'web', route: '/manage')]
 class Manage
 {
@@ -35,8 +33,15 @@ class Manage
             $storage = null;
         }
 
+        $themeConfig = App::config('use')->get('theme', []);
+
+        $themeConfig['logo'] = $systemConfig['logo_light'] ?: $themeConfig['logo'];
+        $themeConfig['darkLogo'] = $systemConfig['logo_dark'] ?: $themeConfig['darkLogo'];
+        $themeConfig['appLogo'] = $systemConfig['app_logo_light'] ?: $themeConfig['appLogo'];
+        $themeConfig['appDarkLogo'] = $systemConfig['app_logo_dark'] ?: $themeConfig['appDarkLogo'];
+
         $assign = [
-            "title" => App::config('use')->get('app.name'),
+            "title" => $systemConfig['title'] ?: App::config('use')->get('app.name'),
             "lang" => $lang,
             'vite' => [
                 'dev' => (bool)$vite['dev'],
@@ -56,9 +61,9 @@ class Manage
                     'banner' => null,
                     'darkBanner' => null,
                     'layout' => 'app',
-                    ...App::config('use')->get('theme', []),
+                    ...$themeConfig,
                 ],
-                'copyright' => App::config('use')->get('app.copyright'),
+                'copyright' => $systemConfig['copyright'] ?: App::config('use')->get('app.copyright'),
                 'manage' => [
                     [
                         'name' => 'admin',

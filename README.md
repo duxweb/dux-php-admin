@@ -151,10 +151,51 @@ php -S localhost:8000 -t public
 ```
 
 打开浏览器访问：
-- 系统首页: http://localhost:8000
+- 系统首页: http://localhost:8000   (404 的话则没有前台应用)
 - 管理后台: http://localhost:8000/manage
 
-## 💻 使用示例
+## 模块安装
+
+1、访问[应用商店](https://cloud.dux.plus/apps?system=duxLiteV2&page=1)
+2、选择需要安装的模块
+3、通过命令运行安装，比如 CMS 模块：
+```
+php dux add duxweb/cms
+```
+
+4、同步数据库与菜单:
+
+```
+# 针对模块同步
+php dux db:sync cms
+php dux menu:sync cms
+
+# 全部同步
+php dux db:sync
+php dux menu:sync
+```
+
+5、访问后台刷新页面即可显示模块菜单。
+
+## 更新系统
+
+执行下面命令更新后端系统与模块：
+```
+php dux update
+```
+
+## 更新前端基座
+
+执行下面命令更新前端基座：
+```
+# 更新前端依赖
+bun update
+
+# 重新编译基座
+bun run build
+```
+
+## 💻 开发示例
 
 ### 创建第一个 API
 

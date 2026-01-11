@@ -21,6 +21,7 @@ class Data extends \Core\Database\Model
     {
         $table->id();
         NestedSet::columns($table);
+        $table->string('ip', 45)->comment('IP')->nullable();
         $table->string('has_type')->comment('关联类型')->index()->nullable();
         $table->string('has_id')->comment('关联ID')->index()->nullable();
         $table->bigInteger('config_id')->comment('配置ID')->index()->nullable();

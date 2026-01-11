@@ -29,7 +29,7 @@ class Api extends Resources
     public function validator(array $data, ServerRequestInterface $request, array $args): array
     {
         return [
-            "name" => ["required", __('system.api.validator.name', 'manage')],
+            "name" => ["required", '请输入接口名称'],
         ];
     }
 

@@ -92,9 +92,9 @@ export function renderLabel(copyText) {
       h('span', { class: 'font-medium text-sm', onClick: () => copyText(option.label) }, option.label),
       h(NTag, { type: config.color, size: 'small' }, { default: () => option.type }),
       option.required && h(NBadge, { value: '必需', type: 'error' }),
-      option.schema?.title && h('span', { class: 'text-xs text-muted' }, `${option.schema.title}`),
-      option.schema?.description && h('span', { class: 'text-xs text-muted' }, `- ${option.schema.description}`),
-      option.schema?.example !== undefined && h('span', { class: 'text-xs text-muted' }, `例: ${formatExampleShort(option.schema.example)}`),
+      option.schema?.title && h('span', { class: 'text-xs text-muted select-text' }, `${option.schema.title}`),
+      option.schema?.description && h('span', { class: 'text-xs text-muted select-text' }, `- ${option.schema.description}`),
+      option.schema?.example !== undefined && h('span', { class: 'text-xs text-muted select-text' }, `例: ${formatExampleShort(option.schema.example)}`),
     ].filter(Boolean))
   }
 }
