@@ -57,38 +57,40 @@ class ManageHandler
     {
         $file = $this->routeToFile($route);
 
-        // 尝试读取.vue文件
-        $vuePath = app_path($file . ".vue");
-        if (file_exists($vuePath)) {
-            return [file_get_contents($vuePath), '.vue'];
-        }
-
-        // 尝试读取.json文件
-        $jsonPath = app_path($file . ".json");
-        if (file_exists($jsonPath)) {
-            return [json_decode(file_get_contents($jsonPath), true), '.json'];
-        }
-
-        // 尝试读取.js文件
-        $jsPath = app_path($file . ".js");
-        if (file_exists($jsPath)) {
-            return [file_get_contents($jsPath), '.mjs'];
-        }
-
-        // 尝试读取.ts文件
-        $tsPath = app_path($file . ".ts");
-        if (file_exists($tsPath)) {
-            return [file_get_contents($tsPath), '.mjs'];
-        }
-
-        // 尝试读取原始文件
-        $filePath = app_path($file);
-        $ext = pathinfo($file, PATHINFO_EXTENSION);
-        if (file_exists($filePath)) {
-            if ($ext === 'php') {
-                throw new ExceptionBusiness('文件类型不支持');
+        foreach ($this->buildCandidates($file) as $candidate) {
+            // 尝试读取.vue文件
+            $vuePath = app_path($candidate . ".vue");
+            if (file_exists($vuePath)) {
+                return [file_get_contents($vuePath), '.vue'];
             }
-            return [file_get_contents($filePath), $ext, null];
+
+            // 尝试读取.json文件
+            $jsonPath = app_path($candidate . ".json");
+            if (file_exists($jsonPath)) {
+                return [json_decode(file_get_contents($jsonPath), true), '.json'];
+            }
+
+            // 尝试读取.js文件
+            $jsPath = app_path($candidate . ".js");
+            if (file_exists($jsPath)) {
+                return [file_get_contents($jsPath), '.mjs'];
+            }
+
+            // 尝试读取.ts文件
+            $tsPath = app_path($candidate . ".ts");
+            if (file_exists($tsPath)) {
+                return [file_get_contents($tsPath), '.mjs'];
+            }
+
+            // 尝试读取原始文件
+            $filePath = app_path($candidate);
+            $ext = pathinfo($candidate, PATHINFO_EXTENSION);
+            if (file_exists($filePath)) {
+                if ($ext === 'php') {
+                    throw new ExceptionBusiness('文件类型不支持');
+                }
+                return [file_get_contents($filePath), $ext, null];
+            }
         }
 
         throw new ExceptionBusiness('文件不存在');
@@ -96,20 +98,49 @@ class ManageHandler
 
     private function routeToFile(string $path): string
     {
-        $path = str_replace(['..', './'], '', $path);
+        return $this->normalizePath($path);
+    }
+
+    private function normalizePath(string $path): string
+    {
         $path = ltrim($path, '/');
         if (preg_match('/[<>:"\\|?*]/', $path)) {
             throw new ExceptionBusiness('路径包含非法字符');
         }
 
-        $parts = explode('/', $path);
-
-        if (count($parts) < 2) {
-            return $path;
+        $parts = [];
+        foreach (explode('/', $path) as $part) {
+            if ($part === '' || $part === '.') {
+                continue;
+            }
+            if ($part === '..') {
+                if ($parts) {
+                    array_pop($parts);
+                }
+                continue;
+            }
+            $parts[] = $part;
         }
 
-        array_splice($parts, 1, 0, ucfirst($this->app));
-
         return implode('/', $parts);
+    }
+
+    private function buildCandidates(string $path): array
+    {
+        $candidates = [];
+        if ($path !== '') {
+            $candidates[] = $path;
+        }
+
+        $parts = $path === '' ? [] : explode('/', $path);
+        if (count($parts) >= 2) {
+            array_splice($parts, 1, 0, ucfirst($this->app));
+            $withLayer = implode('/', $parts);
+            if ($withLayer && $withLayer !== $path) {
+                $candidates[] = $withLayer;
+            }
+        }
+
+        return array_values(array_unique($candidates));
     }
 }

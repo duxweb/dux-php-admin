@@ -11,7 +11,7 @@ const model = ref({
 <template>
   <DuxModalForm path="system/area/import" :data="model">
     <NAlert type="info">
-      请上传 <NButton text href="https://lbsyun.baidu.com/faq/api?title=webapi/download" target="_blank">
+      请上传 <NButton text tag="a" href="https://lbsyun.baidu.com/faq/api?title=webapi/download" target="_blank">
         [百度地图行政区划adcode映射表]
       </NButton> 文件
     </NAlert>

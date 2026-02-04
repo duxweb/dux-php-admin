@@ -1,7 +1,7 @@
 {
     "name": "duxweb/system",
     "description": "System Application",
-    "version": "0.1.9",
+    "version": "0.1.10",
     "phpDependencies": {
         "duxweb/dux-lite": "^2.0.13",
         "duxweb/dux-lite-cloud": "dev-main",
@@ -260,6 +260,38 @@
                             "path": "system/login",
                             "icon": null,
                             "loader": "System/Login/table",
+                            "hidden": false
+                        }
+                    ]
+                },
+                {
+                    "type": "directory",
+                    "label": "任务调度",
+                    "name": "system.schedulerGroup",
+                    "label_lang": null,
+                    "path": null,
+                    "icon": null,
+                    "loader": null,
+                    "hidden": false,
+                    "children": [
+                        {
+                            "type": "menu",
+                            "label": "定时任务",
+                            "name": "system.scheduler.list",
+                            "label_lang": "system.scheduler.list",
+                            "path": "system/scheduler",
+                            "icon": null,
+                            "loader": "System/Scheduler/table",
+                            "hidden": false
+                        },
+                        {
+                            "type": "menu",
+                            "label": "队列监控",
+                            "name": "system.queue.list",
+                            "label_lang": "system.queue.list",
+                            "path": "system/queue",
+                            "icon": null,
+                            "loader": "System/Queue/table",
                             "hidden": false
                         }
                     ]

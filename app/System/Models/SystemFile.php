@@ -15,12 +15,16 @@ class SystemFile extends Model
 
     public $table = "system_file";
 
+    protected $casts = [
+        'is_manage' => 'boolean',
+    ];
 
     public function migration(Blueprint $table)
     {
         $table->id();
         $table->bigInteger('dir_id')->nullable()->comment('目录id');
         $table->string('has_type')->nullable()->comment('关联类型');
+        $table->boolean('is_manage')->default(false)->comment('是否文件管理器文件')->index();
         $table->string('driver')->nullable()->comment('驱动类型');
         $table->string('url')->nullable()->comment('链接');
         $table->string('path')->nullable()->comment('路径');

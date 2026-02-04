@@ -41,7 +41,8 @@ class Visitor
                 'has_type' => $type,
                 'has_id' => $id,
                 'driver' => $driver,
-                'date' => $date
+                'date' => $date,
+                'path' => $path
             ]);
             $viewData->increment('pv');
 
@@ -51,6 +52,7 @@ class Visitor
                 'driver' => $driver,
                 'ip' => $ip,
                 'browser' => $browser,
+                'path' => $path,
             ];
 
             // uv
@@ -84,6 +86,7 @@ class Visitor
                 $uvData->num = $uvData->num + 1;
                 $uvData->save();
             }
+
 
             // spider
             $CrawlerDetect = new CrawlerDetect;

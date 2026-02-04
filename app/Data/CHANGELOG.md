@@ -13,6 +13,16 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+
+## [0.1.0] - 2026-02-04
+
+- feat: 文档操作交互
+
+## [0.1.0] - 2026-02-04
+
+- fix: 更新文档生成按钮
+
 ## [0.0.16] - 2025-12-03
 
 - 更新字段可选复制

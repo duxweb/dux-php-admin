@@ -19,7 +19,19 @@ class Upload
     public static function getUploadConfig(): array
     {
         $uploadConfig = \App\System\Service\Config::getJsonValue('system', []);
-        $uploadConfig['upload_ext'] = $uploadConfig['upload_ext'] ? explode(',', $uploadConfig['upload_ext']) : ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'txt'];
+        // Default allow-list if system.upload_ext is not configured.
+        // Keep it broad enough for common admin uploads, but still enforce BLACK_EXTENSIONS.
+        $uploadConfig['upload_ext'] = $uploadConfig['upload_ext'] ? explode(',', $uploadConfig['upload_ext']) : [
+            // image
+            'jpg', 'jpeg', 'png', 'gif', 'webp', 'avif',
+            // document
+            'pdf', 'txt', 'md', 'csv',
+            'doc', 'docx',
+            'xls', 'xlsx',
+            'ppt', 'pptx',
+            // video
+            'mp4', 'mov', 'm4v', 'webm', 'mkv', 'avi',
+        ];
         $uploadConfig['upload_size'] = $uploadConfig['upload_size'] ?: 5;
         return $uploadConfig;
     }

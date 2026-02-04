@@ -71,8 +71,8 @@ class Data extends \Core\Database\Model
                     $relationName = $relation['name'];
                     $fields = $relation['fields'];
                     
-                    if ($this->relationLoaded($relationName) && $this->{$relationName}) {
-                        $relationData = $this->{$relationName};
+                    $relationData = $this->{$relationName};
+                    if ($relationData) {
                         
                         if ($relation['type'] === 'hasMany') {
                             // 一对多关系，处理集合

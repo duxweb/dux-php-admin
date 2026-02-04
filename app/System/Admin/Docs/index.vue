@@ -1,5 +1,5 @@
 <script setup>
-import { useOne } from '@duxweb/dvha-core'
+import { useCustomMutation, useOne } from '@duxweb/dvha-core'
 import { DuxDrawEmpty, DuxPage, DuxTreeFilter } from '@duxweb/dvha-pro'
 import { useClipboard } from '@vueuse/core'
 import { NButton, NScrollbar, NTag, useMessage } from 'naive-ui'
@@ -11,6 +11,11 @@ import Response from './response'
 const docs = ref([])
 const message = useMessage()
 const { copy } = useClipboard()
+const { mutateAsync: buildDocs, isLoading: building } = useCustomMutation()
+const refreshKey = ref(0)
+const treeParams = computed(() => ({
+  refresh_key: refreshKey.value,
+}))
 
 onMounted(() => {
   docs.value = []
@@ -67,12 +72,27 @@ const _name = computed(() => {
   if (info.value.type === 'tag') {
     return info.value.tag.name
   }
+  if (info.value.type === 'category') {
+    return info.value.category.name
+  }
   return info.value.api ? info.value.api.name : 'API 文档'
 })
 
 function handleCopy(path) {
   copy(path)
   message.success('复制成功')
+}
+
+function handleBuild() {
+  buildDocs({
+    path: 'docs/build',
+    method: 'post',
+  }).then(() => {
+    refreshKey.value += 1
+    message.success('文档已生成')
+  }).catch((err) => {
+    message.error(err.message)
+  })
 }
 
 const devOpen = ref(false)
@@ -83,13 +103,14 @@ const devOpen = ref(false)
     <div class="flex gap-2 h-full relative">
       <div
         class="flex-1 lg:flex-none lg:w-70" :class="[
-          info.type && info.type !== 'tag' ? 'hidden lg:block' : '',
+          info.type && !['tag', 'category'].includes(info.type) ? 'hidden lg:block' : '',
 
         ]"
       >
         <DuxTreeFilter
           v-model:value="filter.id"
           path="docs/catalogs"
+          :params="treeParams"
           :data="docs"
           key-field="id"
           label-field="name"
@@ -127,16 +148,30 @@ const devOpen = ref(false)
 
             ])
           }"
-        />
+        >
+          <template #tools>
+            <NButton
+              secondary
+              type="primary"
+              class="px-3!"
+              :loading="building"
+              @click="handleBuild"
+            >
+              <template #icon>
+                <div class="i-tabler:file-text" />
+              </template>
+            </NButton>
+          </template>
+        </DuxTreeFilter>
       </div>
       <div
-        v-if="info.type === 'tag' || !info.type"
+        v-if="info.type === 'tag' || info.type === 'category' || !info.type"
         class="hidden lg:block  flex-1 min-w-0 size-full flex items-center justify-center"
       >
         <div class="flex flex-col items-center justify-center gap-2 h-full">
           <DuxDrawEmpty class="size-30 mb-4" />
           <div class="text-base">
-            {{ info.tag?.name || '打开文档' }}
+            {{ info.tag?.name || info.category?.name || '打开文档' }}
           </div>
           <div class="text-muted">
             {{ info.tag?.description || '请选择左侧菜单查看文档' }}

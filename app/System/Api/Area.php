@@ -13,12 +13,12 @@ use Core\Route\Attribute\RouteGroup;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-#[RouteGroup(app: 'api', route: '')]
-#[Docs(name: '地区')]
+#[RouteGroup(app: 'api', route: '/system/area')]
+#[Docs(name: '地区', category: '系统')]
 class Area
 {
 
-    #[Route(methods: 'GET', route: '/system/area')]
+    #[Route(methods: 'GET', route: '')]
     #[Api(name: '地区列表', payloadExample: [
         'level' => 0,
         'parent' => '',

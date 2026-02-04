@@ -1,7 +1,7 @@
 {
     "name": "duxweb/data",
     "description": "Data Application",
-    "version": "0.0.16",
+    "version": "0.1.0",
     "phpDependencies": {
         "cebe/php-openapi": "^1.8"
     },

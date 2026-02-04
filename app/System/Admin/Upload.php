@@ -15,7 +15,17 @@ class Upload extends \App\System\Extends\Upload
     public function sign(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $params = $request->getQueryParams();
-        return send($response, "ok", parent::uploadSign(filename: $params['name'], mime: $params['mime'], prefix: 'system'));
+        $manager = filter_var($params['manager'] ?? false, FILTER_VALIDATE_BOOLEAN);
+        return send($response, "ok", parent::uploadSign(
+            filename: (string)($params['name'] ?? ''),
+            mime: (string)($params['mime'] ?? ''),
+            size: isset($params['size']) ? (int)$params['size'] : 0,
+            driver: (string)($params['driver'] ?? ''),
+            prefix: 'system',
+            manager: $manager,
+            hasType: 'admin',
+            folder: isset($params['folder']) ? (int)$params['folder'] : null,
+        ));
     }
 
     #[Route(methods: 'PUT', route: '')]

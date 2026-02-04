@@ -12,12 +12,12 @@ use Core\Route\Attribute\RouteGroup;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-#[RouteGroup(app: 'api', route: '')]
-#[Docs(name: '系统设置')]
+#[RouteGroup(app: 'api', route: '/system/setting')]
+#[Docs(name: '系统配置', category: '系统')]
 class Setting
 {
 
-    #[Route(methods: 'GET', route: '/system/setting')]
+    #[Route(methods: 'GET', route: '')]
     #[Api(name: '获取系统设置', payloadExample: [])]
     #[ResultData(field: 'data', type: FieldEnum::OBJECT, name: '系统设置', desc: '系统公开设置项键值对', root: true)]
     public function setting(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface

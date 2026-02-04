@@ -9,6 +9,10 @@ const model = ref({
   copyright: '',
   storage: null,
   files: [],
+  map: {
+    tianditu_tk_browser: '',
+    tianditu_tk_server: '',
+  },
 })
 </script>
 
@@ -46,10 +50,8 @@ const model = ref({
           <DuxFormItem label="图标标志 （暗色）" description="针对菜单等方形 LOGO" path="app_logo_dark">
             <NInput v-model:value="model.app_logo_dark" />
           </DuxFormItem>
-
         </DuxFormLayout>
       </DuxPanelCard>
-
     </NTabPane>
     <NTabPane name="upload" tab="上传配置" display-directive="show">
       <DuxPanelCard title="上传配置" description="上传配置">
@@ -67,6 +69,23 @@ const model = ref({
           </DuxFormItem>
           <DuxFormItem label="上传大小" description="系统默认上传大小 (MB)" path="upload_size">
             <NInputNumber v-model:value="model.upload_size" />
+          </DuxFormItem>
+        </DuxFormLayout>
+      </DuxPanelCard>
+    </NTabPane>
+    <NTabPane name="other" tab="其他配置" display-directive="show">
+      <DuxPanelCard title="地图配置" description="用于地图展示与定位服务（目前仅天地图）">
+        <template #actions>
+          <NButton secondary type="primary" @click="() => result.onSubmit()">
+            保存配置
+          </NButton>
+        </template>
+        <DuxFormLayout class="px-4" divider label-placement="setting" label-align="right">
+          <DuxFormItem label="天地图 TK（浏览器端）" description="用于 Web 前端调用天地图 JS API" path="map.tianditu_tk_browser">
+            <NInput v-model:value="model.map.tianditu_tk_browser" />
+          </DuxFormItem>
+          <DuxFormItem label="天地图 TK（服务器端）" description="用于服务端调用天地图接口（不要暴露到前端）" path="map.tianditu_tk_server">
+            <NInput v-model:value="model.map.tianditu_tk_server" />
           </DuxFormItem>
         </DuxFormLayout>
       </DuxPanelCard>

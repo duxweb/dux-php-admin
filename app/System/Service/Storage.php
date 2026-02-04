@@ -9,9 +9,11 @@ use Core\Storage\Storage as StorageStorage;
 
 class Storage
 {
-  public static function getObject(string $name = ''): StorageInterface
+  public static function getObject(string|int|null $name = null): StorageInterface
   {
-    if ($name) {
+    if (is_int($name)) {
+      $info = SystemStorage::query()->find($name);
+    } elseif (is_string($name) && $name !== '') {
       $info = SystemStorage::query()->where('name', $name)->first();
     } else {
       $info = SystemStorage::query()->where('id', Config::getValue('system.storage'))->first();

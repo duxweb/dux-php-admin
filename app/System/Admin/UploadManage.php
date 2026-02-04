@@ -19,8 +19,16 @@ class UploadManage extends \App\System\Extends\Upload
         $params = $request->getQueryParams();
 
         $folder = $params['folder'] ?? '';
+        $folder = is_numeric($folder) ? (int)$folder : null;
+        $page = max(1, (int)($params['page'] ?? 1));
 
-        $dirInfo = SystemFileDir::query()->where('id', $folder)->first();
+        $dirInfo = null;
+        if ($folder) {
+            $dirInfo = SystemFileDir::query()->where('id', $folder)->first();
+            if (!$dirInfo) {
+                return send($response, "目录不存在");
+            }
+        }
 
         $dirQuery = SystemFileDir::query()->where('has_type', 'admin');
 
@@ -33,16 +41,22 @@ class UploadManage extends \App\System\Extends\Upload
 
         $fileQuery = SystemFile::query()->where('has_type', 'admin');
 
+        if (!empty($params['manager'])) {
+            $fileQuery->where('is_manage', true);
+        }
+
         if ($folder) {
             $fileQuery->where('dir_id', $folder);
         } else {
             $fileQuery->whereNull('dir_id');
         }
 
-        switch ($params['type']) {
+        $type = (string)($params['type'] ?? 'all');
+        switch ($type) {
             case 'image':
                 $fileQuery->where('mime', 'like', 'image%');
                 break;
+            case 'media':
             case 'video':
                 $fileQuery->where(function ($query) {
                     $query->where('mime', 'like', 'video%')->orWhere('mime', 'like', 'audio%');
@@ -63,7 +77,7 @@ class UploadManage extends \App\System\Extends\Upload
 
         $data = [];
 
-        if ($params['page'] <= 1) {
+        if ($page <= 1) {
             foreach ($dirList as $dir) {
                 $data[] = [
                     'id' => $dir->id,
@@ -89,14 +103,17 @@ class UploadManage extends \App\System\Extends\Upload
 
         $data = [...$data, ...($files ?: [])];
 
-        $meta['folder'] = $dirInfo->parent_id;
+        $meta['folder'] = $dirInfo?->parent_id;
 
-        $crumbs = SystemFileDir::query()->ancestorsAndSelf($dirInfo->id)->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'name' => $item->name,
-            ];
-        })->reverse()->toArray();
+        $crumbs = [];
+        if ($dirInfo) {
+            $crumbs = SystemFileDir::query()->ancestorsAndSelf($dirInfo->id)->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                ];
+            })->reverse()->toArray();
+        }
 
         $meta['crumbs'] = $crumbs;
 

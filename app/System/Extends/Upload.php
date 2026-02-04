@@ -5,16 +5,29 @@ namespace App\System\Extends;
 use App\System\Models\SystemFile;
 use App\System\Service\Storage;
 use App\System\Service\Upload as ServiceUpload;
+use Core\App;
 use Core\Handlers\ExceptionBusiness;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Upload
 {
-    public function uploadSign(string $filename, string $mime = '', ?int $size = 0, string $driver = '', string $prefix = ''): array
+    private const SIGN_CACHE_TTL_SECONDS = 1800; // 30 minutes
+    private const SIGN_CACHE_URL_KEY_PREFIX = 'system.upload.sign.';
+
+    public function uploadSign(
+        string $filename,
+        string $mime = '',
+        ?int $size = 0,
+        string $driver = '',
+        string $prefix = '',
+        ?bool $manager = false,
+        ?string $hasType = null,
+        ?int $folder = null,
+    ): array
     {
         $pathInfo = ServiceUpload::generatePath($filename, $mime, $prefix);
 
-        ServiceUpload::validateFile($pathInfo['ext'], $size);
+        ServiceUpload::validateFile($pathInfo['ext'], (int)$size);
 
         $object = Storage::getObject($driver);
         $data = $object->signPostUrl($pathInfo['path']);
@@ -35,6 +48,23 @@ class Upload
 
         $data['uploadUrl'] = $data['url'];
         $data['url'] = $object->publicUrl($pathInfo['path']);
+
+        $payload = [
+            'has_type' => $hasType,
+            'is_manage' => (bool)$manager,
+            'dir_id' => $folder ? (int)$folder : null,
+            'driver' => $driver,
+            'path' => $pathInfo['path'],
+            'name' => $filename,
+            'ext' => $pathInfo['ext'],
+            'size' => (int)$size,
+            'mime' => $pathInfo['mime'],
+            'url' => $data['url'],
+        ];
+
+        // Use url-derived cache key so client can save with url only.
+        $urlKey = self::SIGN_CACHE_URL_KEY_PREFIX . hash('sha256', (string)$data['url']);
+        App::cache()->set($urlKey, $payload, self::SIGN_CACHE_TTL_SECONDS);
 
         return $data;
     }
@@ -57,7 +87,7 @@ class Upload
         $object->writeStream($pathInfo['path'], $resource);
 
         return $manager
-            ? $this->save($driver, $pathInfo['path'], $pathInfo['name'], $pathInfo['ext'], (int)$fileSize, $pathInfo['mime'], $hasType, (int)$folder)
+            ? $this->save($driver, $pathInfo['path'], $pathInfo['name'], $pathInfo['ext'], (int)$fileSize, $pathInfo['mime'], $hasType, (int)$folder, (bool)$manager)
             : $this->buildFileResponse($object->publicUrl($pathInfo['path']), $pathInfo['name'], $fileSize, $pathInfo['mime'], $pathInfo['ext']);
     }
 
@@ -65,19 +95,40 @@ class Upload
     {
         $data = $request->getParsedBody();
 
-        return $this->save(
-            driver: $data['driver'],
-            path: $data['path'] ?? '',
-            name: $data['name'] ?? '',
-            ext: $data['ext'] ?? '',
-            size: (int)($data['size'] ?? 0),
-            mime: $data['mime'] ?? '',
+        $url = trim((string)($data['url'] ?? ''));
+        if ($url === '') {
+            throw new ExceptionBusiness('url 不能为空');
+        }
+
+        $cacheKey = self::SIGN_CACHE_URL_KEY_PREFIX . hash('sha256', $url);
+        $payload = App::cache()->get($cacheKey);
+        if (!is_array($payload)) {
+            throw new ExceptionBusiness('上传签名已过期，请重新上传');
+        }
+
+        if (($payload['has_type'] ?? null) !== $hasType) {
+            throw new ExceptionBusiness('上传签名无效');
+        }
+
+        $result = $this->save(
+            driver: (string)($payload['driver'] ?? ''),
+            path: (string)($payload['path'] ?? ''),
+            name: (string)($payload['name'] ?? ''),
+            ext: (string)($payload['ext'] ?? ''),
+            size: (int)($payload['size'] ?? 0),
+            mime: (string)($payload['mime'] ?? ''),
             hasType: $hasType,
-            folder: (int)($data['folder'] ?? 0)
+            folder: (int)($payload['dir_id'] ?? 0),
+            isManage: (bool)($payload['is_manage'] ?? false),
         );
+
+        // One-time save: prevent reusing a sign for multiple records.
+        App::cache()->delete($cacheKey);
+
+        return $result;
     }
 
-    private function save($driver, string $path, string $name, string $ext, int $size, string $mime, ?string $hasType = '', ?int $folder = null)
+    private function save($driver, string $path, string $name, string $ext, int $size, string $mime, ?string $hasType = '', ?int $folder = null, bool $isManage = false)
     {
         $this->validateSaveParams($path, $name, $ext, $size, $mime);
 
@@ -96,6 +147,7 @@ class Upload
         $model = SystemFile::create([
             'dir_id' => $folder ?: null,
             'has_type' => $hasType,
+            'is_manage' => $isManage,
             'driver' => $driver,
             'url' => $url,
             'path' => $path,

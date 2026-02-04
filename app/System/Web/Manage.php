@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\System\Web;
 
+use App\System\Event\ManageEvent;
 use App\System\Models\SystemStorage;
 use App\System\Service\Config;
 use Core\App;
@@ -40,6 +43,79 @@ class Manage
         $themeConfig['appLogo'] = $systemConfig['app_logo_light'] ?: $themeConfig['appLogo'];
         $themeConfig['appDarkLogo'] = $systemConfig['app_logo_dark'] ?: $themeConfig['appDarkLogo'];
 
+        $defaultManageName = (string)App::config('use')->get('manage.default', 'admin');
+        $defaultManage = [
+            'name' => 'admin',
+            'title' => App::config('use')->get('app.name'),
+            'description' => '',
+            'routePrefix' => '/admin',
+            'apiBasePath' => '/admin',
+            'apiRoutePath' => '/router',
+            'userMenus' => [
+                [
+                    'key' => 'board',
+                    "label" => "我的公告",
+                    "icon" => "i-tabler:pinned",
+                    "path" => "system/board",
+                ],
+                [
+                    'key' => 'notice',
+                    "label" => "我的通知",
+                    "icon" => "i-tabler:bell",
+                    "path" => "system/notice",
+                ],
+                [
+                    'key' => ' memo',
+                    "label" => "我的备忘",
+                    "icon" => "i-tabler:message",
+                    "path" => "system/memo",
+                ],
+                [
+                    'key' => 'setting',
+                    "label" => "个人资料",
+                    "icon" => "i-tabler:settings",
+                    "path" => "system/profile",
+                ],
+            ],
+            'upload' => [
+                'driver' => $storage ? $storage->type : 'local',
+            ],
+            'notice' => [
+                'status' => true,
+                'path' => 'system/notice',
+                'route' => 'system/notice'
+            ],
+            'map' => [
+                'tiandituTk' => $systemConfig['map']['tianditu_tk_browser'] ?? null,
+            ],
+        ];
+
+        $event = new ManageEvent([$defaultManage]);
+        App::event()->dispatch($event, 'system.manage');
+        $manageList = $event->getManages();
+        if (!$manageList) {
+            $manageList = [$defaultManage];
+        }
+        foreach ($manageList as $index => $item) {
+            $item = (array)$item;
+            $item = $item + [
+                'name' => $defaultManage['name'],
+                'title' => $defaultManage['title'],
+                'description' => $defaultManage['description'],
+                'routePrefix' => $defaultManage['routePrefix'],
+                'apiBasePath' => $defaultManage['apiBasePath'],
+                'apiRoutePath' => $defaultManage['apiRoutePath'],
+                'userMenus' => $defaultManage['userMenus'],
+                'upload' => $defaultManage['upload'],
+                'notice' => $defaultManage['notice'],
+                'map' => $defaultManage['map'],
+            ];
+            $item['upload'] = ((array)($item['upload'] ?? [])) + $defaultManage['upload'];
+            $item['notice'] = ((array)($item['notice'] ?? [])) + $defaultManage['notice'];
+            $item['map'] = ((array)($item['map'] ?? [])) + $defaultManage['map'];
+            $manageList[$index] = $item;
+        }
+
         $assign = [
             "title" => $systemConfig['title'] ?: App::config('use')->get('app.name'),
             "lang" => $lang,
@@ -52,7 +128,7 @@ class Manage
                 'css' => $data['style.css']['file'],
             ],
             'config' => [
-                'defaultManage' => 'admin',
+                'defaultManage' => $defaultManageName,
                 'theme' => [
                     'logo' => null,
                     'darkLogo' => null,
@@ -64,50 +140,7 @@ class Manage
                     ...$themeConfig,
                 ],
                 'copyright' => $systemConfig['copyright'] ?: App::config('use')->get('app.copyright'),
-                'manage' => [
-                    [
-                        'name' => 'admin',
-                        'title' => App::config('use')->get('app.name'),
-                        'description' => '',
-                        'routePrefix' => '/admin',
-                        'apiBasePath' => '/admin',
-                        'apiRoutePath' => '/router',
-                        'userMenus' => [
-                            [
-                                'key' => 'board',
-                                "label" => "我的公告",
-                                "icon" => "i-tabler:pinned",
-                                "path" => "system/board",
-                            ],
-                            [
-                                'key' => 'notice',
-                                "label" => "我的通知",
-                                "icon" => "i-tabler:bell",
-                                "path" => "system/notice",
-                            ],
-                            [
-                                'key' => ' memo',
-                                "label" => "我的备忘",
-                                "icon" => "i-tabler:message",
-                                "path" => "system/memo",
-                            ],
-                            [
-                                'key' => 'setting',
-                                "label" => "个人资料",
-                                "icon" => "i-tabler:settings",
-                                "path" => "system/profile",
-                            ],
-                        ],
-                        'upload' => [
-                            'driver' => $storage ? $storage->type : 'local',
-                        ],
-                        'notice' => [
-                            'status' => true,
-                            'path' => 'system/notice',
-                            'route' => 'notice'
-                        ],
-                    ],
-                ],
+                'manage' => $manageList,
             ],
         ];
 

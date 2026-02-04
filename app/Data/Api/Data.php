@@ -23,7 +23,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 #[RouteGroup(app: 'web', route: '/data/{name}', name: 'data')]
-#[Docs(name: '公开数据集')]
+#[Docs(name: '公开数据集', category: '数据')]
 class Data
 {
     public $api = false;

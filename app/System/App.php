@@ -6,6 +6,7 @@ namespace App\System;
 
 use App\System\Middleware\OperateMiddleware;
 use App\System\Models\SystemApi;
+use App\System\Service\SchedulerService;
 use App\System\Models\SystemUser;
 use Core\Api\ApiMiddleware;
 use Core\App as CoreApp;
@@ -16,6 +17,7 @@ use Core\Handlers\ExceptionBusiness;
 use Core\Permission\PermissionMiddleware;
 use Core\Resources\Resource;
 use Core\Route\Route;
+use Core\Scheduler\SchedulerGenEvent;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
@@ -52,5 +54,12 @@ class App extends AppExtend
                 })
             ),
         );
+    }
+
+    public function register(Bootstrap $app): void
+    {
+        CoreApp::event()->addListener('scheduler.gen', static function (SchedulerGenEvent $event) {
+            $event->setData(SchedulerService::buildJobs());
+        });
     }
 }

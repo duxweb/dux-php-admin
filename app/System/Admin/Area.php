@@ -22,6 +22,90 @@ class Area extends Resources
 {
     protected string $model = SystemArea::class;
 
+    #[Action(methods: 'GET', route: '/tree', name: 'tree')]
+    public function tree(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $list = SystemArea::query()
+            ->whereIn('level', [1, 2, 3])
+            ->orderBy('code')
+            ->get(['id', 'code', 'parent_code', 'name', 'level', 'leaf'])
+            ->toArray();
+
+        /** @var array<string, array<string, mixed>> $nodes */
+        $nodes = [];
+        /** @var array<string, array<int, string>> $childrenMap */
+        $childrenMap = [];
+        $rootCodes = [];
+
+        foreach ($list as $row) {
+            $row = is_array($row) ? $row : [];
+            $row = $row + [
+                'id' => 0,
+                'code' => '',
+                'parent_code' => '',
+                'name' => '',
+                'level' => 0,
+                'leaf' => false,
+            ];
+            $code = (string)$row['code'];
+            if ($code === '') {
+                continue;
+            }
+            $nodes[$code] = [
+                'id' => (int)$row['id'],
+                'code' => $code,
+                'parent_code' => (string)$row['parent_code'],
+                'name' => (string)$row['name'],
+                'level' => (int)$row['level'],
+                'leaf' => (bool)$row['leaf'],
+                'label' => (string)$row['name'],
+                'value' => $code,
+                'children' => [],
+            ];
+        }
+
+        foreach ($nodes as $code => $node) {
+            $parent = (string)$node['parent_code'];
+            if ($parent === '' || $parent === '0' || !isset($nodes[$parent])) {
+                $rootCodes[] = $code;
+                continue;
+            }
+            if (!array_key_exists($parent, $childrenMap)) {
+                $childrenMap[$parent] = [];
+            }
+            $childrenMap[$parent][] = $code;
+        }
+
+        $buildTree = static function (string $code, array $visited) use (&$buildTree, $nodes, $childrenMap): array {
+            $node = $nodes[$code];
+            if (array_key_exists($code, $visited)) {
+                return $node;
+            }
+            $visited[$code] = true;
+            $children = $childrenMap[$code] ?? [];
+            foreach ($children as $childCode) {
+                $childCode = (string)$childCode;
+                if (!isset($nodes[$childCode])) {
+                    continue;
+                }
+                $node['children'][] = $buildTree($childCode, $visited);
+            }
+            $node['leaf'] = empty($node['children']);
+            return $node;
+        };
+
+        $roots = [];
+        foreach ($rootCodes as $code) {
+            $code = (string)$code;
+            if (!isset($nodes[$code])) {
+                continue;
+            }
+            $roots[] = $buildTree($code, []);
+        }
+
+        return send($response, 'ok', $roots);
+    }
+
     public function transform(object $item): array
     {
         return [

@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [0.1.10] - 2026-02-04
+
+- feat: 更新文档自动生成按钮
+
 ## [0.1.9] - 2025-12-03
 
 - 最新地图导入
