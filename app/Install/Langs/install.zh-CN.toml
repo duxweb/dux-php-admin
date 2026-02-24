@@ -74,6 +74,7 @@ prefix = "表前缀"
 
 [run]
 tips = "该步骤将执行 composer update、db:sync 与 menu:sync，并实时输出日志。"
+sqlite_warning = "当前使用 SQLite，执行安装时若检测到已存在数据库文件，将自动删除旧数据库并重新初始化。"
 
 [modules]
 subtitle = "选择需要同时安装的应用模块，安装后可在后台管理。"

@@ -74,6 +74,7 @@ prefix = "Table Prefix"
 
 [run]
 tips = "This step runs composer update, db:sync and menu:sync with real-time log output."
+sqlite_warning = "SQLite is selected. During installation, if an existing database file is found, it will be deleted and re-initialized automatically."
 
 [modules]
 subtitle = "Select application modules to install alongside the system."

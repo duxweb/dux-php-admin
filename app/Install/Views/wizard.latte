@@ -494,6 +494,9 @@
                 </div>
             </div>
             <div class="px-6 py-5 sm:px-8">
+                <div x-show="form.db.driver === 'sqlite'" class="mb-4 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
+                    {__('run.sqlite_warning', 'install')}
+                </div>
                 <div class="overflow-hidden rounded-xl bg-slate-900 shadow-inner">
                     <div class="flex items-center gap-1.5 border-b border-slate-700/50 px-4 py-2.5">
                         <span class="h-2.5 w-2.5 rounded-full bg-rose-500/80"></span>

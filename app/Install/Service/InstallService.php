@@ -279,6 +279,8 @@ class InstallService
 
     public function syncDatabase(OutputInterface $output): void
     {
+        $this->resetSqliteDatabase($output);
+
         $migrate = App::dbMigrate();
         if (!$migrate->migrate) {
             $migrate->registerAttribute();
@@ -632,5 +634,60 @@ class InstallService
     private function generateSecretKey(): string
     {
         return bin2hex(random_bytes(16));
+    }
+
+    private function resetSqliteDatabase(OutputInterface $output): void
+    {
+        $driver = strtolower((string)App::config('database')->get('db.drivers.default.driver', ''));
+        if ($driver !== 'sqlite') {
+            return;
+        }
+
+        $database = trim((string)App::config('database')->get('db.drivers.default.database', self::SQLITE_DATABASE_FILE));
+        if ($database === '') {
+            $database = self::SQLITE_DATABASE_FILE;
+        }
+
+        $file = $this->resolveDatabasePath($database);
+        $dir = dirname($file);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
+        $this->disconnectRuntimeDatabase();
+        if (is_file($file)) {
+            if (!@unlink($file)) {
+                throw new ExceptionBusiness('Unable to reset sqlite database file');
+            }
+            $output->writeln('<comment>SQLite database reset: ' . $database . '</comment>');
+        } else {
+            $output->writeln('<comment>SQLite database init: ' . $database . '</comment>');
+        }
+        if (!is_file($file) && !@touch($file)) {
+            throw new ExceptionBusiness('Unable to initialize sqlite database file');
+        }
+        @chmod($file, 0666);
+
+        $this->reloadRuntimeConfig();
+    }
+
+    private function disconnectRuntimeDatabase(): void
+    {
+        $di = App::di();
+        if (!$di->has('db')) {
+            return;
+        }
+        try {
+            $di->get('db')->getConnection()->disconnect();
+        } catch (\Throwable) {
+        }
+    }
+
+    private function resolveDatabasePath(string $database): string
+    {
+        if (preg_match('#^(?:[A-Za-z]:[\\\\/]|/)#', $database)) {
+            return $database;
+        }
+        return base_path($database);
     }
 }

@@ -48,7 +48,7 @@ class App extends AppExtend
         }
 
         CoreApp::route()->get('web')->get(
-            '/',
+            '',
             function (ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
                 return $response->withStatus(302)->withHeader('Location', '/install/license');
             },
@@ -64,22 +64,22 @@ class App extends AppExtend
             return;
         }
 
-        if ($this->hasHomeGetRoute($app)) {
+        if ($this->hasHomeRoute($app)) {
             return;
         }
 
-        // 仅在未定义 GET / 时注册欢迎页，避免与业务首页冲突。
         $app->web->get('/', function (ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
             return sendTpl($response, dirname(__DIR__) . '/Install/Views/welcome.latte', [
                 'title' => 'Welcome',
             ]);
-        })->setName('installWelcome');
+        })->setName('welcome');
     }
 
-    private function hasHomeGetRoute(Bootstrap $app): bool
+    private function hasHomeRoute(Bootstrap $app): bool
     {
+        $patterns = ['/', '', '{params:.*}', '/{params:.*}'];
         foreach ($app->web->getRouteCollector()->getRoutes() as $route) {
-            if ($route->getPattern() !== '/') {
+            if (!in_array($route->getPattern(), $patterns, true)) {
                 continue;
             }
             if (in_array('GET', $route->getMethods(), true)) {

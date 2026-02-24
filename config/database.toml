@@ -1,5 +1,7 @@
 [db]
+
 [db.drivers]
+
 [db.drivers.default]
 driver = "sqlite"
 database = "data/database.db"
