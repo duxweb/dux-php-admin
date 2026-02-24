@@ -7,13 +7,14 @@ use cebe\openapi\Reader;
 use Core\Docs\Docs as CoreDocs;
 use Core\Resources\Attribute\Action;
 use Core\Resources\Attribute\Resource;
+use Nyholm\Psr7\Stream;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 #[Resource(app: 'admin', route: '/docs', name: 'docs', actions: false)]
 class Docs
 {
-    private function getOpenApi(): object
+    private function getOpenApiPath(): string
     {
         $path = data_path('docs/openapi.json');
         if (!file_exists($path) || filesize($path) === 0) {
@@ -21,7 +22,53 @@ class Docs
             $builder->build();
         }
 
+        return $path;
+    }
+
+    private function getOpenApi(): object
+    {
+        $path = $this->getOpenApiPath();
+
         return Reader::readFromJsonFile($path);
+    }
+
+    private function getOpenApiRaw(): array
+    {
+        $path = $this->getOpenApiPath();
+        $content = file_get_contents($path);
+        $data = json_decode((string)$content, true);
+
+        return (array)$data;
+    }
+
+    private function getChapterTagNames(array $openapi, string $id): array
+    {
+        $tags = collect((array)($openapi['tags'] ?? []));
+
+        if (str_starts_with($id, 'cat_')) {
+            return $tags
+                ->filter(function ($tag) use ($id) {
+                    $tag = (array)$tag;
+                    $category = (string)($tag['x-category'] ?? '');
+                    return $category && 'cat_' . md5($category) === $id;
+                })
+                ->map(fn($tag) => (string)((array)$tag)['name'])
+                ->values()
+                ->toArray();
+        }
+
+        if (str_starts_with($id, 'tag_')) {
+            $name = $tags
+                ->map(function ($tag) {
+                    $tag = (array)$tag;
+                    return (string)($tag['name'] ?? '');
+                })
+                ->first(fn($name) => $name && 'tag_' . md5($name) === $id);
+
+            return $name ? [$name] : [];
+        }
+
+        return [];
     }
 
     #[Action(methods: 'GET', route: '/catalogs')]
@@ -219,5 +266,66 @@ class Docs
         return send($response, "ok", [
             'path' => $path
         ]);
+    }
+
+    #[Action(methods: 'GET', route: '/export/{id}')]
+    public function export(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $id = (string)($args['id'] ?? '');
+        $openapi = $this->getOpenApiRaw();
+        $tagNames = $this->getChapterTagNames($openapi, $id);
+
+        if (empty($tagNames)) {
+            return send($response, 'error', ['message' => '章节不存在']);
+        }
+
+        $paths = [];
+        foreach ((array)($openapi['paths'] ?? []) as $path => $pathItem) {
+            $pathItem = (array)$pathItem;
+            $operations = [];
+            foreach ($pathItem as $method => $operation) {
+                $operation = (array)$operation;
+                $operationTags = (array)($operation['tags'] ?? ['默认']);
+                if (!array_intersect($tagNames, $operationTags)) {
+                    continue;
+                }
+                $operations[$method] = $operation;
+            }
+            if (!empty($operations)) {
+                $paths[(string)$path] = $operations;
+            }
+        }
+
+        $output = $openapi;
+        $output['tags'] = collect((array)($openapi['tags'] ?? []))
+            ->filter(function ($tag) use ($tagNames) {
+                $tag = (array)$tag;
+                return in_array((string)($tag['name'] ?? ''), $tagNames, true);
+            })
+            ->values()
+            ->toArray();
+        $output['paths'] = $paths;
+
+        $content = json_encode($output, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        $stream = Stream::create((string)$content);
+
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Content-Disposition', sprintf('attachment; filename="openapi-%s.json"', $id))
+            ->withHeader('Content-Length', (string)strlen((string)$content))
+            ->withBody($stream);
+    }
+
+    #[Action(methods: 'GET', route: '/download')]
+    public function download(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $path = $this->getOpenApiPath();
+        $stream = new Stream(fopen($path, 'rb'));
+
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Content-Disposition', 'attachment; filename="openapi.json"')
+            ->withHeader('Content-Length', (string)filesize($path))
+            ->withBody($stream);
     }
 }

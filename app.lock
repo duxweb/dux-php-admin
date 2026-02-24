@@ -38,7 +38,7 @@
         {
             "name": "duxweb/data",
             "description": "Data Application",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "phpDependencies": {
                 "cebe/php-openapi": "^1.8"
             },
@@ -62,7 +62,8 @@
                                 {
                                     "type": "menu",
                                     "label": "表格配置",
-                                    "name": "data.config.table",
+                                    "name": "data.config.tableDesign",
+                                    "label_lang": "data.config.tableDesign",
                                     "path": "data/config/:id/table",
                                     "loader": "Data/Config/tableDesign",
                                     "hidden": true
@@ -70,7 +71,8 @@
                                 {
                                     "type": "menu",
                                     "label": "表单配置",
-                                    "name": "data.config.form",
+                                    "name": "data.config.formDesign",
+                                    "label_lang": "data.config.formDesign",
                                     "path": "data/config/:id/form",
                                     "loader": "Data/Config/formDesign",
                                     "hidden": true
@@ -78,7 +80,8 @@
                                 {
                                     "type": "menu",
                                     "label": "字段配置",
-                                    "name": "data.config.field",
+                                    "name": "data.config.fieldDesign",
+                                    "label_lang": "data.config.fieldDesign",
                                     "path": "data/config/:id/field",
                                     "loader": "Data/Config/fieldDesign",
                                     "hidden": true
@@ -93,7 +96,7 @@
         {
             "name": "duxweb/system",
             "description": "System Application",
-            "version": "0.1.10",
+            "version": "0.1.11",
             "phpDependencies": {
                 "duxweb/dux-lite": "^2.0.13",
                 "duxweb/dux-lite-cloud": "dev-main",
@@ -108,8 +111,8 @@
                 {
                     "type": "menu",
                     "label": "首页",
-                    "name": "system.index",
-                    "label_lang": "system.index",
+                    "name": "system.home.stats",
+                    "label_lang": "system.home.stats",
                     "path": "system/index",
                     "icon": "i-tabler:dashboard",
                     "loader": "System/Home/index",
@@ -140,8 +143,8 @@
                         {
                             "type": "menu",
                             "label": "接口文档",
-                            "name": "system.docs",
-                            "label_lang": "system.docs",
+                            "name": "system.docs.list",
+                            "label_lang": "system.docs.list",
                             "path": "system/docs",
                             "loader": "System/Docs/index",
                             "hidden": false
@@ -233,7 +236,7 @@
                                 {
                                     "type": "menu",
                                     "label": "地区管理",
-                                    "name": "system. area.list",
+                                    "name": "system.area.list",
                                     "label_lang": "system.area.list",
                                     "path": "system/area",
                                     "icon": null,

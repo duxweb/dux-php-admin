@@ -54,7 +54,13 @@ class Role extends Resources
     #[Action(methods: 'GET', route: '/permission')]
     public function permission(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $list = SystemMenu::query()->withDepth()->defaultOrder()->where('hidden', 0)->where('type', 'menu')->get();
+        $list = SystemMenu::query()
+            ->withDepth()
+            ->defaultOrder()
+            ->where('app', 'admin')
+            ->where('hidden', 0)
+            ->where('type', 'menu')
+            ->get();
 
         $data = [];
         foreach ($list as $item) {

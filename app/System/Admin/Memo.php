@@ -12,10 +12,10 @@ use Core\Handlers\ExceptionBusiness;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-#[RouteGroup(app: 'admin', route: '/system/memo')]
+#[RouteGroup(app: 'admin', route: '/system/memo', name: 'system.memo')]
 class Memo
 {
-    #[Route(methods: 'GET', route: '')]
+    #[Route(methods: 'GET', route: '', name: 'list')]
     public function index(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $auth = $request->getAttribute("auth");

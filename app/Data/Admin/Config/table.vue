@@ -122,7 +122,7 @@ const columns: TableColumn[] = [
     title: '操作',
     key: 'action',
     align: 'center',
-    width: 180,
+    width: 240,
     fixed: 'right',
     render: action.renderTable({
       align: 'center',
@@ -133,6 +133,12 @@ const columns: TableColumn[] = [
           label: '字段',
           type: 'link',
           path: id => `data/config/${id}/field`,
+        },
+        {
+          label: '分享',
+          type: 'modal',
+          component: () => import('./shareModal.vue'),
+          width: 720,
         },
         {
           label: '编辑',
@@ -156,6 +162,14 @@ const actions: UseActionItem[] = [
     icon: 'i-tabler:plus',
     type: 'modal',
     component: () => import('./form.vue'),
+  },
+  {
+    label: '导入',
+    color: 'primary',
+    icon: 'i-tabler:file-import',
+    type: 'modal',
+    component: () => import('./importModal.vue'),
+    width: 720,
   },
 ]
 

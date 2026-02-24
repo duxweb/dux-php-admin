@@ -1,162 +1,109 @@
 {
   "../node_modules/@duxweb/dvha-core/dist/esm/components/loader/loader.js": {
-    "file": "assets/loader-nE8iv3jC.js",
+    "file": "assets/loader-B97PcGt-.js",
     "name": "loader",
     "src": "../node_modules/@duxweb/dvha-core/dist/esm/components/loader/loader.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BZ4blfJq.js",
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-tools-CqmVSzXO.js",
+      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-vue-D9f1V04D.js",
+      "_vendor-lodash-x-1vNJto.js",
+      "_vendor-pinia-Z9aGIU1t.js",
+      "_vendor-tools-BUaDjdVb.js",
       "_vendor-loader-CzQ4ZHls.js",
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-pinia-B-x_iCkz.js",
-      "_vendor-vueuse-DliHcapR.js",
-      "_vendor-naive-xMWD4VRV.js",
-      "_vendor-echarts-Ha9OS9mw.js",
-      "_vendor-editor-D1mwgC_h.js",
+      "_vendor-vueuse-_K2oVdq5.js",
+      "_vendor-naive-BOIcG1FR.js",
+      "_vendor-echarts-BYPzP6gz.js",
+      "_vendor-editor-BbsI6N0V.js",
       "_vendor-ace-Vs9FM0tY.js",
-      "_vendor-vee-YJffgwkn.js"
-    ]
-  },
-  "../node_modules/@duxweb/dvha-pro/dist/esm/components/data/selectModal.js": {
-    "file": "assets/selectModal-BGQvlRwz.js",
-    "name": "selectModal",
-    "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/data/selectModal.js",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-dux-BZ4blfJq.js",
-      "_vendor-echarts-Ha9OS9mw.js",
-      "_vendor-editor-D1mwgC_h.js",
-      "_vendor-ace-Vs9FM0tY.js",
-      "_vendor-tools-CqmVSzXO.js",
-      "_vendor-naive-xMWD4VRV.js",
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-pinia-B-x_iCkz.js",
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-vueuse-DliHcapR.js",
-      "_vendor-vee-YJffgwkn.js"
+      "../node_modules/@iconify-json/tabler/icons.json",
+      "_vendor-vee-DIeBUQxp.js"
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/flowEditor/components/jsonEditor.js": {
-    "file": "assets/jsonEditor-DVBVBT2R.js",
+    "file": "assets/jsonEditor-BzteYmGP.js",
     "name": "jsonEditor",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/flowEditor/components/jsonEditor.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BZ4blfJq.js",
-      "_vendor-naive-xMWD4VRV.js",
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-pinia-B-x_iCkz.js",
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-vueuse-DliHcapR.js",
-      "_vendor-tools-CqmVSzXO.js",
-      "_vendor-echarts-Ha9OS9mw.js",
-      "_vendor-editor-D1mwgC_h.js",
+      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-naive-BOIcG1FR.js",
+      "_vendor-vue-D9f1V04D.js",
+      "_vendor-pinia-Z9aGIU1t.js",
+      "_vendor-lodash-x-1vNJto.js",
+      "_vendor-vueuse-_K2oVdq5.js",
+      "_vendor-echarts-BYPzP6gz.js",
+      "_vendor-editor-BbsI6N0V.js",
       "_vendor-ace-Vs9FM0tY.js",
-      "_vendor-vee-YJffgwkn.js"
-    ]
-  },
-  "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/json.js": {
-    "file": "assets/json-BlAfu-Ss.js",
-    "name": "json",
-    "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/json.js",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-dux-BZ4blfJq.js",
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-pinia-B-x_iCkz.js",
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-vueuse-DliHcapR.js",
-      "_vendor-naive-xMWD4VRV.js",
-      "_vendor-tools-CqmVSzXO.js",
-      "_vendor-echarts-Ha9OS9mw.js",
-      "_vendor-editor-D1mwgC_h.js",
-      "_vendor-ace-Vs9FM0tY.js",
-      "_vendor-vee-YJffgwkn.js"
-    ]
-  },
-  "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/options.js": {
-    "file": "assets/options-BoypbA1v.js",
-    "name": "options",
-    "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/options.js",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-dux-BZ4blfJq.js",
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-naive-xMWD4VRV.js",
-      "_vendor-pinia-B-x_iCkz.js",
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-vueuse-DliHcapR.js",
-      "_vendor-tools-CqmVSzXO.js",
-      "_vendor-echarts-Ha9OS9mw.js",
-      "_vendor-editor-D1mwgC_h.js",
-      "_vendor-ace-Vs9FM0tY.js",
-      "_vendor-vee-YJffgwkn.js"
+      "_vendor-tools-BUaDjdVb.js",
+      "../node_modules/@iconify-json/tabler/icons.json",
+      "_vendor-vee-DIeBUQxp.js"
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/json.js": {
-    "file": "assets/json-sZsfCrhD.js",
+    "file": "assets/json-BdK1B1uj.js",
     "name": "json",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/json.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BZ4blfJq.js",
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-pinia-B-x_iCkz.js",
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-vueuse-DliHcapR.js",
-      "_vendor-naive-xMWD4VRV.js",
-      "_vendor-tools-CqmVSzXO.js",
-      "_vendor-echarts-Ha9OS9mw.js",
-      "_vendor-editor-D1mwgC_h.js",
+      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-vue-D9f1V04D.js",
+      "_vendor-pinia-Z9aGIU1t.js",
+      "_vendor-lodash-x-1vNJto.js",
+      "_vendor-vueuse-_K2oVdq5.js",
+      "_vendor-naive-BOIcG1FR.js",
+      "_vendor-echarts-BYPzP6gz.js",
+      "_vendor-editor-BbsI6N0V.js",
       "_vendor-ace-Vs9FM0tY.js",
-      "_vendor-vee-YJffgwkn.js"
+      "_vendor-tools-BUaDjdVb.js",
+      "../node_modules/@iconify-json/tabler/icons.json",
+      "_vendor-vee-DIeBUQxp.js"
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/preview.js": {
-    "file": "assets/preview-CMXlyvHt.js",
+    "file": "assets/preview-DCnug1sy.js",
     "name": "preview",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/preview.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BZ4blfJq.js",
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-pinia-B-x_iCkz.js",
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-vueuse-DliHcapR.js",
-      "_vendor-naive-xMWD4VRV.js",
-      "_vendor-tools-CqmVSzXO.js",
-      "_vendor-echarts-Ha9OS9mw.js",
-      "_vendor-editor-D1mwgC_h.js",
+      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-vue-D9f1V04D.js",
+      "_vendor-pinia-Z9aGIU1t.js",
+      "_vendor-lodash-x-1vNJto.js",
+      "_vendor-vueuse-_K2oVdq5.js",
+      "_vendor-naive-BOIcG1FR.js",
+      "_vendor-echarts-BYPzP6gz.js",
+      "_vendor-editor-BbsI6N0V.js",
       "_vendor-ace-Vs9FM0tY.js",
-      "_vendor-vee-YJffgwkn.js"
+      "_vendor-tools-BUaDjdVb.js",
+      "../node_modules/@iconify-json/tabler/icons.json",
+      "_vendor-vee-DIeBUQxp.js"
     ]
   },
-  "../node_modules/@duxweb/dvha-pro/dist/esm/components/icon/iconPicker.js": {
-    "file": "assets/iconPicker-CQcYe65Z.js",
-    "name": "iconPicker",
-    "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/icon/iconPicker.js",
+  "../node_modules/@duxweb/dvha-pro/dist/esm/components/textImageEditor/textModal.js": {
+    "file": "assets/textModal-7OibRfmj.js",
+    "name": "textModal",
+    "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/textImageEditor/textModal.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BZ4blfJq.js",
-      "../node_modules/@iconify-json/tabler/icons.json",
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-naive-xMWD4VRV.js",
-      "_vendor-pinia-B-x_iCkz.js",
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-vueuse-DliHcapR.js",
-      "_vendor-tools-CqmVSzXO.js",
-      "_vendor-echarts-Ha9OS9mw.js",
-      "_vendor-editor-D1mwgC_h.js",
+      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-naive-BOIcG1FR.js",
+      "_vendor-vue-D9f1V04D.js",
+      "_vendor-pinia-Z9aGIU1t.js",
+      "_vendor-lodash-x-1vNJto.js",
+      "_vendor-vueuse-_K2oVdq5.js",
+      "_vendor-echarts-BYPzP6gz.js",
+      "_vendor-editor-BbsI6N0V.js",
       "_vendor-ace-Vs9FM0tY.js",
-      "_vendor-vee-YJffgwkn.js"
+      "_vendor-tools-BUaDjdVb.js",
+      "../node_modules/@iconify-json/tabler/icons.json",
+      "_vendor-vee-DIeBUQxp.js"
     ]
   },
-  "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.css.js": {
-    "file": "assets/uno.css-Bd3ayW5u.js",
-    "name": "uno.css",
-    "src": "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.css.js",
+  "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.js": {
+    "file": "assets/uno-_orknPVZ.js",
+    "name": "uno",
+    "src": "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.js",
     "isDynamicEntry": true
   },
   "../node_modules/@iconify-json/tabler/icons.json": {
@@ -175,122 +122,117 @@
     "file": "assets/vendor-ace-Vs9FM0tY.js",
     "name": "vendor-ace"
   },
-  "_vendor-dux-BZ4blfJq.js": {
-    "file": "assets/vendor-dux-BZ4blfJq.js",
+  "_vendor-dux-BAbWqcTR.js": {
+    "file": "assets/vendor-dux-BAbWqcTR.js",
     "name": "vendor-dux",
     "imports": [
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-pinia-B-x_iCkz.js",
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-vueuse-DliHcapR.js",
-      "_vendor-naive-xMWD4VRV.js",
-      "_vendor-tools-CqmVSzXO.js",
-      "_vendor-echarts-Ha9OS9mw.js",
-      "_vendor-editor-D1mwgC_h.js",
+      "_vendor-vue-D9f1V04D.js",
+      "_vendor-pinia-Z9aGIU1t.js",
+      "_vendor-lodash-x-1vNJto.js",
+      "_vendor-vueuse-_K2oVdq5.js",
+      "_vendor-naive-BOIcG1FR.js",
+      "_vendor-echarts-BYPzP6gz.js",
+      "_vendor-editor-BbsI6N0V.js",
       "_vendor-ace-Vs9FM0tY.js",
-      "_vendor-vee-YJffgwkn.js"
+      "_vendor-tools-BUaDjdVb.js",
+      "../node_modules/@iconify-json/tabler/icons.json",
+      "_vendor-vee-DIeBUQxp.js"
     ],
     "dynamicImports": [
       "../node_modules/@duxweb/dvha-core/dist/esm/components/loader/loader.js",
       "../node_modules/ofetch/dist/index.mjs",
-      "../node_modules/@duxweb/dvha-pro/dist/esm/components/data/selectModal.js",
+      "../node_modules/@iconify-json/tabler/icons.json",
+      "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/flowEditor/components/jsonEditor.js",
-      "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/json.js",
-      "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/options.js",
-      "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/options.js",
-      "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/options.js",
-      "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/base/json.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/json.js",
       "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/preview.js",
-      "../node_modules/@duxweb/dvha-pro/dist/esm/components/icon/iconPicker.js",
-      "../node_modules/@iconify-json/tabler/icons.json",
-      "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.css.js"
+      "../node_modules/@duxweb/dvha-pro/dist/esm/components/textImageEditor/textModal.js"
     ]
   },
-  "_vendor-echarts-Ha9OS9mw.js": {
-    "file": "assets/vendor-echarts-Ha9OS9mw.js",
+  "_vendor-echarts-BYPzP6gz.js": {
+    "file": "assets/vendor-echarts-BYPzP6gz.js",
     "name": "vendor-echarts",
     "imports": [
-      "_vendor-vue-SZsukXDk.js"
+      "_vendor-vue-D9f1V04D.js"
     ]
   },
-  "_vendor-editor-D1mwgC_h.js": {
-    "file": "assets/vendor-editor-D1mwgC_h.js",
+  "_vendor-editor-BbsI6N0V.js": {
+    "file": "assets/vendor-editor-BbsI6N0V.js",
     "name": "vendor-editor",
     "imports": [
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-vue-SZsukXDk.js"
+      "_vendor-lodash-x-1vNJto.js",
+      "_vendor-vue-D9f1V04D.js"
     ]
   },
   "_vendor-loader-CzQ4ZHls.js": {
     "file": "assets/vendor-loader-CzQ4ZHls.js",
     "name": "vendor-loader"
   },
-  "_vendor-lodash-DRDobmCy.js": {
-    "file": "assets/vendor-lodash-DRDobmCy.js",
+  "_vendor-lodash-x-1vNJto.js": {
+    "file": "assets/vendor-lodash-x-1vNJto.js",
     "name": "vendor-lodash"
   },
-  "_vendor-naive-xMWD4VRV.js": {
-    "file": "assets/vendor-naive-xMWD4VRV.js",
+  "_vendor-naive-BOIcG1FR.js": {
+    "file": "assets/vendor-naive-BOIcG1FR.js",
     "name": "vendor-naive",
     "imports": [
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-lodash-DRDobmCy.js"
+      "_vendor-vue-D9f1V04D.js"
     ]
   },
-  "_vendor-pinia-B-x_iCkz.js": {
-    "file": "assets/vendor-pinia-B-x_iCkz.js",
+  "_vendor-pinia-Z9aGIU1t.js": {
+    "file": "assets/vendor-pinia-Z9aGIU1t.js",
     "name": "vendor-pinia",
     "imports": [
-      "_vendor-vue-SZsukXDk.js"
+      "_vendor-vue-D9f1V04D.js"
     ]
   },
-  "_vendor-tools-CqmVSzXO.js": {
-    "file": "assets/vendor-tools-CqmVSzXO.js",
+  "_vendor-tools-BUaDjdVb.js": {
+    "file": "assets/vendor-tools-BUaDjdVb.js",
     "name": "vendor-tools",
     "imports": [
-      "_vendor-lodash-DRDobmCy.js"
+      "_vendor-lodash-x-1vNJto.js"
     ]
   },
-  "_vendor-vee-YJffgwkn.js": {
-    "file": "assets/vendor-vee-YJffgwkn.js",
+  "_vendor-vee-DIeBUQxp.js": {
+    "file": "assets/vendor-vee-DIeBUQxp.js",
     "name": "vendor-vee",
     "imports": [
-      "_vendor-vue-SZsukXDk.js"
+      "_vendor-vue-D9f1V04D.js"
     ]
   },
-  "_vendor-vue-SZsukXDk.js": {
-    "file": "assets/vendor-vue-SZsukXDk.js",
+  "_vendor-vue-D9f1V04D.js": {
+    "file": "assets/vendor-vue-D9f1V04D.js",
     "name": "vendor-vue"
   },
-  "_vendor-vueuse-DliHcapR.js": {
-    "file": "assets/vendor-vueuse-DliHcapR.js",
+  "_vendor-vueuse-_K2oVdq5.js": {
+    "file": "assets/vendor-vueuse-_K2oVdq5.js",
     "name": "vendor-vueuse",
     "imports": [
-      "_vendor-vue-SZsukXDk.js"
+      "_vendor-vue-D9f1V04D.js"
     ]
   },
   "main.ts": {
-    "file": "assets/index-4JnZ7GjF.js",
+    "file": "assets/index-MqGA9VFJ.js",
     "name": "index",
     "src": "main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor-vue-SZsukXDk.js",
-      "_vendor-dux-BZ4blfJq.js",
-      "_vendor-naive-xMWD4VRV.js",
-      "_vendor-pinia-B-x_iCkz.js",
-      "_vendor-lodash-DRDobmCy.js",
-      "_vendor-vueuse-DliHcapR.js",
-      "_vendor-tools-CqmVSzXO.js",
-      "_vendor-echarts-Ha9OS9mw.js",
-      "_vendor-editor-D1mwgC_h.js",
+      "_vendor-vue-D9f1V04D.js",
+      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-naive-BOIcG1FR.js",
+      "_vendor-pinia-Z9aGIU1t.js",
+      "_vendor-lodash-x-1vNJto.js",
+      "_vendor-vueuse-_K2oVdq5.js",
+      "_vendor-echarts-BYPzP6gz.js",
+      "_vendor-editor-BbsI6N0V.js",
       "_vendor-ace-Vs9FM0tY.js",
-      "_vendor-vee-YJffgwkn.js"
+      "_vendor-tools-BUaDjdVb.js",
+      "../node_modules/@iconify-json/tabler/icons.json",
+      "_vendor-vee-DIeBUQxp.js"
     ]
   },
   "style.css": {
-    "file": "assets/style-B8UM24kp.css",
+    "file": "assets/style-V6JRBGgL.css",
     "src": "style.css"
   }
 }

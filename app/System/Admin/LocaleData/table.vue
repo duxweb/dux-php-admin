@@ -40,6 +40,7 @@ const columns = computed(() => {
   cols.push({
     title: '操作',
     key: 'action',
+    fixed: 'right',
     align: 'center',
     width: 120,
     render: action.renderTable({

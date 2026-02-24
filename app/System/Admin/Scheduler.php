@@ -135,8 +135,6 @@ class Scheduler extends Resources
     #[Action(methods: 'GET', route: '/options')]
     public function options(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return send($response, 'ok', [
-            'tasks' => SchedulerService::getAttributeOptions(),
-        ]);
+        return send($response, 'ok', SchedulerService::getAttributeOptions());
     }
 }

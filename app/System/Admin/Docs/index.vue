@@ -1,6 +1,6 @@
 <script setup>
 import { useCustomMutation, useOne } from '@duxweb/dvha-core'
-import { DuxDrawEmpty, DuxPage, DuxTreeFilter } from '@duxweb/dvha-pro'
+import { DuxDrawEmpty, DuxPage, DuxTreeFilter, useDownload } from '@duxweb/dvha-pro'
 import { useClipboard } from '@vueuse/core'
 import { NButton, NScrollbar, NTag, useMessage } from 'naive-ui'
 import { computed, h, onMounted, ref, watch } from 'vue'
@@ -11,6 +11,7 @@ import Response from './response'
 const docs = ref([])
 const message = useMessage()
 const { copy } = useClipboard()
+const download = useDownload()
 const { mutateAsync: buildDocs, isLoading: building } = useCustomMutation()
 const refreshKey = ref(0)
 const treeParams = computed(() => ({
@@ -95,6 +96,15 @@ function handleBuild() {
   })
 }
 
+function handleDownload() {
+  const id = filter.value.id[0]
+  if (id && (id.startsWith('cat_') || id.startsWith('tag_'))) {
+    download.file(`docs/export/${id}`)
+    return
+  }
+  download.file('docs/download')
+}
+
 const devOpen = ref(false)
 </script>
 
@@ -150,17 +160,29 @@ const devOpen = ref(false)
           }"
         >
           <template #tools>
-            <NButton
-              secondary
-              type="primary"
-              class="px-3!"
-              :loading="building"
-              @click="handleBuild"
-            >
-              <template #icon>
-                <div class="i-tabler:file-text" />
-              </template>
-            </NButton>
+            <div class="flex items-center gap-2">
+              <NButton
+                secondary
+                type="default"
+                class="px-3!"
+                @click="handleDownload"
+              >
+                <template #icon>
+                  <div class="i-tabler:download" />
+                </template>
+              </NButton>
+              <NButton
+                secondary
+                type="primary"
+                class="px-3!"
+                :loading="building"
+                @click="handleBuild"
+              >
+                <template #icon>
+                  <div class="i-tabler:file-text" />
+                </template>
+              </NButton>
+            </div>
           </template>
         </DuxTreeFilter>
       </div>

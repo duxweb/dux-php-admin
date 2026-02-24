@@ -1,7 +1,7 @@
 {
     "name": "duxweb/system",
     "description": "System Application",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "phpDependencies": {
         "duxweb/dux-lite": "^2.0.13",
         "duxweb/dux-lite-cloud": "dev-main",
@@ -16,8 +16,8 @@
         {
             "type": "menu",
             "label": "首页",
-            "name": "system.index",
-            "label_lang": "system.index",
+            "name": "system.home.stats",
+            "label_lang": "system.home.stats",
             "path": "system/index",
             "icon": "i-tabler:dashboard",
             "loader": "System/Home/index",
@@ -48,8 +48,8 @@
                 {
                     "type": "menu",
                     "label": "接口文档",
-                    "name": "system.docs",
-                    "label_lang": "system.docs",
+                    "name": "system.docs.list",
+                    "label_lang": "system.docs.list",
                     "path": "system/docs",
                     "loader": "System/Docs/index",
                     "hidden": false
@@ -141,7 +141,7 @@
                         {
                             "type": "menu",
                             "label": "地区管理",
-                            "name": "system. area.list",
+                            "name": "system.area.list",
                             "label_lang": "system.area.list",
                             "path": "system/area",
                             "icon": null,

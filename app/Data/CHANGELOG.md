@@ -4,16 +4,9 @@ All notable changes to this project will be documented in this file.
 
 
 
+## [0.1.1] - 2026-02-24
 
-
-
-
-
-
-
-
-
-
+- feat: 数据配置增加分享与导入功能（支持分享码生成与粘贴导入）
 
 ## [0.1.0] - 2026-02-04
 
@@ -70,4 +63,3 @@ All notable changes to this project will be documented in this file.
 ## [0.0.5] - 2025-07-06
 
 修正部分bug
-
