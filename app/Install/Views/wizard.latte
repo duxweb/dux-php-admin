@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="{$lang}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{$title}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        [x-cloak] { display: none !important; }
+        .step-line { transition: background-color 0.3s ease; }
+        #install-log-box::-webkit-scrollbar { width: 6px; }
+        #install-log-box::-webkit-scrollbar-track { background: transparent; }
+        #install-log-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+    </style>
+</head>
+<body
+    class="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-50/50 font-sans text-slate-800 antialiased"
+    x-data="installWizard()"
+    x-init="init($el.dataset.step)"
+    data-step="{$step}"
+    x-cloak
+>
+
+<div class="mx-auto max-w-3xl px-4 py-8 sm:py-12">
+
+    <!-- Header -->
+    <div class="mb-6 flex items-center justify-between gap-4">
+        <div class="flex min-w-0 items-center gap-3">
+            <svg class="h-8 shrink-0" viewBox="0 0 400.893 121.787" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(-6545.000000, -3038.106602) translate(6345.000000, 2899.000000) translate(200.000000, 132.393398)" fill-rule="nonzero" stroke="none" stroke-width="1" fill="none">
+                    <path d="M0 62.607v50c0 8.284 6.716 15 15 15s15-6.716 15-15v-50c0-8.285-6.716-15-15-15s-15 6.715-15 15z" class="fill-emerald-700" />
+                    <path d="M60 7.607c33.137 0 60 26.863 60 60s-26.863 60-60 60h-5c-8.284 0-15-6.716-15-15 0-8.285 6.716-15 15-15h5c16.57 0 30-13.432 30-30 0-16.57-13.43-30-30-30H15c-8.284 0-15-6.716-15-15 0-8.285 6.716-15 15-15h45z" class="fill-emerald-700" />
+                    <path d="M201 7.607c33.137 0 60 26.863 60 60s-26.863 60-60 60h-46c-8.284 0-15-6.716-15-15 0-8.285 6.716-15 15-15h46c16.57 0 30-13.432 30-30 0-16.57-13.43-30-30-30h-45.5c-8.284 0-15-6.716-15-15 0-8.285 6.716-15 15-15H201z" class="fill-emerald-700" transform="translate(200.500000, 67.606602) rotate(90.000000) translate(-200.500000, -67.606602)" />
+                    <g transform="translate(279.106602, 6.713203)">
+                        <path d="M25.607 4.393 52.893 31.68c5.858 5.858 5.858 15.356 0 21.213-5.857 5.858-15.355 5.858-21.213 0L4.393 25.607c-5.857-5.858-5.857-15.356 0-21.214 5.858-5.857 15.356-5.857 21.214 0zm91.786 0c5.858 5.858 5.858 15.356 0 21.214L90.107 52.893c-5.858 5.858-15.356 5.858-21.214 0-5.857-5.857-5.857-15.355 0-21.213L96.18 4.393c5.858-5.857 15.356-5.857 21.213 0zm-64.5 64.5c5.858 5.858 5.858 15.356 0 21.214l-27.286 27.286c-5.858 5.858-15.356 5.858-21.214 0-5.857-5.857-5.857-15.355 0-21.213L31.68 68.893c5.858-5.857 15.356-5.857 21.213 0z" class="fill-emerald-700" />
+                        <path d="m90.107 68.893 27.286 27.287c5.858 5.858 5.858 15.356 0 21.213-5.857 5.858-15.355 5.858-21.213 0L68.893 90.107c-5.857-5.858-5.857-15.356 0-21.214 5.858-5.857 15.356-5.857 21.214 0z" class="fill-emerald-500" />
+                    </g>
+                </g>
+            </svg>
+            <div class="min-w-0">
+                <h1 class="truncate text-xl font-bold tracking-tight text-slate-900">{__('main.title', 'install')}</h1>
+                <p class="truncate text-sm text-slate-500">{__('main.subtitle', 'install')}</p>
+            </div>
+        </div>
+
+        <!-- Language Switcher Dropdown -->
+        {var $langNames = ['zh-CN' => '简体中文', 'en-US' => 'English']}
+        <div class="relative shrink-0" x-data="{ langOpen: false }" @click.outside="langOpen = false">
+            <button
+                type="button"
+                @click="langOpen = !langOpen"
+                class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50"
+            >
+                <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A8.966 8.966 0 013 12c0-1.264.26-2.466.732-3.558"/></svg>
+                {$langNames[$lang] ?? $lang}
+                <svg class="h-3 w-3 text-slate-400 transition" :class="langOpen && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+            </button>
+            <div
+                x-show="langOpen"
+                x-transition.origin.top.right
+                class="absolute right-0 z-20 mt-1.5 min-w-[130px] overflow-hidden rounded-lg bg-white py-1 shadow-lg ring-1 ring-slate-200"
+            >
+                {foreach $langs as $item}
+                    <a
+                        href="/install/lang/{$item}?redirect={$currentPathEncoded}"
+                        class="flex items-center justify-between whitespace-nowrap px-3 py-1.5 text-xs transition {$item === $lang ? 'bg-emerald-50 font-medium text-emerald-700' : 'text-slate-600 hover:bg-slate-50'}"
+                    >
+                        {$langNames[$item] ?? $item}
+                        {if $item === $lang}
+                            <svg class="ml-3 h-3.5 w-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        {/if}
+                    </a>
+                {/foreach}
+            </div>
+        </div>
+    </div>
+
+    <!-- Steps Indicator -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            {var $stepIdx = 0}
+            {foreach $stepOrder as $item}
+                {var $currentIdx = array_search($step, $stepOrder)}
+                {var $isActive = $item === $step}
+                {var $isDone = $stepIdx < $currentIdx}
+
+                {if $stepIdx > 0}
+                    <div class="step-line mx-1 h-0.5 flex-1 rounded {$isDone ? 'bg-emerald-500' : 'bg-slate-200'}"></div>
+                {/if}
+
+                <div class="flex flex-col items-center gap-1.5">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-all
+                        {if $isActive}bg-emerald-600 text-white shadow-md shadow-emerald-200 ring-4 ring-emerald-100
+                        {elseif $isDone}bg-emerald-500 text-white
+                        {else}bg-slate-100 text-slate-400 ring-1 ring-slate-200{/if}
+                    ">
+                        {if $isDone}
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        {else}
+                            {$stepIdx + 1}
+                        {/if}
+                    </div>
+                    <span class="hidden text-sm font-medium sm:block {$isActive ? 'text-emerald-700' : ($isDone ? 'text-emerald-600' : 'text-slate-400')}">{__('step.' . $item, 'install')}</span>
+                </div>
+                {var $stepIdx = $stepIdx + 1}
+            {/foreach}
+        </div>
+    </div>
+
+    <!-- Card Container -->
+    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+
+        <!-- Step: License -->
+        <div x-show="step === 'license'" x-transition.opacity>
+            <div class="border-b border-slate-100 px-6 py-4 sm:px-8">
+                <h2 class="text-base font-semibold text-slate-900">{__('step.license', 'install')}</h2>
+            </div>
+            <div class="px-6 py-5 sm:px-8">
+                <div class="rounded-xl bg-slate-50 p-5 ring-1 ring-slate-100">
+                    <pre class="max-h-80 overflow-y-auto whitespace-pre-wrap text-[13px] leading-relaxed text-slate-600">{$licenseContent}</pre>
+                </div>
+            </div>
+            <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-6 py-4 sm:px-8">
+                <button
+                    type="button"
+                    @click="resetInstall()"
+                    class="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-rose-600 transition hover:bg-rose-50"
+                >
+                    {__('btn.reset', 'install')}
+                </button>
+                <a href="/install/next/license" class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-700 active:bg-emerald-800">
+                    {__('btn.next', 'install')}
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Step: Environment -->
+        <div x-show="step === 'environment'" x-transition.opacity>
+            <div class="border-b border-slate-100 px-6 py-4 sm:px-8">
+                <h2 class="text-base font-semibold text-slate-900">{__('step.environment', 'install')}</h2>
+            </div>
+            <div class="space-y-5 px-6 py-5 sm:px-8">
+                {foreach $envGroups as $group}
+                    <div class="overflow-hidden rounded-xl ring-1 ring-slate-200">
+                        <div class="border-b border-slate-100 bg-slate-50/80 px-4 py-3 text-sm font-medium text-slate-700">{$group['title']}</div>
+                        <table class="w-full text-sm">
+                            <thead>
+                            <tr class="border-b border-slate-100 bg-slate-50/60">
+                                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">{__('env.item', 'install')}</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">{__('env.current', 'install')}</th>
+                                <th class="hidden px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 sm:table-cell">{__('env.required_col', 'install')}</th>
+                                <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">{__('env.status', 'install')}</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                            {foreach $group['rows'] as $row}
+                                <tr class="transition hover:bg-slate-50/50">
+                                    <td class="px-4 py-3 font-medium text-slate-700">{$row['name']}</td>
+                                    <td class="px-4 py-3 text-slate-500">{$row['current']}</td>
+                                    <td class="hidden px-4 py-3 text-slate-400 sm:table-cell">{$row['required']}</td>
+                                    <td class="px-4 py-3 text-right">
+                                        {if $row['passed']}
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200/50">
+                                                <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                                {__('env.ok', 'install')}
+                                            </span>
+                                        {elseif $row['blocking']}
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2.5 py-0.5 text-xs font-medium text-rose-700 ring-1 ring-rose-200/50">
+                                                <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                                {__('env.fail', 'install')}
+                                            </span>
+                                        {else}
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-amber-200/50">
+                                                <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5"/></svg>
+                                                {__('env.optional', 'install')}
+                                            </span>
+                                        {/if}
+                                    </td>
+                                </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                {/foreach}
+            </div>
+            <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-6 py-4 sm:px-8">
+                <a href="/install/back/environment" class="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+                    {__('btn.back', 'install')}
+                </a>
+                {if $envPassed}
+                    <a href="/install/next/environment" class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-700 active:bg-emerald-800">
+                        {__('btn.next', 'install')}
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                    </a>
+                {else}
+                    <button type="button" disabled class="cursor-not-allowed rounded-lg bg-slate-200 px-5 py-2.5 text-sm font-medium text-slate-400">
+                        {__('env.fix_first', 'install')}
+                    </button>
+                {/if}
+            </div>
+        </div>
+
+        <!-- Step: System -->
+        <div x-show="step === 'system'" x-transition.opacity>
+            <div class="border-b border-slate-100 px-6 py-4 sm:px-8">
+                <h2 class="text-base font-semibold text-slate-900">{__('step.system', 'install')}</h2>
+            </div>
+            <div class="space-y-5 px-6 py-5 sm:px-8">
+                <div>
+                    <label class="mb-1.5 block text-sm font-medium text-slate-700">{__('system.name', 'install')}</label>
+                    <input
+                        type="text"
+                        x-model="form.app.name"
+                        class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                        placeholder="Dux Admin"
+                    >
+                </div>
+                <div>
+                    <label class="mb-1.5 block text-sm font-medium text-slate-700">{__('system.domain', 'install')}</label>
+                    <input
+                        type="text"
+                        x-model="form.app.domain"
+                        class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                        placeholder="http://localhost:8000"
+                    >
+                </div>
+                <div>
+                    <label class="mb-1.5 block text-sm font-medium text-slate-700">{__('system.cloud_key', 'install')}</label>
+                    <div class="flex gap-2">
+                        <input
+                            type="text"
+                            x-model="form.app.cloud_key"
+                            class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                            placeholder="{__('system.cloud_key_placeholder', 'install')}"
+                        >
+                        <a
+                            href="https://cloud.dux.plus/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex shrink-0 items-center rounded-lg bg-slate-100 px-3.5 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-200"
+                        >
+                            {__('btn.get_cloud_key', 'install')}
+                        </a>
+                    </div>
+                    <p class="mt-1.5 text-xs text-slate-400">{__('system.cloud_key_tips', 'install')}</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-6 py-4 sm:px-8">
+                <a href="/install/back/system" class="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+                    {__('btn.back', 'install')}
+                </a>
+                <button type="button" @click="nextSystem()" class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-700 active:bg-emerald-800">
+                    {__('btn.next', 'install')}
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step: Database -->
+        <div x-show="step === 'database'" x-transition.opacity>
+            <div class="border-b border-slate-100 px-6 py-4 sm:px-8">
+                <h2 class="text-base font-semibold text-slate-900">{__('step.database', 'install')}</h2>
+            </div>
+            <div class="space-y-5 px-6 py-5 sm:px-8">
+                <div>
+                    <label class="mb-1.5 block text-sm font-medium text-slate-700">{__('db.driver', 'install')}</label>
+                    <select
+                        x-model="form.db.driver"
+                        @change="applyDriverDefaults()"
+                        class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                    >
+                        <option value="mysql">MySQL</option>
+                        <option value="sqlite">SQLite</option>
+                        <option value="pgsql">PostgreSQL</option>
+                    </select>
+                </div>
+
+                <template x-if="form.db.driver !== 'sqlite'">
+                    <div class="grid gap-5 sm:grid-cols-2">
+                        <div>
+                            <label class="mb-1.5 block text-sm font-medium text-slate-700">{__('db.host', 'install')}</label>
+                            <input
+                                type="text"
+                                x-model="form.db.host"
+                                class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                                placeholder="localhost"
+                            >
+                        </div>
+                        <div>
+                            <label class="mb-1.5 block text-sm font-medium text-slate-700">{__('db.port', 'install')}</label>
+                            <input
+                                type="number"
+                                x-model="form.db.port"
+                                class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                            >
+                        </div>
+                    </div>
+                </template>
+
+                <div>
+                    <label class="mb-1.5 block text-sm font-medium text-slate-700">
+                        <span x-show="form.db.driver === 'sqlite'">{__('db.sqlite_path', 'install')}</span>
+                        <span x-show="form.db.driver !== 'sqlite'">{__('db.database', 'install')}</span>
+                    </label>
+                    <input
+                        type="text"
+                        x-model="form.db.database"
+                        :readonly="form.db.driver === 'sqlite'"
+                        class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                        :class="form.db.driver === 'sqlite' ? 'bg-slate-100 text-slate-500 cursor-not-allowed' : ''"
+                    >
+                    <p x-show="form.db.driver === 'sqlite'" class="mt-1.5 text-xs text-slate-400">{__('db.sqlite_readonly', 'install')}</p>
+                </div>
+
+                <template x-if="form.db.driver !== 'sqlite'">
+                    <div class="grid gap-5 sm:grid-cols-2">
+                        <div>
+                            <label class="mb-1.5 block text-sm font-medium text-slate-700">{__('db.username', 'install')}</label>
+                            <input
+                                type="text"
+                                x-model="form.db.username"
+                                class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                            >
+                        </div>
+                        <div>
+                            <label class="mb-1.5 block text-sm font-medium text-slate-700">{__('db.password', 'install')}</label>
+                            <input
+                                type="password"
+                                x-model="form.db.password"
+                                class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                            >
+                        </div>
+                    </div>
+                </template>
+
+                <div>
+                    <label class="mb-1.5 block text-sm font-medium text-slate-700">{__('db.prefix', 'install')}</label>
+                    <input
+                        type="text"
+                        x-model="form.db.prefix"
+                        class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                        placeholder="app_"
+                    >
+                </div>
+            </div>
+            <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-6 py-4 sm:px-8">
+                <a href="/install/back/database" class="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+                    {__('btn.back', 'install')}
+                </a>
+                <button type="button" @click="nextDatabase()" class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-700 active:bg-emerald-800">
+                    {__('btn.next', 'install')}
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step: Modules -->
+        <div x-show="step === 'modules'" x-transition.opacity>
+            <div class="border-b border-slate-100 px-6 py-4 sm:px-8">
+                <div class="flex items-start justify-between gap-4">
+                    <div class="min-w-0 flex-1">
+                        <h2 class="text-base font-semibold text-slate-900">{__('step.modules', 'install')}</h2>
+                        <p class="mt-1 text-sm text-slate-500">{__('modules.subtitle', 'install')}</p>
+                        <p class="mt-1 text-xs text-amber-600" x-show="!form.app.cloud_key">{__('modules.cloud_key_required', 'install')}</p>
+                    </div>
+                    <div class="flex-none shrink-0 flex flex-col items-end gap-1.5">
+                        <span class="text-xs text-slate-400" x-text="t('modules_selected', '').replace('%s', selectedModules.length)" x-show="selectedModules.length > 0"></span>
+                        <button
+                            type="button"
+                            class="inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-50"
+                            :disabled="moduleLoading || moduleInstalling"
+                            @click="loadModules()"
+                        >
+                            {__('modules.refresh', 'install')}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-5 sm:px-8">
+                <div x-show="moduleLoading" class="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-10 text-center text-sm text-slate-500">
+                    <span x-text="t('modules_loading', 'Loading modules...')"></span>
+                </div>
+                <div x-show="!moduleLoading && moduleError" class="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700" x-text="moduleError"></div>
+                <div x-show="!moduleLoading && !moduleError && moduleList.length === 0" class="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-10 text-center text-sm text-slate-500">
+                    {__('modules.empty', 'install')}
+                </div>
+                <div x-show="!moduleLoading && !moduleError && moduleList.length > 0" class="grid gap-3 sm:grid-cols-2">
+                    <template x-for="(mod, idx) in moduleList" :key="mod.name">
+                        <label
+                            class="group relative flex cursor-pointer items-center gap-3 rounded-xl p-3 ring-1 transition"
+                            :class="mod.installed
+                                ? 'bg-slate-50 ring-slate-200 opacity-70 cursor-not-allowed'
+                                : (selectedModules.includes(mod.name)
+                                ? 'bg-emerald-50/50 ring-emerald-300'
+                                : 'ring-slate-200 hover:ring-slate-300 hover:bg-slate-50/50')"
+                        >
+                            <input type="checkbox" class="hidden" :value="mod.name" x-model="selectedModules" :disabled="mod.installed">
+                            <div
+                                class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg text-lg font-semibold"
+                                :class="mod.logo ? 'bg-slate-100 text-slate-600' : moduleColorClass(idx)"
+                            >
+                                <img x-show="mod.logo" :src="mod.logo" :alt="mod.title" class="h-full w-full object-cover">
+                                <span x-show="!mod.logo" x-text="mod.title ? mod.title.slice(0, 1).toUpperCase() : 'A'"></span>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm font-medium text-slate-900" x-text="mod.title"></span>
+                                    <span class="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500" x-text="mod.version"></span>
+                                    <span x-show="mod.installed" class="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">{__('modules.installed', 'install')}</span>
+                                </div>
+                                <span class="text-xs text-slate-400" x-text="mod.name"></span>
+                                <p x-show="mod.description" class="mt-1 line-clamp-2 text-xs text-slate-500" x-text="mod.description"></p>
+                            </div>
+                            <div class="shrink-0">
+                                <div
+                                    class="flex h-5 w-5 items-center justify-center rounded-full transition"
+                                :class="mod.installed
+                                        ? 'bg-emerald-600 text-white'
+                                        : (selectedModules.includes(mod.name)
+                                        ? 'bg-emerald-600 text-white'
+                                        : 'ring-1 ring-slate-300 bg-white')"
+                                >
+                                    <svg x-show="mod.installed || selectedModules.includes(mod.name)" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                </div>
+                            </div>
+                        </label>
+                    </template>
+                </div>
+                <div class="mt-4 flex justify-end" x-show="moduleList.length > 0 && !!(form.app.cloud_key && form.app.cloud_key.trim())">
+                    <label class="inline-flex cursor-pointer items-center gap-2 text-xs text-slate-500">
+                        <input type="checkbox" class="h-3.5 w-3.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500/40" x-model="upgradeInstalled">
+                        <span>{__('modules.upgrade_installed', 'install')}</span>
+                    </label>
+                </div>
+            </div>
+            <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-6 py-4 sm:px-8">
+                <a href="/install/back/modules" class="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+                    {__('btn.back', 'install')}
+                </a>
+                <button
+                    type="button"
+                    @click="nextModules()"
+                    :disabled="moduleLoading || moduleInstalling"
+                    class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-700 active:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+                >
+                    <span x-show="!moduleInstalling">{__('btn.next', 'install')}</span>
+                    <span x-show="moduleInstalling" x-text="t('modules_installing', 'Installing modules...')"></span>
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step: Run -->
+        <div x-show="step === 'run'" x-transition.opacity>
+            <div class="border-b border-slate-100 px-6 py-4 sm:px-8">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-base font-semibold text-slate-900">{__('step.run', 'install')}</h2>
+                    <div class="flex items-center gap-2">
+                        <span x-show="status === 'running'" class="inline-flex items-center gap-1.5 text-xs font-medium text-amber-600">
+                            <span class="relative flex h-2 w-2">
+                                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
+                                <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
+                            </span>
+                            {__('btn.running', 'install')}
+                        </span>
+                        <span x-show="status === 'done'" class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            Complete
+                        </span>
+                        <span x-show="status === 'failed'" class="inline-flex items-center gap-1.5 text-xs font-medium text-rose-600">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+                            Failed
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-5 sm:px-8">
+                <div class="overflow-hidden rounded-xl bg-slate-900 shadow-inner">
+                    <div class="flex items-center gap-1.5 border-b border-slate-700/50 px-4 py-2.5">
+                        <span class="h-2.5 w-2.5 rounded-full bg-rose-500/80"></span>
+                        <span class="h-2.5 w-2.5 rounded-full bg-amber-500/80"></span>
+                        <span class="h-2.5 w-2.5 rounded-full bg-emerald-500/80"></span>
+                        <span class="ml-2 text-[11px] text-slate-500">Terminal</span>
+                    </div>
+                    <pre id="install-log-box" class="h-72 overflow-y-auto px-4 py-3 font-mono text-xs leading-5 text-emerald-400" x-text="logs.join('\n')"></pre>
+                </div>
+                <p class="mt-3 text-xs text-slate-400">{__('run.tips', 'install')}</p>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 bg-slate-50/50 px-6 py-4 sm:px-8">
+                <a href="/install/back/run" class="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+                    {__('btn.back', 'install')}
+                </a>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button
+                        type="button"
+                        x-show="status !== 'done'"
+                        class="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-white shadow-sm transition disabled:cursor-not-allowed"
+                        :class="status === 'running' ? 'bg-slate-400' : 'bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800'"
+                        :disabled="status === 'running' || status === 'done'"
+                        @click="startInstall()"
+                    >
+                        <svg x-show="status === 'running'" class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                        <span x-show="status === 'running'">{__('btn.running', 'install')}</span>
+                        <span x-show="status !== 'running'">{__('btn.start', 'install')}</span>
+                    </button>
+                    <a x-show="status === 'done'" class="inline-flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700 ring-1 ring-emerald-200 transition hover:bg-emerald-100" :href="links.manage">{__('btn.go_manage', 'install')}</a>
+                    <a x-show="status === 'done'" class="inline-flex items-center gap-2 rounded-lg bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-100" :href="links.home">{__('btn.go_home', 'install')}</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <p class="mt-6 text-center text-xs text-slate-400">Powered by Dux PHP Admin</p>
+</div>
+
+<script id="install-i18n" type="application/json">{$i18nJson|noescape}</script>
+<script n:syntax="off">
+    function installWizard() {
+        const i18nEl = document.getElementById('install-i18n');
+        const i18n = i18nEl ? JSON.parse(i18nEl.textContent || '{}') : {};
+
+        return {
+            step: 'license',
+            status: 'idle',
+            logs: [],
+            selectedModules: [],
+            upgradeInstalled: true,
+            moduleList: [],
+            moduleLoading: false,
+            moduleInstalling: false,
+            moduleError: '',
+            moduleColorList: [
+                'bg-rose-500 text-white',
+                'bg-orange-500 text-white',
+                'bg-amber-500 text-white',
+                'bg-lime-500 text-white',
+                'bg-emerald-500 text-white',
+                'bg-cyan-500 text-white',
+                'bg-sky-500 text-white',
+                'bg-indigo-500 text-white',
+                'bg-violet-500 text-white',
+                'bg-fuchsia-500 text-white',
+            ],
+            links: {
+                manage: '/manage/',
+                home: '/',
+            },
+            i18n,
+            form: {
+                app: {
+                    name: 'Dux 管理系统',
+                    domain: '',
+                    cloud_key: '',
+                },
+                db: {
+                    driver: 'mysql',
+                    host: 'localhost',
+                    port: 3306,
+                    database: '',
+                    username: 'root',
+                    password: '',
+                    prefix: 'app_',
+                },
+            },
+            t(key, fallback = '') {
+                return this.i18n[key] || fallback || key;
+            },
+            moduleColorClass(index) {
+                if (!this.moduleColorList.length) {
+                    return 'bg-slate-500 text-white';
+                }
+                return this.moduleColorList[index % this.moduleColorList.length];
+            },
+            init(step) {
+                this.step = step || 'license';
+                this.load();
+                this.applySystemDefaults();
+                this.applyDriverDefaults();
+                if (this.step === 'modules') {
+                    this.loadModules();
+                }
+                if (this.step === 'run' && this.logs.length === 0) {
+                    this.appendLog(this.t('click_start', 'Click start install first'));
+                }
+            },
+            load() {
+                const raw = localStorage.getItem('dux.install.wizard');
+                if (!raw) {
+                    return;
+                }
+                try {
+                    const data = JSON.parse(raw);
+                    if (data && data.app && data.db) {
+                        this.form = {
+                            app: {
+                                ...this.form.app,
+                                ...data.app,
+                            },
+                            db: {
+                                ...this.form.db,
+                                ...data.db,
+                            },
+                        };
+                    }
+                    if (Array.isArray(data?.modules)) {
+                        this.selectedModules = data.modules;
+                    }
+                    if (typeof data?.upgrade_installed === 'boolean') {
+                        this.upgradeInstalled = data.upgrade_installed;
+                    }
+                } catch (error) {
+                    console.warn(error);
+                }
+            },
+            applySystemDefaults() {
+                if (!this.form.app.name) {
+                    this.form.app.name = 'Dux 管理系统';
+                }
+                if (!this.form.app.domain && window.location.origin) {
+                    this.form.app.domain = window.location.origin;
+                }
+            },
+            save() {
+                localStorage.setItem('dux.install.wizard', JSON.stringify({
+                    ...this.form,
+                    modules: this.selectedModules,
+                    upgrade_installed: this.upgradeInstalled,
+                }));
+            },
+            applyDriverDefaults() {
+                if (this.form.db.driver === 'mysql' && !this.form.db.port) {
+                    this.form.db.port = 3306;
+                }
+                if (this.form.db.driver === 'pgsql' && !this.form.db.port) {
+                    this.form.db.port = 5432;
+                }
+                if (this.form.db.driver === 'sqlite') {
+                    this.form.db.database = 'data/database.db';
+                }
+                this.save();
+            },
+            go(path) {
+                this.save();
+                window.location.href = path;
+            },
+            nextSystem() {
+                if (!this.form.app.name || !this.form.app.domain) {
+                    alert(this.t('fill_system', 'Please fill system information'));
+                    return;
+                }
+                this.go('/install/next/system');
+            },
+            nextDatabase() {
+                if (this.form.db.driver === 'sqlite') {
+                    this.form.db.database = 'data/database.db';
+                }
+                if (!this.form.db.database) {
+                    alert(this.t('fill_db', 'Please fill database name/path'));
+                    return;
+                }
+                if (this.form.db.driver !== 'sqlite' && (!this.form.db.host || !this.form.db.username)) {
+                    alert(this.t('fill_db_conn', 'Please fill database host and username'));
+                    return;
+                }
+                this.go('/install/next/database');
+            },
+            async nextModules() {
+                if (this.moduleLoading || this.moduleInstalling) {
+                    return;
+                }
+                const hasCloudKey = !!(this.form.app.cloud_key && this.form.app.cloud_key.trim());
+                const hasInstalledModules = this.moduleList.some((item) => item.installed);
+                const needUpgradeInstalled = hasCloudKey && this.upgradeInstalled && hasInstalledModules;
+                const needApply = this.selectedModules.length > 0 || needUpgradeInstalled;
+
+                if (needApply && !hasCloudKey) {
+                    alert(this.t('cloud_key_required_modules', 'Please set cloud key before installing modules'));
+                    return;
+                }
+                if (!needApply) {
+                    this.go('/install/next/modules');
+                    return;
+                }
+
+                this.moduleInstalling = true;
+                this.moduleError = '';
+
+                try {
+                    const response = await fetch('/install/modules/apply', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-Cloud-Key': this.form.app.cloud_key || '',
+                        },
+                        body: JSON.stringify({
+                            modules: this.selectedModules,
+                            upgrade_installed: this.upgradeInstalled,
+                            installed_modules: this.moduleList.filter((item) => item.installed).map((item) => item.name),
+                        }),
+                    });
+                    const result = await response.json();
+                    if (response.status >= 400 || result.code >= 400) {
+                        throw new Error(result.message || this.t('modules_apply_failed', 'Module install failed'));
+                    }
+                    this.go('/install/next/modules');
+                } catch (error) {
+                    const message = error?.message || this.t('modules_apply_failed', 'Module install failed');
+                    this.moduleError = message;
+                    alert(message);
+                } finally {
+                    this.moduleInstalling = false;
+                }
+            },
+            async loadModules() {
+                if (this.moduleLoading) {
+                    return;
+                }
+                this.moduleLoading = true;
+                this.moduleError = '';
+
+                try {
+                    const response = await fetch('/install/modules/list', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Cloud-Key': this.form.app.cloud_key || '',
+                        },
+                    });
+                    const result = await response.json();
+                    if (response.status >= 400 || result.code >= 400) {
+                        throw new Error(result.message || this.t('modules_load_failed', 'Load modules failed'));
+                    }
+
+                    const list = Array.isArray(result.data?.list) ? result.data.list : [];
+                    this.moduleList = list.map((item) => ({
+                        app: item.app || '',
+                        name: item.name || item.app || '',
+                        title: item.title || item.app || '',
+                        version: item.version || '-',
+                        description: item.description || '',
+                        logo: item.logo || '',
+                        installed: !!item.installed,
+                    })).filter((item) => item.name);
+
+                    const allowApps = new Set(this.moduleList
+                        .filter((item) => !item.installed)
+                        .map((item) => item.name));
+                    this.selectedModules = this.selectedModules.filter((item) => allowApps.has(item));
+                    this.save();
+                } catch (error) {
+                    this.moduleList = [];
+                    this.moduleError = error?.message || this.t('modules_load_failed', 'Load modules failed');
+                } finally {
+                    this.moduleLoading = false;
+                }
+            },
+            resetInstall() {
+                if (!window.confirm(this.t('confirm_reset', 'Reset all install progress and local data?'))) {
+                    return;
+                }
+                localStorage.removeItem('dux.install.wizard');
+                document.cookie = 'dux_install_step=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+                document.cookie = 'dux_install_lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+                window.location.href = '/install/license';
+            },
+            appendLog(message) {
+                const text = typeof message === 'string' ? message : JSON.stringify(message);
+                this.logs.push(`[${new Date().toLocaleTimeString()}] ${text}`);
+                this.$nextTick(() => {
+                    const box = document.getElementById('install-log-box');
+                    if (box) {
+                        box.scrollTop = box.scrollHeight;
+                    }
+                });
+            },
+            parseData(raw) {
+                try {
+                    return JSON.parse(raw);
+                } catch (error) {
+                    return {};
+                }
+            },
+            async startInstall() {
+                if (this.status === 'running') {
+                    return;
+                }
+
+                this.save();
+                this.status = 'running';
+                this.logs = [];
+                this.appendLog(this.t('preparing', 'Preparing install payload...'));
+
+                try {
+                    const response = await fetch('/install/prepare', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify(this.form),
+                    });
+
+                    const result = await response.json();
+                    if (response.status >= 400 || result.code >= 400) {
+                        throw new Error(result.message || this.t('prepare_failed', 'Prepare failed'));
+                    }
+
+                    const token = result.data?.token;
+                    if (!token) {
+                        throw new Error(this.t('token_missing', 'Install token is missing'));
+                    }
+
+                    this.appendLog(this.t('wait_logs', 'Install started, waiting for logs...'));
+                    this.openStream(token);
+                } catch (error) {
+                    this.status = 'failed';
+                    this.appendLog(error.message || this.t('prepare_failed', 'Prepare failed'));
+                }
+            },
+            openStream(token) {
+                const source = new EventSource(`/install/stream/${token}`);
+
+                source.addEventListener('stage', (event) => {
+                    const data = this.parseData(event.data);
+                    this.appendLog(data.message || data.name || 'Stage');
+                });
+
+                source.addEventListener('log', (event) => {
+                    const data = this.parseData(event.data);
+                    this.appendLog(data.message || '');
+                });
+
+                source.addEventListener('error', (event) => {
+                    const data = this.parseData(event.data);
+                    this.status = 'failed';
+                    this.appendLog(data.message || this.t('install_failed', 'Install failed'));
+                    source.close();
+                });
+
+                source.addEventListener('complete', (event) => {
+                    const data = this.parseData(event.data);
+                    this.links = {
+                        ...this.links,
+                        ...(data.links || {}),
+                    };
+                    this.status = 'done';
+                    this.appendLog(data.message || 'Install completed');
+                    source.close();
+                });
+
+                source.onerror = () => {
+                    if (this.status === 'running') {
+                        this.status = 'failed';
+                        this.appendLog(this.t('connection_interrupted', 'Connection interrupted'));
+                    }
+                    source.close();
+                };
+            },
+        };
+    }
+</script>
+</body>
+</html>

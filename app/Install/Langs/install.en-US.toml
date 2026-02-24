@@ -1,0 +1,109 @@
+[main]
+title = "Install Wizard"
+subtitle = "Follow the steps to complete installation. Database and menu initialization will run automatically."
+installed = "System already installed"
+
+[step]
+license = "License"
+environment = "Environment"
+system = "System"
+database = "Database"
+modules = "Modules"
+run = "Install"
+invalid = "Invalid install step"
+first_complete = "Please complete previous steps first"
+environment_fail = "Environment check failed, please fix issues first"
+
+[btn]
+next = "Next"
+back = "Back"
+reset = "Reset Install"
+start = "Start Install"
+running = "Installing..."
+go_manage = "Go Admin"
+go_home = "Go Home"
+get_cloud_key = "Get KEY"
+
+[license]
+text_1 = "Thanks for using Dux PHP Admin. By continuing, you agree to related open-source licenses."
+text_2 = "You can deploy freely in local or server environments, while complying with dependency licenses."
+text_3 = "Installer will write system config and database config files."
+file_missing = "LICENSE file not found"
+
+[env]
+item = "Item"
+current = "Current"
+required_col = "Required"
+status = "Status"
+ok = "OK"
+fail = "Fail"
+optional = "Optional"
+fix_first = "Fix environment issues first"
+group_extensions = "Extension Checks"
+group_functions = "Function Checks"
+group_permissions = "Permission Checks"
+php_version = "PHP Version"
+extension = "Extension: %s"
+function = "Function: %s"
+installed = "Installed"
+missing = "Missing"
+required = "Required"
+pdo_driver = "Extension: PDO Driver"
+path_writable = "Writable Path: %s"
+writable = "Writable"
+not_writable = "Not writable"
+writable_required = "Must be writable"
+
+[system]
+name = "System Name"
+domain = "System Domain"
+cloud_key = "Cloud KEY"
+cloud_key_placeholder = "Enter your cloud.dux.plus access key"
+cloud_key_tips = "Used for installing extension modules. If empty, extension modules cannot be installed."
+
+[db]
+driver = "Database Driver"
+host = "Host"
+port = "Port"
+sqlite_path = "SQLite Path"
+sqlite_readonly = "SQLite path cannot be modified"
+database = "Database Name"
+username = "Username"
+password = "Password"
+prefix = "Table Prefix"
+
+[run]
+tips = "This step runs composer update, db:sync and menu:sync with real-time log output."
+
+[modules]
+subtitle = "Select application modules to install alongside the system."
+selected = "%s modules selected"
+cloud_key_required = "Cloud KEY is empty, extension modules cannot be installed."
+refresh = "Refresh"
+empty = "No available modules, or cloud key is not configured."
+installed = "Installed"
+upgrade_installed = "Update installed modules too"
+
+[payload]
+invalid = "Invalid install payload"
+
+[process]
+running = "Another installation process is running"
+
+[js]
+fill_system = "Please fill system name and domain"
+fill_db = "Please fill database name/path"
+fill_db_conn = "Please fill database host and username"
+cloud_key_required_modules = "Please set Cloud KEY before installing modules"
+modules_load_failed = "Failed to load module list"
+modules_apply_failed = "Failed to install selected modules"
+modules_loading = "Loading cloud modules..."
+modules_installing = "Installing modules..."
+confirm_reset = "Are you sure you want to reset install progress and local data?"
+preparing = "Preparing install payload..."
+prepare_failed = "Prepare failed"
+token_missing = "Install token is missing"
+wait_logs = "Install started, waiting for logs..."
+install_failed = "Install failed"
+connection_interrupted = "Connection interrupted"
+click_start = "Click \"Start Install\" to run initialization"

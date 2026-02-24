@@ -1,57 +1,57 @@
 {
-    "name": "duxweb/data",
-    "description": "Data Application",
-    "version": "0.1.1",
-    "phpDependencies": {
-        "cebe/php-openapi": "^1.8"
-    },
-    "adminMenu": [
+  "name": "duxweb/data",
+  "description": "Data Application",
+  "version": "0.1.1",
+  "phpDependencies": {
+    "cebe/php-openapi": "^1.8"
+  },
+  "adminMenu": [
+    {
+      "type": "directory",
+      "name": "data",
+      "label": "数据",
+      "icon": "i-tabler:database",
+      "children": [
         {
-            "type": "directory",
-            "name": "data",
-            "label": "数据",
-            "icon": "i-tabler:database",
-            "children": [
-                {
-                    "type": "menu",
-                    "label": "数据配置",
-                    "name": "data.config.list",
-                    "label_lang": "data.config.list",
-                    "path": "data/config",
-                    "loader": "Data/Config/table",
-                    "hidden": false,
-                    "sort": 0,
-                    "children": [
-                        {
-                            "type": "menu",
-                            "label": "表格配置",
-                            "name": "data.config.tableDesign",
-                            "label_lang": "data.config.tableDesign",
-                            "path": "data/config/:id/table",
-                            "loader": "Data/Config/tableDesign",
-                            "hidden": true
-                        },
-                        {
-                            "type": "menu",
-                            "label": "表单配置",
-                            "name": "data.config.formDesign",
-                            "label_lang": "data.config.formDesign",
-                            "path": "data/config/:id/form",
-                            "loader": "Data/Config/formDesign",
-                            "hidden": true
-                        },
-                        {
-                            "type": "menu",
-                            "label": "字段配置",
-                            "name": "data.config.fieldDesign",
-                            "label_lang": "data.config.fieldDesign",
-                            "path": "data/config/:id/field",
-                            "loader": "Data/Config/fieldDesign",
-                            "hidden": true
-                        }
-                    ]
-                }
-            ]
+          "type": "menu",
+          "label": "数据配置",
+          "name": "data.config.list",
+          "label_lang": "data.config.list",
+          "path": "data/config",
+          "loader": "Data/Config/table",
+          "hidden": false,
+          "sort": 0,
+          "children": [
+            {
+              "type": "menu",
+              "label": "表格配置",
+              "name": "data.config.tableDesign",
+              "label_lang": "data.config.tableDesign",
+              "path": "data/config/:id/table",
+              "loader": "Data/Config/tableDesign",
+              "hidden": true
+            },
+            {
+              "type": "menu",
+              "label": "表单配置",
+              "name": "data.config.formDesign",
+              "label_lang": "data.config.formDesign",
+              "path": "data/config/:id/form",
+              "loader": "Data/Config/formDesign",
+              "hidden": true
+            },
+            {
+              "type": "menu",
+              "label": "字段配置",
+              "name": "data.config.fieldDesign",
+              "label_lang": "data.config.fieldDesign",
+              "path": "data/config/:id/field",
+              "loader": "Data/Config/fieldDesign",
+              "hidden": true
+            }
+          ]
         }
-    ]
+      ]
+    }
+  ]
 }

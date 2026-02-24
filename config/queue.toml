@@ -1,0 +1,11 @@
+default = "main"
+
+[workers.main]
+type = "redis"
+driver = "default"
+num = 10
+
+[workers.minor]
+type = "redis"
+driver = "default"
+num = 10

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{$title}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');
+
+        @keyframes gradient-shift {
+            0%   { background-position: 0% 50%; }
+            25%  { background-position: 50% 100%; }
+            50%  { background-position: 100% 50%; }
+            75%  { background-position: 50% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animated-bg {
+            background: linear-gradient(-45deg,
+                #1e3a5f,
+                #4a1942,
+                #0f4c3a,
+                #5c2d82,
+                #1a5276,
+                #78350f,
+                #3b1f6e,
+                #164e4a
+            );
+            background-size: 400% 400%;
+            animation: gradient-shift 25s ease infinite;
+        }
+
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes scale-in {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-logo { animation: scale-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
+        .animate-title { animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both; }
+        .animate-subtitle { animation: fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both; }
+    </style>
+</head>
+<body class="min-h-screen animated-bg font-sans text-white antialiased">
+
+<main class="flex min-h-screen flex-col items-center justify-center px-6">
+    <!-- Logo -->
+    <div class="animate-logo mb-10">
+        <svg class="h-16 sm:h-20" viewBox="0 0 400.893 121.787" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(-6545.000000, -3038.106602) translate(6345.000000, 2899.000000) translate(200.000000, 132.393398)" fill-rule="nonzero" stroke="none" stroke-width="1" fill="none">
+                <path d="M0 62.607v50c0 8.284 6.716 15 15 15s15-6.716 15-15v-50c0-8.285-6.716-15-15-15s-15 6.715-15 15z" fill="rgba(255,255,255,0.9)" />
+                <path d="M60 7.607c33.137 0 60 26.863 60 60s-26.863 60-60 60h-5c-8.284 0-15-6.716-15-15 0-8.285 6.716-15 15-15h5c16.57 0 30-13.432 30-30 0-16.57-13.43-30-30-30H15c-8.284 0-15-6.716-15-15 0-8.285 6.716-15 15-15h45z" fill="rgba(255,255,255,0.9)" />
+                <path d="M201 7.607c33.137 0 60 26.863 60 60s-26.863 60-60 60h-46c-8.284 0-15-6.716-15-15 0-8.285 6.716-15 15-15h46c16.57 0 30-13.432 30-30 0-16.57-13.43-30-30-30h-45.5c-8.284 0-15-6.716-15-15 0-8.285 6.716-15 15-15H201z" fill="rgba(255,255,255,0.9)" transform="translate(200.500000, 67.606602) rotate(90.000000) translate(-200.500000, -67.606602)" />
+                <g transform="translate(279.106602, 6.713203)">
+                    <path d="M25.607 4.393 52.893 31.68c5.858 5.858 5.858 15.356 0 21.213-5.857 5.858-15.355 5.858-21.213 0L4.393 25.607c-5.857-5.858-5.857-15.356 0-21.214 5.858-5.857 15.356-5.857 21.214 0zm91.786 0c5.858 5.858 5.858 15.356 0 21.214L90.107 52.893c-5.858 5.858-15.356 5.858-21.214 0-5.857-5.857-5.857-15.355 0-21.213L96.18 4.393c5.858-5.857 15.356-5.857 21.213 0zm-64.5 64.5c5.858 5.858 5.858 15.356 0 21.214l-27.286 27.286c-5.858 5.858-15.356 5.858-21.214 0-5.857-5.857-5.857-15.355 0-21.213L31.68 68.893c5.858-5.857 15.356-5.857 21.213 0z" fill="rgba(255,255,255,0.9)" />
+                    <path d="m90.107 68.893 27.286 27.287c5.858 5.858 5.858 15.356 0 21.213-5.857 5.858-15.355 5.858-21.213 0L68.893 90.107c-5.857-5.858-5.857-15.356 0-21.214 5.858-5.857 15.356-5.857 21.214 0z" fill="#34d399" />
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Welcome text -->
+    <h1 class="animate-title text-center text-4xl font-extralight tracking-tight sm:text-4xl md:text-5xl">
+        欢迎使用
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="animate-subtitle mt-6 text-center text-base font-light tracking-wide text-white/40 sm:text-lg">
+        系统已就绪
+    </p>
+</main>
+
+</body>
+</html>

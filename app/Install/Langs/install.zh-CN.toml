@@ -1,0 +1,109 @@
+[main]
+title = "安装向导"
+subtitle = "请按步骤完成系统安装，安装完成后将自动初始化数据库与菜单。"
+installed = "系统已安装"
+
+[step]
+license = "安装协议"
+environment = "环境检测"
+system = "系统配置"
+database = "数据库配置"
+modules = "应用模块"
+run = "执行安装"
+invalid = "安装步骤无效"
+first_complete = "请先完成前置步骤"
+environment_fail = "环境检测未通过，请先修复后再继续"
+
+[btn]
+next = "下一步"
+back = "上一步"
+reset = "重置安装"
+start = "开始安装"
+running = "安装中..."
+go_manage = "进入后台"
+go_home = "访问首页"
+get_cloud_key = "获取 KEY"
+
+[license]
+text_1 = "感谢使用 Dux PHP Admin。继续安装即表示你已阅读并同意相关开源协议。"
+text_2 = "你可以在本地或服务器环境中自由部署，但请遵守依赖组件的许可证要求。"
+text_3 = "安装过程中会写入系统配置与数据库配置文件。"
+file_missing = "未找到 LICENSE 文件"
+
+[env]
+item = "检测项"
+current = "当前值"
+required_col = "要求"
+status = "状态"
+ok = "通过"
+fail = "失败"
+optional = "可选"
+fix_first = "请先修复环境问题"
+group_extensions = "扩展检测"
+group_functions = "函数检测"
+group_permissions = "目录权限"
+php_version = "PHP 版本"
+extension = "扩展：%s"
+function = "函数：%s"
+installed = "已安装"
+missing = "未安装"
+required = "必需"
+pdo_driver = "扩展：PDO 驱动"
+path_writable = "目录可写：%s"
+writable = "可写"
+not_writable = "不可写"
+writable_required = "必须可写"
+
+[system]
+name = "系统名称"
+domain = "系统域名"
+cloud_key = "云端 KEY"
+cloud_key_placeholder = "请输入 cloud.dux.plus 授权 KEY"
+cloud_key_tips = "用于安装扩展应用，不填写将无法安装扩展应用。可先完成基础安装。"
+
+[db]
+driver = "数据库类型"
+host = "主机地址"
+port = "端口"
+sqlite_path = "SQLite 文件路径"
+sqlite_readonly = "SQLite 路径不可修改"
+database = "数据库名"
+username = "用户名"
+password = "密码"
+prefix = "表前缀"
+
+[run]
+tips = "该步骤将执行 composer update、db:sync 与 menu:sync，并实时输出日志。"
+
+[modules]
+subtitle = "选择需要同时安装的应用模块，安装后可在后台管理。"
+selected = "已选择 %s 个模块"
+cloud_key_required = "未填写云端 KEY，将无法安装线上扩展应用。"
+refresh = "刷新列表"
+empty = "暂无可安装应用，或云端 KEY 未配置。"
+installed = "已安装"
+upgrade_installed = "同时升级已安装模块"
+
+[payload]
+invalid = "安装提交数据格式错误"
+
+[process]
+running = "已有安装任务在执行中，请稍后再试"
+
+[js]
+fill_system = "请填写系统名称和系统域名"
+fill_db = "请填写数据库名称或 SQLite 路径"
+fill_db_conn = "请填写数据库主机和用户名"
+cloud_key_required_modules = "请选择扩展应用前，请先填写云端 KEY"
+modules_load_failed = "获取应用列表失败"
+modules_apply_failed = "安装应用模块失败"
+modules_loading = "正在加载线上应用..."
+modules_installing = "安装应用中..."
+confirm_reset = "确定要重置安装进度和本地填写数据吗？"
+preparing = "正在准备安装数据..."
+prepare_failed = "安装准备失败"
+token_missing = "安装令牌缺失"
+wait_logs = "安装任务已启动，正在等待日志输出..."
+install_failed = "安装失败"
+connection_interrupted = "日志连接中断"
+click_start = "点击“开始安装”执行初始化"
