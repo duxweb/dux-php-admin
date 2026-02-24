@@ -1,8 +1,6 @@
 {
-  "name": "duxweb/install",
-  "description": "Install Wizard Application",
-  "version": "0.0.1",
-  "phpDependencies": {
-  }
-
+    "name": "duxweb/install",
+    "description": "Install Wizard Application",
+    "version": "0.0.1",
+    "phpDependencies": []
 }
