@@ -146,26 +146,26 @@ onMounted(() => {
 
           <!-- 名称 -->
           <div class="flex-1 min-w-0">
-            <div class="text-sm font-medium truncate">
+            <div class="text-base font-medium truncate">
               {{ item.title || item.app }}
             </div>
-            <div class="text-xs opacity-40 mt-0.5 truncate">
+            <div class="text-sm opacity-40 mt-0.5 truncate">
               {{ item.name }}
             </div>
           </div>
         </div>
 
         <!-- 描述 -->
-        <div class="mt-2.5 text-xs opacity-40 line-clamp-2 leading-relaxed min-h-10">
+        <div class="mt-2.5 text-sm opacity-40 line-clamp-2 leading-relaxed min-h-12">
           {{ item.description || '暂无描述' }}
         </div>
 
         <!-- 底部 -->
         <div class="mt-3 flex items-center gap-2">
-          <NTag size="tiny" :bordered="false">
+          <NTag size="small" :bordered="false">
             v{{ item.latest_version || item.version || '-' }}
           </NTag>
-          <NTag v-if="item.installed" size="tiny" type="success" :bordered="false">
+          <NTag v-if="item.installed" size="small" type="success" :bordered="false">
             已安装
           </NTag>
         </div>
