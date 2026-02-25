@@ -1,19 +1,19 @@
 {
-  "name": "duxweb/install",
-  "description": "Install Wizard Application",
-  "version": "0.0.1",
-  "phpDependencies": [],
-  "adminMenu": [
-    {
-      "type": "menu",
-      "label": "应用商店",
-      "name": "install.store.list",
-      "label_lang": "install.store.list",
-      "path": "install/store",
-      "loader": "Install/Store/index",
-      "hidden": false,
-      "sort": 999,
-      "parent": "system"
-    }
-  ]
+    "name": "duxweb/install",
+    "description": "Install Wizard Application",
+    "version": "0.0.2",
+    "phpDependencies": [],
+    "adminMenu": [
+        {
+            "type": "menu",
+            "label": "应用商店",
+            "name": "install.store.list",
+            "label_lang": "install.store.list",
+            "path": "install/store",
+            "loader": "Install/Store/index",
+            "hidden": false,
+            "sort": 999,
+            "parent": "system"
+        }
+    ]
 }

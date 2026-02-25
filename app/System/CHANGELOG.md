@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 
 
+
+## [0.1.12] - 2026-02-25
+
+- feat: 增加菜单卸载方法
+
 ## [0.1.11] - 2026-02-24
 
 - feat: 增加计划任务管理

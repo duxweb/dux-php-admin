@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Install\Service;
 
 use App\System\Command\MenuCommand;
+use App\System\Command\MenuUninstallCommand;
 use Core\App;
 use Core\Cloud\Package\Add as CloudAdd;
-use Core\Cloud\Package\Install as CloudInstall;
+use Core\Cloud\Package\Del as CloudDel;
 use Core\Cloud\Package\Package;
-use Core\Cloud\Package\Update as CloudUpdate;
 use Core\Cloud\Service\ConfigService;
 use Core\Handlers\ExceptionBusiness;
 use Nette\Utils\FileSystem;
@@ -26,6 +26,7 @@ class CloudModuleService
         'global' => 'https://cloud.dux.plus',
         'cn' => 'https://cn1.cloud.dux.plus',
     ];
+    private const PROTECTED_MODULES = ['system', 'data'];
 
     private ?InstallService $installService = null;
 
@@ -231,8 +232,11 @@ class CloudModuleService
         }
 
         $action = strtolower(trim((string)($payload['action'] ?? 'install')));
-        if (!in_array($action, ['install', 'upgrade'], true)) {
+        if (!in_array($action, ['install', 'upgrade', 'uninstall'], true)) {
             throw new ExceptionBusiness('Invalid action type');
+        }
+        if ($action === 'uninstall' && $this->isProtectedModule($app)) {
+            throw new ExceptionBusiness('System/Data module cannot be uninstalled');
         }
 
         $tasks = $this->normalizeTasks((array)($payload['tasks'] ?? []));
@@ -283,8 +287,11 @@ class CloudModuleService
         }
 
         $action = strtolower(trim($action));
-        if (!in_array($action, ['install', 'upgrade'], true)) {
+        if (!in_array($action, ['install', 'upgrade', 'uninstall'], true)) {
             throw new ExceptionBusiness('Invalid action type');
+        }
+        if ($action === 'uninstall' && $this->isProtectedModule($app)) {
+            throw new ExceptionBusiness('System/Data module cannot be uninstalled');
         }
 
         $tasks = $this->normalizeTasks($options);
@@ -303,29 +310,43 @@ class CloudModuleService
         ];
 
         try {
+            if ($action === 'uninstall') {
+                $output->writeln('[step] menu:uninstall ' . $app);
+                $this->uninstallModuleMenus($app, $output);
+                $output->writeln('[done] menu:uninstall ' . $app);
+                $executed['sync_menu'] = true;
+            }
+
             $output->writeln(sprintf('[step] module %s: %s', $action, $app));
-            if ($action === 'install') {
-                CloudInstall::main($output, $app);
+            $packageName = $this->modulePackageName($app, $cloudKey, $cloudServer);
+            if ($packageName !== '') {
+                if ($action === 'uninstall') {
+                    CloudDel::main($output, [$packageName => 'latest']);
+                } else {
+                    CloudAdd::main($output, [$packageName => 'latest'], $action === 'upgrade');
+                }
+            } elseif ($action === 'upgrade') {
+                CloudAdd::main($output, [], true);
             } else {
-                CloudUpdate::main($output, $app);
+                throw new ExceptionBusiness('Module package not found');
             }
             $output->writeln(sprintf('[done] module %s: %s', $action, $app));
 
-            if ($tasks['composer']) {
+            if ($tasks['composer'] && $action !== 'uninstall') {
                 $output->writeln('[step] composer update');
                 $this->installService()->runComposerUpdate($output);
                 $output->writeln('[done] composer update');
                 $executed['composer'] = true;
             }
 
-            if ($tasks['sync_menu']) {
+            if ($tasks['sync_menu'] && $action !== 'uninstall') {
                 $output->writeln('[step] menu:sync ' . $app);
                 $this->syncModuleMenus($app, $output);
                 $output->writeln('[done] menu:sync ' . $app);
                 $executed['sync_menu'] = true;
             }
 
-            if ($tasks['sync_db']) {
+            if ($tasks['sync_db'] && $action !== 'uninstall') {
                 $output->writeln('[step] db:sync ' . $app);
                 $this->syncModuleDatabase($app, $output);
                 $output->writeln('[done] db:sync ' . $app);
@@ -336,6 +357,22 @@ class CloudModuleService
         } finally {
             FileSystem::delete(ConfigService::getTempDir());
         }
+    }
+
+    private function modulePackageName(string $app, string $cloudKey, ?string $cloudServer): string
+    {
+        try {
+            $listData = $this->listModules($cloudKey, $cloudServer);
+            $list = (array)($listData['list'] ?? []);
+            foreach ($list as $item) {
+                if (($item['app'] ?? '') !== $app) {
+                    continue;
+                }
+                return $this->normalizePackageName((string)($item['name'] ?? ''));
+            }
+        } catch (\Throwable) {
+        }
+        return '';
     }
 
     public function acquireStoreRunningLock()
@@ -411,6 +448,17 @@ class CloudModuleService
             $migrate->registerAttribute();
         }
         $migrate->migrate($output, $module);
+    }
+
+    private function uninstallModuleMenus(string $module, OutputInterface $output): void
+    {
+        $command = new MenuUninstallCommand();
+        $status = $command->run(new ArrayInput([
+            'module' => $module,
+        ]), $output);
+        if ($status !== Command::SUCCESS) {
+            throw new ExceptionBusiness('Module menu uninstall failed');
+        }
     }
 
     private function installedApps(): array
@@ -600,6 +648,11 @@ class CloudModuleService
             return '';
         }
         return $name;
+    }
+
+    private function isProtectedModule(string $app): bool
+    {
+        return in_array(strtolower(trim($app)), self::PROTECTED_MODULES, true);
     }
 
     private function normalizeTasks(array $tasks): array

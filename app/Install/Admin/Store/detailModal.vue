@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useCustomMutation, useManage } from '@duxweb/dvha-core'
-import { DuxModalPage } from '@duxweb/dvha-pro'
+import { useAuthStore, useCustomMutation, useManage } from '@duxweb/dvha-core'
+import { DuxModalPage, useDialog } from '@duxweb/dvha-pro'
+import { fetchEventSource } from '@microsoft/fetch-event-source'
 import { NButton, NCard, NCheckbox, NScrollbar, NSpin, NTabPane, NTabs, NTag, NTime, useMessage } from 'naive-ui'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
@@ -13,6 +14,8 @@ const props = defineProps<{
 
 const message = useMessage()
 const manage = useManage()
+const dialog = useDialog()
+const authStore = useAuthStore()
 const { mutateAsync } = useCustomMutation()
 
 const detailLoading = ref(false)
@@ -20,6 +23,7 @@ const detailData = ref<Record<string, any>>({
   ...(props.item || {}),
 })
 const actionRunning = ref(false)
+const runningAction = ref<'install' | 'upgrade' | 'uninstall' | ''>('')
 const actionLogs = ref<string[]>([])
 const actionTasks = ref({
   composer: true,
@@ -27,7 +31,7 @@ const actionTasks = ref({
   sync_db: true,
 })
 
-let eventSource: EventSource | null = null
+let streamController: AbortController | null = null
 
 const detailAction = computed(() => {
   return detailData.value?.installed ? 'upgrade' : 'install'
@@ -92,6 +96,11 @@ const canUpgrade = computed(() => {
   return compareVersion(latestVersion, localVersion) > 0
 })
 
+const canUninstall = computed(() => {
+  const app = String(detailData.value?.app || '').toLowerCase()
+  return !['system', 'data'].includes(app)
+})
+
 const detailTags = computed(() => {
   return Array.isArray(detailData.value?.tags) ? detailData.value.tags : []
 })
@@ -126,11 +135,52 @@ function appendLog(messageText: string) {
   actionLogs.value.push(`[${new Date().toLocaleTimeString()}] ${text}`)
 }
 
-function closeEventSource() {
-  if (eventSource) {
-    eventSource.close()
-    eventSource = null
+function appendErrorLog(messageText: string) {
+  const text = (messageText || '').trim()
+  if (!text) {
+    return
   }
+  const formatted = `[error] ${text}`
+  const lastLog = actionLogs.value[actionLogs.value.length - 1] || ''
+  if (lastLog.includes(formatted)) {
+    return
+  }
+  appendLog(formatted)
+}
+
+function closeEventSource() {
+  if (streamController) {
+    streamController.abort()
+    streamController = null
+  }
+}
+
+function parseEventData(raw: string): Record<string, any> {
+  try {
+    return JSON.parse(raw || '{}')
+  }
+  catch {
+    return { message: raw || '' }
+  }
+}
+
+async function handleCompleteEvent(data: Record<string, any>, action: 'install' | 'upgrade' | 'uninstall') {
+  appendLog(data.message || '执行完成')
+  message.success(action === 'uninstall' ? '卸载成功' : '操作成功')
+  const syncMenu = Boolean(data?.result?.tasks_executed?.sync_menu ?? actionTasks.value.sync_menu)
+  if (syncMenu) {
+    dialog.confirm({
+      title: '菜单已同步',
+      content: '请刷新浏览器页面查看新菜单',
+    }).then(() => {
+      window.location.reload()
+    }).catch(() => {})
+  }
+  actionRunning.value = false
+  runningAction.value = ''
+  closeEventSource()
+  await props.onSuccess?.()
+  await loadDetail()
 }
 
 async function loadDetail() {
@@ -160,17 +210,37 @@ async function loadDetail() {
   }
 }
 
-async function runAction() {
-  if (detailAction.value === 'upgrade' && !canUpgrade.value) {
+function runAction(targetAction?: 'install' | 'upgrade' | 'uninstall') {
+  const action = targetAction || detailAction.value
+  if (action === 'upgrade' && !canUpgrade.value) {
     message.info('当前已是最新版本')
     return
   }
+  if (action === 'uninstall' && !canUninstall.value) {
+    message.warning('System/Data 模块不允许卸载')
+    return
+  }
+  if (action === 'uninstall') {
+    dialog.confirm({
+      title: '确认卸载',
+      content: '确认卸载该应用吗？',
+    }).then(() => {
+      void executeAction(action)
+    }).catch(() => {})
+    return
+  }
+  void executeAction(action)
+}
+
+async function executeAction(action: 'install' | 'upgrade' | 'uninstall') {
   if (!detailData.value?.app || actionRunning.value) {
     return
   }
   actionRunning.value = true
+  runningAction.value = action
   actionLogs.value = []
   appendLog('正在准备任务...')
+  let handledError = false
 
   try {
     const prepare = await mutateAsync({
@@ -178,7 +248,7 @@ async function runAction() {
       method: 'post',
       payload: {
         app: detailData.value.app,
-        action: detailAction.value,
+        action,
         cloud_server: props.cloudServer || '',
         tasks: {
           composer: actionTasks.value.composer,
@@ -193,42 +263,72 @@ async function runAction() {
     }
 
     const streamUrl = manage.getApiUrl(`install/store/action/stream/${token}`)
+    const auth = authStore.getUser()
+    if (!auth?.token) {
+      throw new Error('登录已失效，请重新登录')
+    }
+
     closeEventSource()
-    eventSource = new EventSource(streamUrl)
+    streamController = new AbortController()
 
-    eventSource.addEventListener('log', (event: MessageEvent) => {
-      const data = JSON.parse(event.data || '{}')
-      appendLog(data.message || '')
-    })
-
-    eventSource.addEventListener('error', (event: MessageEvent) => {
-      try {
-        const data = JSON.parse(event.data || '{}')
-        appendLog(`[error] ${data.message || '执行失败'}`)
-        message.error(data.message || '执行失败')
-      }
-      catch {
-        appendLog('[error] 执行失败')
-        message.error('执行失败')
-      }
-      actionRunning.value = false
-      closeEventSource()
-    })
-
-    eventSource.addEventListener('complete', async (event: MessageEvent) => {
-      const data = JSON.parse(event.data || '{}')
-      appendLog(data.message || '执行完成')
-      message.success('操作成功')
-      actionRunning.value = false
-      closeEventSource()
-      await props.onSuccess?.()
-      await loadDetail()
+    await fetchEventSource(streamUrl, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        Authorization: auth.token,
+        Accept: 'text/event-stream',
+      },
+      signal: streamController.signal,
+      openWhenHidden: true,
+      onmessage: (event) => {
+        const data = parseEventData(event.data)
+        if (event.event === 'log') {
+          appendLog(data.message || '')
+          return
+        }
+        if (event.event === 'error') {
+          handledError = true
+          appendErrorLog(data.message || '执行失败')
+          message.error(data.message || '执行失败')
+          actionRunning.value = false
+          runningAction.value = ''
+          closeEventSource()
+          return
+        }
+        if (event.event === 'complete') {
+          void handleCompleteEvent(data, action)
+        }
+      },
+      onclose: () => {
+        if (actionRunning.value) {
+          throw new Error('连接已断开')
+        }
+      },
+      onerror: (error) => {
+        if (actionRunning.value) {
+          handledError = true
+          const errorMessage = (error as any)?.message || '执行失败'
+          appendErrorLog(errorMessage)
+          message.error(errorMessage)
+          actionRunning.value = false
+          runningAction.value = ''
+          closeEventSource()
+        }
+        throw error
+      },
     })
   }
   catch (e: any) {
-    appendLog(`[error] ${e?.message || '执行失败'}`)
+    if ((e as any)?.name === 'AbortError') {
+      return
+    }
+    if (handledError) {
+      return
+    }
+    appendErrorLog(e?.message || '执行失败')
     message.error(e?.message || '执行失败')
     actionRunning.value = false
+    runningAction.value = ''
   }
 }
 
@@ -365,7 +465,22 @@ onBeforeUnmount(() => {
       <NButton :disabled="actionRunning" @click="close">
         关闭
       </NButton>
-      <NButton type="primary" :loading="actionRunning" :disabled="!canUpgrade && !actionRunning" @click="runAction">
+      <NButton
+        v-if="detailData?.installed"
+        type="error"
+        secondary
+        :loading="actionRunning && runningAction === 'uninstall'"
+        :disabled="actionRunning || !canUninstall"
+        @click="runAction('uninstall')"
+      >
+        {{ canUninstall ? '卸载应用' : '核心模块不可卸载' }}
+      </NButton>
+      <NButton
+        type="primary"
+        :loading="actionRunning && runningAction !== 'uninstall'"
+        :disabled="(detailData?.installed && !canUpgrade && !actionRunning) || (actionRunning && runningAction === 'uninstall')"
+        @click="runAction()"
+      >
         <template #icon>
           <div :class="detailData?.installed ? 'i-tabler:refresh' : 'i-tabler:download'" class="size-3.5" />
         </template>

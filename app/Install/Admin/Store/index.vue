@@ -12,7 +12,12 @@ const listKey = ref(0)
 const cloudServer = ref('global')
 const filter = ref<Record<string, any>>({
   cloud_server: 'global',
+  tab: 'all',
 })
+const tabs = [
+  { label: '全部', value: 'all' },
+  { label: '已安装', value: 'installed' },
+]
 const cloudServers = ref([
   { label: 'cloud.dux.plus', value: 'global', latency_ms: null as number | null },
   { label: 'cn1.cloud.dux.plus', value: 'cn', latency_ms: null as number | null },
@@ -104,6 +109,7 @@ onMounted(() => {
     title="应用商店"
     :pagination="false"
     :filter="filter"
+    :tabs="tabs"
     :col-width="280"
   >
     <template #actions>
@@ -122,7 +128,7 @@ onMounted(() => {
 
     <template #default="{ item }">
       <div
-        class="cursor-pointer rounded-md border border-muted p-4 transition-colors hover:border-primary/50"
+        class="cursor-pointer rounded-md border border-muted p-4 transition-colors hover:border-primary/50 mt-2"
         @click="openDetail(item)"
       >
         <div class="flex items-center gap-3">

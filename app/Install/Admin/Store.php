@@ -23,7 +23,9 @@ class Store
     public function list(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $cloudKey = trim((string)$request->getHeaderLine('X-Cloud-Key'));
-        $cloudServer = trim((string)($request->getQueryParams()['cloud_server'] ?? ''));
+        $query = $request->getQueryParams();
+        $cloudServer = trim((string)($query['cloud_server'] ?? ''));
+        $tab = trim((string)($query['tab'] ?? 'all'));
 
         try {
             $data = $this->service()->listModules($cloudKey, $cloudServer);
@@ -31,7 +33,14 @@ class Store
             $this->throwBusiness($e);
         }
 
-        return send($response, 'ok', (array)($data['list'] ?? []), [
+        $list = (array)($data['list'] ?? []);
+        if ($tab === 'installed') {
+            $list = array_values(array_filter($list, function (array $item): bool {
+                return (bool)($item['installed'] ?? false);
+            }));
+        }
+
+        return send($response, 'ok', $list, [
             'enabled' => (bool)($data['enabled'] ?? false),
             'server' => (string)($data['server'] ?? ''),
             'servers' => (array)($data['servers'] ?? []),

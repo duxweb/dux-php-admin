@@ -1,8 +1,8 @@
 {
-  "name": "project",
-  "description": "This is the dux application dependency configuration",
-  "dependencies": {
-    "duxweb/data": "0.1.1",
-    "duxweb/system": "0.1.11"
-  }
+    "name": "project",
+    "description": "This is the dux application dependency configuration",
+    "dependencies": {
+        "duxweb/data": "0.1.1",
+        "duxweb/system": "0.1.11"
+    }
 }

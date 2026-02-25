@@ -33,6 +33,28 @@ class Menu
         return $menuData;
     }
 
+    public static function uninstall(Connection $db, MenuInterface $menu, string $app): int
+    {
+        $menuData = $menu->getData();
+        $menuNames = array_values(array_unique(array_filter(array_map(function ($item) {
+            return is_array($item) ? (string)($item['name'] ?? '') : '';
+        }, $menuData))));
+
+        if (empty($menuNames)) {
+            return 0;
+        }
+
+        $deleted = $db->table('system_menu')
+            ->where('app', $app)
+            ->whereIn('name', $menuNames)
+            ->delete();
+
+        SystemMenu::scoped(['app' => $app])->fixTree();
+        SystemMenu::clearMenu($app);
+
+        return $deleted;
+    }
+
     public static function assignMultipleMenuIds(string $app, array $menuGroups, int $startId = 1): array
     {
         $currentId = $startId;
