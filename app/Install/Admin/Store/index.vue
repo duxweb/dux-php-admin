@@ -15,7 +15,7 @@ const filter = ref<Record<string, any>>({
   tab: 'all',
 })
 const tabs = [
-  { label: '全部', value: 'all' },
+  { label: '应用商店', value: 'all' },
   { label: '已安装', value: 'installed' },
 ]
 const cloudServers = ref([
