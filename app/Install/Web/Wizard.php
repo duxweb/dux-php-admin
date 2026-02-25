@@ -178,8 +178,9 @@ class Wizard
         $this->assertStepReached($request, 'modules');
 
         $cloudKey = trim((string)$request->getHeaderLine('X-Cloud-Key'));
+        $cloudServer = trim((string)$request->getHeaderLine('X-Cloud-Server'));
         try {
-            $list = $this->service()->fetchCloudModules($cloudKey);
+            $list = $this->service()->fetchCloudModules($cloudKey, $cloudServer);
         } catch (\Throwable $e) {
             throw new ExceptionBusiness($e->getMessage(), 500);
         }
@@ -208,8 +209,9 @@ class Wizard
         $upgradeInstalled = (bool)($payload['upgrade_installed'] ?? false);
 
         $cloudKey = trim((string)$request->getHeaderLine('X-Cloud-Key'));
+        $cloudServer = trim((string)$request->getHeaderLine('X-Cloud-Server'));
         try {
-            $result = $this->service()->installCloudModules($modules, $cloudKey, $upgradeInstalled, $installedModules);
+            $result = $this->service()->installCloudModules($modules, $cloudKey, $upgradeInstalled, $installedModules, $cloudServer);
         } catch (\Throwable $e) {
             throw new ExceptionBusiness($e->getMessage(), 500);
         }
@@ -363,6 +365,7 @@ class Wizard
             'connection_interrupted' => __('js.connection_interrupted', 'install'),
             'click_start' => __('js.click_start', 'install'),
             'modules_selected' => __('modules.selected', 'install'),
+            'modules_server_timeout' => __('js.modules_server_timeout', 'install'),
         ];
 
         $rendered = sendTpl($response, dirname(__DIR__) . '/Views/wizard.latte', [

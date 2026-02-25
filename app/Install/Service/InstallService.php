@@ -30,6 +30,10 @@ class InstallService
     private const RUNNING_LOCK_FILE = 'install.running';
     private const PENDING_DIR = 'install/pending';
     private const SQLITE_DATABASE_FILE = 'data/database.db';
+    private const CLOUD_SERVERS = [
+        'global' => 'https://cloud.dux.plus',
+        'cn' => 'https://cn1.cloud.dux.plus',
+    ];
 
     public function isInstalled(): bool
     {
@@ -40,8 +44,9 @@ class InstallService
     {
         $appConfig = $this->validateAppConfig((array)($payload['app'] ?? []));
         $dbConfig = $this->validateDbConfig((array)($payload['db'] ?? []));
+        $cloudServer = $this->resolveCloudServer((string)($payload['cloud_server'] ?? ''));
 
-        $this->writeUseConfig($appConfig['name'], $appConfig['domain'], $appConfig['cloud_key']);
+        $this->writeUseConfig($appConfig['name'], $appConfig['domain'], $appConfig['cloud_key'], $cloudServer['url']);
         $this->writeDatabaseConfig($dbConfig);
         $this->reloadRuntimeConfig();
 
@@ -134,13 +139,18 @@ class InstallService
         }
     }
 
-    public function fetchCloudModules(?string $cloudKey = null): array
+    public function fetchCloudModules(?string $cloudKey = null, ?string $cloudServer = null): array
     {
+        $server = $this->applyRuntimeCloudServer($cloudServer);
+        $servers = $this->cloudServerStatus($server);
+
         $cloudKey = $this->resolveCloudKey($cloudKey);
         if ($cloudKey === '') {
             return [
                 'enabled' => false,
                 'list' => [],
+                'server' => $server,
+                'servers' => $servers,
             ];
         }
 
@@ -199,6 +209,8 @@ class InstallService
         return [
             'enabled' => true,
             'list' => array_values($list),
+            'server' => $server,
+            'servers' => $servers,
         ];
     }
 
@@ -206,7 +218,8 @@ class InstallService
         array $packages,
         ?string $cloudKey = null,
         bool $upgradeInstalled = false,
-        array $installedPackages = []
+        array $installedPackages = [],
+        ?string $cloudServer = null
     ): array
     {
         $packageMaps = [];
@@ -241,6 +254,7 @@ class InstallService
         }
 
         $this->applyRuntimeCloudKey($cloudKey);
+        $this->applyRuntimeCloudServer($cloudServer);
 
         $output = new BufferedOutput();
         $installed = [];
@@ -388,7 +402,7 @@ class InstallService
         ];
     }
 
-    private function writeUseConfig(string $name, string $domain, string $cloudKey): void
+    private function writeUseConfig(string $name, string $domain, string $cloudKey, string $cloudUrl): void
     {
         $file = $this->configFilePath('use');
         $config = App::config('use', false);
@@ -396,6 +410,7 @@ class InstallService
         $config->set('app.domain', $domain);
         $config->set('app.secret', $this->generateSecretKey());
         $config->set('cloud.key', $cloudKey);
+        $config->set('cloud.url', $cloudUrl);
         $config->toFile($file, new TomlWriter());
     }
 
@@ -471,6 +486,93 @@ class InstallService
     private function applyRuntimeCloudKey(string $cloudKey): void
     {
         App::config('use')->set('cloud.key', $cloudKey);
+    }
+
+    private function applyRuntimeCloudServer(?string $server = null): string
+    {
+        $resolved = $this->resolveCloudServer($server);
+        ConfigService::init([
+            'api' => [
+                'url' => $resolved['url'],
+            ],
+        ]);
+        App::config('use')->set('cloud.url', $resolved['url']);
+        return $resolved['key'];
+    }
+
+    /**
+     * @return array{key:string,url:string}
+     */
+    private function resolveCloudServer(?string $server = null): array
+    {
+        $value = strtolower(trim((string)$server));
+        if ($value === '') {
+            $value = trim((string)App::config('use')->get('cloud.url', ''));
+        }
+
+        if ($value !== '') {
+            if (isset(self::CLOUD_SERVERS[$value])) {
+                return [
+                    'key' => $value,
+                    'url' => self::CLOUD_SERVERS[$value],
+                ];
+            }
+            foreach (self::CLOUD_SERVERS as $key => $url) {
+                if (rtrim(strtolower($url), '/') === rtrim(strtolower($value), '/')) {
+                    return [
+                        'key' => $key,
+                        'url' => $url,
+                    ];
+                }
+            }
+        }
+
+        return [
+            'key' => 'global',
+            'url' => self::CLOUD_SERVERS['global'],
+        ];
+    }
+
+    private function cloudServerStatus(string $selectedServer): array
+    {
+        $rows = [];
+        foreach (self::CLOUD_SERVERS as $key => $url) {
+            $rows[] = [
+                'key' => $key,
+                'title' => parse_url($url, PHP_URL_HOST) ?: $url,
+                'url' => $url,
+                'latency_ms' => $this->cloudServerLatency($url),
+                'selected' => $selectedServer === $key,
+            ];
+        }
+        return $rows;
+    }
+
+    private function cloudServerLatency(string $url): ?int
+    {
+        if (!function_exists('stream_socket_client')) {
+            return null;
+        }
+        $host = (string)(parse_url($url, PHP_URL_HOST) ?: '');
+        if ($host === '') {
+            return null;
+        }
+        $port = (int)(parse_url($url, PHP_URL_PORT) ?: 443);
+        $start = microtime(true);
+        $errno = 0;
+        $errstr = '';
+        $client = @stream_socket_client(
+            sprintf('tcp://%s:%d', $host, $port),
+            $errno,
+            $errstr,
+            2,
+            STREAM_CLIENT_CONNECT
+        );
+        if (!is_resource($client)) {
+            return null;
+        }
+        fclose($client);
+        return (int)round((microtime(true) - $start) * 1000);
     }
 
     private function normalizeApp(string $name): string

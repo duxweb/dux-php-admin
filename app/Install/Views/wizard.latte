@@ -394,6 +394,22 @@
                     </div>
                 </div>
             </div>
+            <div class="px-6 py-3 sm:px-8">
+                <div class="flex items-center gap-2 text-xs text-slate-500">
+                    <span>{__('modules.server_switch', 'install')}</span>
+                    <select
+                        x-model="cloudServer"
+                        @change="loadModules()"
+                        class="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs text-slate-600 outline-none focus:border-emerald-500"
+                        :disabled="moduleLoading || moduleInstalling"
+                    >
+                        <template x-for="item in cloudServers" :key="item.key">
+                            <option :value="item.key" x-text="item.title"></option>
+                        </template>
+                    </select>
+                    <span class="text-xs text-slate-400" x-text="cloudServerLatencyText()" x-show="cloudServerLatencyText()"></span>
+                </div>
+            </div>
             <div class="px-6 py-5 sm:px-8">
                 <div x-show="moduleLoading" class="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-10 text-center text-sm text-slate-500">
                     <span x-text="t('modules_loading', 'Loading modules...')"></span>
@@ -550,6 +566,11 @@
             logs: [],
             selectedModules: [],
             upgradeInstalled: true,
+            cloudServer: '',
+            cloudServers: [
+                { key: 'global', title: 'cloud.dux.plus', latency_ms: null, selected: true },
+                { key: 'cn', title: 'cn1.cloud.dux.plus', latency_ms: null, selected: false },
+            ],
             moduleList: [],
             moduleLoading: false,
             moduleInstalling: false,
@@ -633,9 +654,22 @@
                     if (typeof data?.upgrade_installed === 'boolean') {
                         this.upgradeInstalled = data.upgrade_installed;
                     }
+                    if (typeof data?.cloud_server === 'string' && data.cloud_server) {
+                        this.cloudServer = data.cloud_server;
+                    }
                 } catch (error) {
                     console.warn(error);
                 }
+            },
+            cloudServerLatencyText() {
+                const selected = this.cloudServers.find((item) => item.key === this.cloudServer) || null;
+                if (!selected) {
+                    return '';
+                }
+                const latency = selected.latency_ms;
+                return latency === null || latency === undefined
+                    ? this.t('modules_server_timeout', 'timeout')
+                    : `${latency} ms`;
             },
             applySystemDefaults() {
                 if (!this.form.app.name) {
@@ -650,6 +684,7 @@
                     ...this.form,
                     modules: this.selectedModules,
                     upgrade_installed: this.upgradeInstalled,
+                    cloud_server: this.cloudServer,
                 }));
             },
             applyDriverDefaults() {
@@ -717,6 +752,7 @@
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
                             'X-Cloud-Key': this.form.app.cloud_key || '',
+                            'X-Cloud-Server': this.cloudServer || '',
                         },
                         body: JSON.stringify({
                             modules: this.selectedModules,
@@ -750,6 +786,7 @@
                         headers: {
                             'Accept': 'application/json',
                             'X-Cloud-Key': this.form.app.cloud_key || '',
+                            'X-Cloud-Server': this.cloudServer || '',
                         },
                     });
                     const result = await response.json();
@@ -767,6 +804,20 @@
                         logo: item.logo || '',
                         installed: !!item.installed,
                     })).filter((item) => item.name);
+
+                    const server = result.data?.server || '';
+                    if (typeof server === 'string' && server) {
+                        this.cloudServer = server;
+                    }
+                    const servers = Array.isArray(result.data?.servers) ? result.data.servers : [];
+                    if (servers.length > 0) {
+                        this.cloudServers = servers.map((item) => ({
+                            key: item.key || '',
+                            title: item.title || item.url || item.key || '',
+                            latency_ms: Number.isFinite(item.latency_ms) ? item.latency_ms : null,
+                            selected: !!item.selected,
+                        })).filter((item) => item.key);
+                    }
 
                     const allowApps = new Set(this.moduleList
                         .filter((item) => !item.installed)
@@ -823,7 +874,10 @@
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
                         },
-                        body: JSON.stringify(this.form),
+                        body: JSON.stringify({
+                            ...this.form,
+                            cloud_server: this.cloudServer || '',
+                        }),
                     });
 
                     const result = await response.json();

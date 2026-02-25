@@ -48,7 +48,7 @@ class App extends AppExtend
         }
 
         CoreApp::route()->get('web')->get(
-            '',
+            '/',
             function (ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
                 return $response->withStatus(302)->withHeader('Location', '/install/license');
             },
@@ -70,7 +70,7 @@ class App extends AppExtend
 
         $app->web->get('/', function (ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
             return sendTpl($response, dirname(__DIR__) . '/Install/Views/welcome.latte', [
-                'title' => 'Welcome',
+                'title' => 'Welcome Dux',
             ]);
         })->setName('welcome');
     }
