@@ -6,18 +6,14 @@ namespace App\Install\Service;
 
 use App\System\Command\MenuCommand;
 use Core\App;
-use Core\Cloud\Package\Add as CloudAdd;
-use Core\Cloud\Package\Package;
 use Core\Cloud\Service\ConfigService;
 use Core\Config\TomlLoader;
 use Core\Config\TomlWriter;
 use Core\Database\Db;
 use Core\Handlers\ExceptionBusiness;
-use Nette\Utils\FileSystem;
 use Noodlehaus\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -34,6 +30,8 @@ class InstallService
         'global' => 'https://cloud.dux.plus',
         'cn' => 'https://cn1.cloud.dux.plus',
     ];
+
+    private ?CloudModuleService $cloudModuleService = null;
 
     public function isInstalled(): bool
     {
@@ -141,77 +139,7 @@ class InstallService
 
     public function fetchCloudModules(?string $cloudKey = null, ?string $cloudServer = null): array
     {
-        $server = $this->applyRuntimeCloudServer($cloudServer);
-        $servers = $this->cloudServerStatus($server);
-
-        $cloudKey = $this->resolveCloudKey($cloudKey);
-        if ($cloudKey === '') {
-            return [
-                'enabled' => false,
-                'list' => [],
-                'server' => $server,
-                'servers' => $servers,
-            ];
-        }
-
-        $data = Package::request('get', '/v/package/version/list', [
-            'query' => [
-                'type' => ConfigService::getPackageType(),
-            ],
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'Authorization' => $cloudKey,
-            ],
-        ]);
-
-        $rows = $this->extractCloudRows($data);
-        $installedApps = $this->installedApps();
-        $installedPackages = $this->installedPackages();
-        $list = [];
-
-        foreach ($rows as $row) {
-            if (!is_array($row)) {
-                continue;
-            }
-
-            $app = $this->normalizeApp((string)($row['app'] ?? ''));
-            $name = trim((string)($row['name'] ?? ''));
-
-            if (!$app && $name) {
-                $app = $this->normalizeApp($name);
-            }
-            if (!$app) {
-                continue;
-            }
-
-            $title = trim((string)($row['title'] ?? $row['label'] ?? $row['app_name'] ?? $app));
-            $version = trim((string)($row['ver'] ?? $row['version'] ?? $row['latest'] ?? ''));
-            $description = trim((string)($row['description'] ?? $row['subtitle'] ?? ''));
-            $logo = trim((string)($row['logo'] ?? $row['icon'] ?? $row['image'] ?? ''));
-
-            $isInstalled = in_array($app, $installedApps, true);
-            if (!$isInstalled && $name !== '') {
-                $isInstalled = in_array(strtolower($name), $installedPackages, true);
-            }
-
-            $list[] = [
-                'app' => $app,
-                'name' => $name ?: $app,
-                'title' => $title,
-                'version' => $version ?: '-',
-                'description' => $description,
-                'logo' => $logo,
-                'installed' => $isInstalled,
-            ];
-        }
-
-        return [
-            'enabled' => true,
-            'list' => array_values($list),
-            'server' => $server,
-            'servers' => $servers,
-        ];
+        return $this->cloudModuleService()->listModules($cloudKey, $cloudServer);
     }
 
     public function installCloudModules(
@@ -222,55 +150,13 @@ class InstallService
         ?string $cloudServer = null
     ): array
     {
-        $packageMaps = [];
-        foreach ($packages as $item) {
-            $name = $this->normalizePackageName((string)$item);
-            if ($name === '') {
-                continue;
-            }
-            $packageMaps[$name] = 'latest';
-        }
-
-        if ($upgradeInstalled) {
-            foreach ($installedPackages as $item) {
-                $name = $this->normalizePackageName((string)$item);
-                if ($name === '') {
-                    continue;
-                }
-                $packageMaps[$name] = 'latest';
-            }
-        }
-
-        if (!$packageMaps) {
-            return [
-                'installed' => [],
-                'logs' => [],
-            ];
-        }
-
-        $cloudKey = $this->resolveCloudKey($cloudKey);
-        if ($cloudKey === '') {
-            throw new ExceptionBusiness('Cloud key is required');
-        }
-
-        $this->applyRuntimeCloudKey($cloudKey);
-        $this->applyRuntimeCloudServer($cloudServer);
-
-        $output = new BufferedOutput();
-        $installed = [];
-
-        try {
-            $output->writeln(($upgradeInstalled ? 'Install and update modules: ' : 'Install modules: ') . implode(', ', array_keys($packageMaps)));
-            CloudAdd::main($output, $packageMaps, $upgradeInstalled);
-            $installed = array_keys($packageMaps);
-        } finally {
-            FileSystem::delete(ConfigService::getTempDir());
-        }
-
-        return [
-            'installed' => $installed,
-            'logs' => $this->splitLogs($output->fetch()),
-        ];
+        return $this->cloudModuleService()->installModules(
+            $packages,
+            $cloudKey,
+            $upgradeInstalled,
+            $installedPackages,
+            $cloudServer
+        );
     }
 
     public function runComposerUpdate(OutputInterface $output): void
@@ -474,32 +360,6 @@ class InstallService
         return $token;
     }
 
-    private function resolveCloudKey(?string $cloudKey = null): string
-    {
-        $value = trim((string)($cloudKey ?? ''));
-        if ($value !== '') {
-            return $value;
-        }
-        return trim((string)ConfigService::getKey());
-    }
-
-    private function applyRuntimeCloudKey(string $cloudKey): void
-    {
-        App::config('use')->set('cloud.key', $cloudKey);
-    }
-
-    private function applyRuntimeCloudServer(?string $server = null): string
-    {
-        $resolved = $this->resolveCloudServer($server);
-        ConfigService::init([
-            'api' => [
-                'url' => $resolved['url'],
-            ],
-        ]);
-        App::config('use')->set('cloud.url', $resolved['url']);
-        return $resolved['key'];
-    }
-
     /**
      * @return array{key:string,url:string}
      */
@@ -531,139 +391,6 @@ class InstallService
             'key' => 'global',
             'url' => self::CLOUD_SERVERS['global'],
         ];
-    }
-
-    private function cloudServerStatus(string $selectedServer): array
-    {
-        $rows = [];
-        foreach (self::CLOUD_SERVERS as $key => $url) {
-            $rows[] = [
-                'key' => $key,
-                'title' => parse_url($url, PHP_URL_HOST) ?: $url,
-                'url' => $url,
-                'latency_ms' => $this->cloudServerLatency($url),
-                'selected' => $selectedServer === $key,
-            ];
-        }
-        return $rows;
-    }
-
-    private function cloudServerLatency(string $url): ?int
-    {
-        if (!function_exists('stream_socket_client')) {
-            return null;
-        }
-        $host = (string)(parse_url($url, PHP_URL_HOST) ?: '');
-        if ($host === '') {
-            return null;
-        }
-        $port = (int)(parse_url($url, PHP_URL_PORT) ?: 443);
-        $start = microtime(true);
-        $errno = 0;
-        $errstr = '';
-        $client = @stream_socket_client(
-            sprintf('tcp://%s:%d', $host, $port),
-            $errno,
-            $errstr,
-            2,
-            STREAM_CLIENT_CONNECT
-        );
-        if (!is_resource($client)) {
-            return null;
-        }
-        fclose($client);
-        return (int)round((microtime(true) - $start) * 1000);
-    }
-
-    private function normalizeApp(string $name): string
-    {
-        $name = trim($name);
-        if ($name === '') {
-            return '';
-        }
-        if (str_contains($name, '/')) {
-            $parts = explode('/', $name);
-            $name = (string)end($parts);
-        }
-        $name = strtolower($name);
-        if (!preg_match('/^[a-z0-9_-]+$/', $name)) {
-            return '';
-        }
-        return $name;
-    }
-
-    private function normalizePackageName(string $name): string
-    {
-        $name = strtolower(trim($name));
-        if ($name === '') {
-            return '';
-        }
-        if (!preg_match('/^[a-z0-9._-]+(?:\/[a-z0-9._-]+)?$/', $name)) {
-            return '';
-        }
-        return $name;
-    }
-
-    private function extractCloudRows(array $data): array
-    {
-        if (isset($data['list']) && is_array($data['list'])) {
-            return $data['list'];
-        }
-        if (isset($data['items']) && is_array($data['items'])) {
-            return $data['items'];
-        }
-        if (isset($data['data']) && is_array($data['data'])) {
-            return $data['data'];
-        }
-        if (array_is_list($data)) {
-            return $data;
-        }
-        return [];
-    }
-
-    private function installedApps(): array
-    {
-        $apps = [];
-        $registers = (array)App::config('app')->get('registers', []);
-        foreach ($registers as $name) {
-            if (!is_string($name) || !str_starts_with($name, 'App\\')) {
-                continue;
-            }
-            $parts = explode('\\', $name);
-            $module = strtolower((string)($parts[1] ?? ''));
-            if ($module && !in_array($module, ['system', 'data', 'install'], true)) {
-                $apps[] = $module;
-            }
-        }
-        return array_values(array_unique($apps));
-    }
-
-    private function installedPackages(): array
-    {
-        $file = base_path('app.json');
-        if (!is_file($file)) {
-            return [];
-        }
-        $content = file_get_contents($file);
-        $data = json_decode((string)$content, true);
-        $dependencies = (array)($data['dependencies'] ?? []);
-        return array_values(array_map('strtolower', array_keys($dependencies)));
-    }
-
-    private function splitLogs(string $logs): array
-    {
-        $rows = preg_split('/\r\n|\r|\n/', $logs);
-        if (!$rows) {
-            return [];
-        }
-        $result = [];
-        foreach ($rows as $line) {
-            $line = trim((string)$line);
-            if ($line !== '') {
-                $result[] = $line;
-            }
-        }
-        return $result;
     }
 
     private function resolveLocalComposerScript(): string
@@ -791,5 +518,13 @@ class InstallService
             return $database;
         }
         return base_path($database);
+    }
+
+    private function cloudModuleService(): CloudModuleService
+    {
+        if (!$this->cloudModuleService) {
+            $this->cloudModuleService = new CloudModuleService();
+        }
+        return $this->cloudModuleService;
     }
 }
