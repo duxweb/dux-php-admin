@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4d451d1244525d91843b6ca4583c8ea",
+    "content-hash": "0860cc7c22ea6f92749a801b12eb2e38",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -56,11 +56,11 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.370.1",
+            "version": "3.371.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.370.1/aws-aws-sdk-php-3.370.1.zip",
-                "reference": "273a9bbed9e73016be390b8428f7925f15ea053e",
+                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.371.0/aws-aws-sdk-php-3.371.0.zip",
+                "reference": "80bafcdc7f22362e204f49c5adfea66e85939cc8",
                 "shasum": ""
             },
             "require": {
@@ -141,9 +141,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.370.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.0"
             },
-            "time": "2026-02-23T19:05:30+00:00"
+            "time": "2026-02-24T19:08:17+00:00"
         },
         {
             "name": "brick/math",
@@ -1244,7 +1244,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-cloud/dev-main/duxweb-dux-lite-cloud-dev-main.zip",
-                "reference": "7462be71166eb11364695d60f4396772a2cc284a",
+                "reference": "db85437796a63b7ce385f08296f0e3e3b4b32c93",
                 "shasum": ""
             },
             "require": {
@@ -1280,7 +1280,7 @@
                 "issues": "https://github.com/duxweb/dux-lite-cloud/issues",
                 "source": "https://github.com/duxweb/dux-lite-cloud/tree/main"
             },
-            "time": "2025-07-06T07:34:05+00:00"
+            "time": "2026-02-25T08:32:02+00:00"
         },
         {
             "name": "eftec/bladeone",
@@ -1665,11 +1665,11 @@
         },
         {
             "name": "giggsey/locale",
-            "version": "2.8.0",
+            "version": "2.9.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/giggsey/locale/2.8.0/giggsey-locale-2.8.0.zip",
-                "reference": "1cd8b3ad2d43e04f4c2c6a240495af44780f809b",
+                "url": "https://mirrors.tencent.com/repository/composer/giggsey/locale/2.9.0/giggsey-locale-2.9.0.zip",
+                "reference": "fe741e99ae6ccbe8132f3d63d8ec89924e689778",
                 "shasum": ""
             },
             "require": {
@@ -1678,14 +1678,16 @@
             "require-dev": {
                 "ext-json": "*",
                 "friendsofphp/php-cs-fixer": "^3.66",
-                "pear/pear-core-minimal": "^1.10",
-                "pear/pear_exception": "^1.0",
-                "pear/versioncontrol_git": "^0.5",
-                "phing/phing": "^2.17.4",
+                "infection/infection": "^0.29|^0.32.0",
                 "php-coveralls/php-coveralls": "^2.7",
+                "phpstan/extension-installer": "^1.4.3",
+                "phpstan/phpstan": "^2.1.7",
+                "phpstan/phpstan-deprecation-rules": "^2.0.1",
+                "phpstan/phpstan-phpunit": "^2.0.4",
+                "phpstan/phpstan-strict-rules": "^2.0.3",
                 "phpunit/phpunit": "^10.5.45",
                 "symfony/console": "^6.4",
-                "symfony/filesystem": "6.4",
+                "symfony/filesystem": "^6.4",
                 "symfony/finder": "^6.4",
                 "symfony/process": "^6.4",
                 "symfony/var-exporter": "^6.4"
@@ -1709,9 +1711,9 @@
             "description": "Locale functions required by libphonenumber-for-php",
             "support": {
                 "issues": "https://github.com/giggsey/Locale/issues",
-                "source": "https://github.com/giggsey/Locale/tree/2.8.0"
+                "source": "https://github.com/giggsey/Locale/tree/2.9.0"
             },
-            "time": "2025-03-20T14:25:27+00:00"
+            "time": "2026-02-24T15:32:13+00:00"
         },
         {
             "name": "godruoyi/php-snowflake",
@@ -3046,11 +3048,11 @@
         },
         {
             "name": "laravel/serializable-closure",
-            "version": "v2.0.9",
+            "version": "v2.0.10",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/laravel/serializable-closure/v2.0.9/laravel-serializable-closure-v2.0.9.zip",
-                "reference": "8f631589ab07b7b52fead814965f5a800459cb3e",
+                "url": "https://mirrors.tencent.com/repository/composer/laravel/serializable-closure/v2.0.10/laravel-serializable-closure-v2.0.10.zip",
+                "reference": "870fc81d2f879903dfc5b60bf8a0f94a1609e669",
                 "shasum": ""
             },
             "require": {
@@ -3097,15 +3099,15 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2026-02-03T06:55:34+00:00"
+            "time": "2026-02-20T19:59:49+00:00"
         },
         {
             "name": "latte/latte",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/latte/latte/v3.1.1/latte-latte-v3.1.1.zip",
-                "reference": "cb98e705eeb0fd18f1f1c5cfe1a5f6217f9fa8b3",
+                "url": "https://mirrors.tencent.com/repository/composer/latte/latte/v3.1.2/latte-latte-v3.1.2.zip",
+                "reference": "734ab908c17b28bd75b9331debd1901bec2f23ef",
                 "shasum": ""
             },
             "require": {
@@ -3119,9 +3121,11 @@
             },
             "require-dev": {
                 "nette/php-generator": "^4.0",
-                "nette/tester": "^2.5",
+                "nette/phpstan-rules": "^1.0",
+                "nette/tester": "^2.6",
                 "nette/utils": "^4.0",
-                "phpstan/phpstan-nette": "^2.0@stable",
+                "phpstan/extension-installer": "^1.4@stable",
+                "phpstan/phpstan": "^2.1@stable",
                 "tracy/tracy": "^2.10"
             },
             "suggest": {
@@ -3178,9 +3182,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/latte/issues",
-                "source": "https://github.com/nette/latte/tree/v3.1.1"
+                "source": "https://github.com/nette/latte/tree/v3.1.2"
             },
-            "time": "2025-12-18T22:30:40+00:00"
+            "time": "2026-02-24T21:38:20+00:00"
         },
         {
             "name": "league/mime-type-detection",

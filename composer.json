@@ -55,7 +55,10 @@
     {
       "type": "composer",
       "url": "https://mirrors.tencent.com/composer/"
+    },
+    {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
     }
   ]
-
 }
