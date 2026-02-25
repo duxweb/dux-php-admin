@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [0.2.0] - 2026-02-26
+
+- feat: 处理部分字段的兼容性问题
+
 ## [0.1.12] - 2026-02-25
 
 - feat: 增加菜单卸载方法

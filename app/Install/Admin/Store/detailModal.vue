@@ -422,17 +422,17 @@ onBeforeUnmount(() => {
         <NTabs type="line" size="small" default-value="readme">
           <NTabPane name="readme" tab="应用介绍">
             <NScrollbar v-if="detailReadme" style="max-height: 240px">
-              <pre class="text-xs leading-5 opacity-60 whitespace-pre-wrap break-all p-1">{{ detailReadme }}</pre>
+              <pre class="text-sm leading-5 opacity-60 whitespace-pre-wrap break-all p-1">{{ detailReadme }}</pre>
             </NScrollbar>
-            <div v-else class="text-xs opacity-30 py-4 text-center">
+            <div v-else class="text-sm opacity-30 py-4 text-center">
               暂无介绍
             </div>
           </NTabPane>
           <NTabPane name="changelog" tab="更新记录">
             <NScrollbar v-if="detailChangelog" style="max-height: 240px">
-              <pre class="text-xs leading-5 opacity-60 whitespace-pre-wrap break-all p-1">{{ detailChangelog }}</pre>
+              <pre class="text-sm leading-5 opacity-60 whitespace-pre-wrap break-all p-1">{{ detailChangelog }}</pre>
             </NScrollbar>
-            <div v-else class="text-xs opacity-30 py-4 text-center">
+            <div v-else class="text-sm opacity-30 py-4 text-center">
               暂无更新记录
             </div>
           </NTabPane>
@@ -473,7 +473,7 @@ onBeforeUnmount(() => {
         :disabled="actionRunning || !canUninstall"
         @click="runAction('uninstall')"
       >
-        {{ canUninstall ? '卸载应用' : '核心模块不可卸载' }}
+        {{ canUninstall ? '卸载应用' : '不可卸载' }}
       </NButton>
       <NButton
         type="primary"

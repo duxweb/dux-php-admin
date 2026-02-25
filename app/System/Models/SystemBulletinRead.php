@@ -20,7 +20,7 @@ class SystemBulletinRead extends Model
         $table->bigInteger('user_id')->comment('用户ID');
         $table->timestamps();
         
-        $table->unique(['bulletin_id', 'user_has', 'user_id'], 'unique_bulletin_user');
+        $table->unique(['bulletin_id', 'user_has', 'user_id']);
         $table->index(['bulletin_id']);
         $table->index(['user_has', 'user_id']);
     }

@@ -37,6 +37,48 @@ function getLogoColor(name: string): string {
   return logoColors[Math.abs(hash) % logoColors.length]
 }
 
+function compareVersion(a: string, b: string): number {
+  const normalize = (input: string) => input.toLowerCase().replace(/^v/, '')
+  const left = normalize(a).split(/[.\-_]/)
+  const right = normalize(b).split(/[.\-_]/)
+  const len = Math.max(left.length, right.length)
+
+  for (let i = 0; i < len; i++) {
+    const l = left[i] || '0'
+    const r = right[i] || '0'
+    const lNum = Number(l)
+    const rNum = Number(r)
+
+    if (!Number.isNaN(lNum) && !Number.isNaN(rNum)) {
+      if (lNum > rNum) {
+        return 1
+      }
+      if (lNum < rNum) {
+        return -1
+      }
+      continue
+    }
+
+    const compared = l.localeCompare(r, undefined, { numeric: true, sensitivity: 'base' })
+    if (compared !== 0) {
+      return compared > 0 ? 1 : -1
+    }
+  }
+  return 0
+}
+
+function canUpdate(item: Record<string, any>): boolean {
+  if (!item?.installed) {
+    return false
+  }
+  const localVersion = String(item?.installed_version || '').trim()
+  const latestVersion = String(item?.latest_version || item?.version || '').trim()
+  if (!localVersion || !latestVersion || latestVersion === '-' || localVersion === '-') {
+    return false
+  }
+  return compareVersion(latestVersion, localVersion) > 0
+}
+
 function refreshList() {
   listKey.value += 1
 }
@@ -167,6 +209,9 @@ onMounted(() => {
           </NTag>
           <NTag v-if="item.installed" size="small" type="success" :bordered="false">
             已安装
+          </NTag>
+          <NTag v-if="canUpdate(item)" size="small" type="warning" :bordered="false">
+            可更新
           </NTag>
         </div>
       </div>

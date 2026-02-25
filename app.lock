@@ -65,7 +65,7 @@
         {
             "name": "duxweb/system",
             "description": "System Application",
-            "version": "0.1.11",
+            "version": "0.2.0",
             "phpDependencies": {
                 "duxweb/dux-lite": "^2.0.13",
                 "duxweb/dux-lite-cloud": "dev-main",

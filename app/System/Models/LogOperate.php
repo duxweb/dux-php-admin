@@ -21,7 +21,7 @@ class LogOperate extends Model
         $table->text('request_method')->comment("请求方法");
         $table->string('request_url')->comment("请求链接");
         $table->json('request_params')->comment("请求参数")->nullable();
-        $table->decimal('request_time', 11, 5)->comment("请求时间");
+        $table->double('request_time')->comment("请求时间");
         $table->string('route_name')->comment("路由名")->nullable();
         $table->string('route_title')->comment("路由标题")->nullable();
         $table->string('client_ua')->comment("客户端ua")->nullable();
