@@ -21,7 +21,7 @@
     "donatj/phpuseragentparser": "^1.10",
     "league/mime-type-detection": "^1.16",
     "jaybizzle/crawler-detect": "^1.3",
-    "duxweb/dux-lite-cloud": "dev-main",
+    "duxweb/dux-lite-cloud": "^0.0.2",
     "intervention/image": "^3.11",
     "giggsey/libphonenumber-for-php": "^9.0",
     "godruoyi/php-snowflake": "^3.2",
@@ -60,6 +60,10 @@
     {
       "type": "composer",
       "url": "https://mirrors.tencent.com/composer/"
+    },
+    {
+      "type": "composer",
+      "url": "https://packagist.pages.dev"
     }
   ]
 }

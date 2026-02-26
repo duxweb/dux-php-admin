@@ -7,6 +7,7 @@ namespace App\Install\Service;
 use App\System\Command\MenuCommand;
 use Core\App;
 use Core\Cloud\Service\ConfigService;
+use Core\Cloud\Service\RuntimeService;
 use Core\Config\TomlLoader;
 use Core\Config\TomlWriter;
 use Core\Database\Db;
@@ -15,9 +16,7 @@ use Noodlehaus\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 class InstallService
@@ -161,8 +160,12 @@ class InstallService
 
     public function runComposerUpdate(OutputInterface $output): void
     {
-        $phpBinary = $this->resolvePhpCliBinary();
-        $composerScript = $this->resolveLocalComposerScript();
+        try {
+            $phpBinary = RuntimeService::phpBinary();
+            $composerScript = RuntimeService::composerScript(base_path());
+        } catch (\Throwable $e) {
+            throw new ExceptionBusiness($e->getMessage());
+        }
         $output->writeln('[env] php cli: ' . $phpBinary);
         $output->writeln('[env] composer: ' . $composerScript);
 
@@ -391,73 +394,6 @@ class InstallService
             'key' => 'global',
             'url' => self::CLOUD_SERVERS['global'],
         ];
-    }
-
-    private function resolveLocalComposerScript(): string
-    {
-        $candidates = [
-            base_path('vendor/composer/composer/bin/composer'),
-            base_path('vendor/bin/composer'),
-        ];
-
-        foreach ($candidates as $file) {
-            $file = (string)$file;
-            if ($file === '' || !is_file($file)) {
-                continue;
-            }
-            if (str_ends_with(strtolower($file), '.bat')) {
-                continue;
-            }
-            return $file;
-        }
-
-        throw new ExceptionBusiness('Local composer script not found in vendor directory');
-    }
-
-    private function resolvePhpCliBinary(): string
-    {
-        $finder = new PhpExecutableFinder();
-        $finderBinary = trim((string)$finder->find(false));
-        $envBinary = trim((string)getenv('PHP_CLI_BINARY'));
-        $runtimeBinary = defined('PHP_BINARY') ? trim((string)PHP_BINARY) : '';
-        $bindirBinary = defined('PHP_BINDIR')
-            ? rtrim((string)PHP_BINDIR, '/\\') . DIRECTORY_SEPARATOR . (DIRECTORY_SEPARATOR === '\\' ? 'php.exe' : 'php')
-            : '';
-        $runtimeDirBinary = '';
-        if ($runtimeBinary !== '' && str_contains($runtimeBinary, DIRECTORY_SEPARATOR)) {
-            $runtimeDirBinary = dirname(dirname($runtimeBinary)) . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . (DIRECTORY_SEPARATOR === '\\' ? 'php.exe' : 'php');
-        }
-        $pathBinary = (new ExecutableFinder())->find(DIRECTORY_SEPARATOR === '\\' ? 'php.exe' : 'php') ?: '';
-
-        $candidates = [
-            $finderBinary,
-            $envBinary,
-            $runtimeBinary,
-            $bindirBinary,
-            $runtimeDirBinary,
-            $pathBinary,
-        ];
-
-        foreach ($candidates as $binary) {
-            if ($binary === '' || !$this->isCliPhpBinary($binary)) {
-                continue;
-            }
-            if (str_contains($binary, DIRECTORY_SEPARATOR)) {
-                if (!is_file($binary) || !is_executable($binary)) {
-                    continue;
-                }
-                return $binary;
-            }
-            return $binary;
-        }
-
-        throw new ExceptionBusiness('PHP CLI binary not found');
-    }
-
-    private function isCliPhpBinary(string $binary): bool
-    {
-        $name = strtolower(basename(str_replace('\\', '/', $binary)));
-        return !in_array($name, ['php-fpm', 'php-fpm.exe', 'php-cgi', 'php-cgi.exe'], true);
     }
 
     private function generateSecretKey(): string

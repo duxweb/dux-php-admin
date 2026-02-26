@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4d451d1244525d91843b6ca4583c8ea",
+    "content-hash": "502abc3c9113c0e7ec1f7232dae52a3e",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -56,11 +56,11 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.371.0",
+            "version": "3.371.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.371.0/aws-aws-sdk-php-3.371.0.zip",
-                "reference": "80bafcdc7f22362e204f49c5adfea66e85939cc8",
+                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.371.1/aws-aws-sdk-php-3.371.1.zip",
+                "reference": "26cd04f9f47ca0d66baa59303f70bff5a5d48706",
                 "shasum": ""
             },
             "require": {
@@ -141,9 +141,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.1"
             },
-            "time": "2026-02-24T19:08:17+00:00"
+            "time": "2026-02-25T19:05:28+00:00"
         },
         {
             "name": "brick/math",
@@ -1149,11 +1149,11 @@
         },
         {
             "name": "duxweb/dux-lite",
-            "version": "v2.3.6",
+            "version": "v2.3.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite/v2.3.6/duxweb-dux-lite-v2.3.6.zip",
-                "reference": "559558fa8186c3ed94681ba3173507879a748650",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite/v2.3.7/duxweb-dux-lite-v2.3.7.zip",
+                "reference": "93bc8ff27d9c90d27cbba738c517b612bef03a2d",
                 "shasum": ""
             },
             "require": {
@@ -1236,15 +1236,15 @@
                 "issues": "https://github.com/duxweb/dux-lite/issues",
                 "source": "https://github.com/duxweb/dux-lite"
             },
-            "time": "2026-02-22T02:08:32+00:00"
+            "time": "2026-02-25T16:02:42+00:00"
         },
         {
             "name": "duxweb/dux-lite-cloud",
-            "version": "dev-main",
+            "version": "v0.0.2",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-cloud/dev-main/duxweb-dux-lite-cloud-dev-main.zip",
-                "reference": "db85437796a63b7ce385f08296f0e3e3b4b32c93",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-cloud/v0.0.2/duxweb-dux-lite-cloud-v0.0.2.zip",
+                "reference": "57027b34678bd7406b52c0fd7552c0c4feac843a",
                 "shasum": ""
             },
             "require": {
@@ -1278,9 +1278,9 @@
             "description": "DuxLite v2 cloud service expansion package",
             "support": {
                 "issues": "https://github.com/duxweb/dux-lite-cloud/issues",
-                "source": "https://github.com/duxweb/dux-lite-cloud/tree/main"
+                "source": "https://github.com/duxweb/dux-lite-cloud/tree/v0.0.2"
             },
-            "time": "2026-02-25T08:32:02+00:00"
+            "time": "2026-02-26T09:33:52+00:00"
         },
         {
             "name": "eftec/bladeone",
@@ -1538,11 +1538,11 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v7.0.2",
+            "version": "v7.0.3",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/firebase/php-jwt/v7.0.2/firebase-php-jwt-v7.0.2.zip",
-                "reference": "5645b43af647b6947daac1d0f659dd1fbe8d3b65",
+                "url": "https://mirrors.tencent.com/repository/composer/firebase/php-jwt/v7.0.3/firebase-php-jwt-v7.0.3.zip",
+                "reference": "28aa0694bcfdfa5e2959c394d5a1ee7a5083629e",
                 "shasum": ""
             },
             "require": {
@@ -1589,9 +1589,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v7.0.2"
+                "source": "https://github.com/firebase/php-jwt/tree/v7.0.3"
             },
-            "time": "2025-12-16T22:17:28+00:00"
+            "time": "2026-02-25T22:16:40+00:00"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
@@ -6109,11 +6109,11 @@
         },
         {
             "name": "symfony/lock",
-            "version": "v7.4.5",
+            "version": "v7.4.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/lock/v7.4.5/symfony-lock-v7.4.5.zip",
-                "reference": "65615586799423c4d9a1983a08d5328ce0a070a8",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/lock/v7.4.6/symfony-lock-v7.4.6.zip",
+                "reference": "c39d02f61a039ef660e44f36719b1440414fe493",
                 "shasum": ""
             },
             "require": {
@@ -6162,17 +6162,17 @@
                 "semaphore"
             ],
             "support": {
-                "source": "https://github.com/symfony/lock/tree/v7.4.5"
+                "source": "https://github.com/symfony/lock/tree/v7.4.6"
             },
-            "time": "2026-01-27T16:16:02+00:00"
+            "time": "2026-02-17T07:53:42+00:00"
         },
         {
             "name": "symfony/messenger",
-            "version": "v7.4.4",
+            "version": "v7.4.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/messenger/v7.4.4/symfony-messenger-v7.4.4.zip",
-                "reference": "0a39e1b256f280762293f2f441e430c8baf74f9c",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/messenger/v7.4.6/symfony-messenger-v7.4.6.zip",
+                "reference": "9da6166eb98937d903ed3685b317b426c82d3496",
                 "shasum": ""
             },
             "require": {
@@ -6232,9 +6232,9 @@
             "description": "Helps applications send and receive messages to/from other applications or via message queues",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/messenger/tree/v7.4.4"
+                "source": "https://github.com/symfony/messenger/tree/v7.4.6"
             },
-            "time": "2026-01-08T14:50:10+00:00"
+            "time": "2026-02-25T16:50:00+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -7547,9 +7547,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "duxweb/dux-lite-cloud": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
