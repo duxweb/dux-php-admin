@@ -119,15 +119,25 @@ class Scheduler extends Resources
 
     public function createAfter(Data $data, mixed $info): void
     {
-        SchedulerService::generate();
+        $this->refreshSchedulerFile();
     }
 
     public function storeAfter(Data $data, mixed $info): void
     {
-        SchedulerService::generate();
+        $this->refreshSchedulerFile();
+    }
+
+    public function editAfter(Data $data, mixed $info): void
+    {
+        $this->refreshSchedulerFile();
     }
 
     public function delAfter(mixed $info): void
+    {
+        $this->refreshSchedulerFile();
+    }
+
+    private function refreshSchedulerFile(): void
     {
         SchedulerService::generate();
     }

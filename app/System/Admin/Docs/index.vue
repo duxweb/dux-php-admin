@@ -47,6 +47,17 @@ function getMethodType(method) {
   }
 }
 
+function filterCatalogNode(pattern, option) {
+  const keyword = String(pattern || '').trim().toLowerCase()
+  if (!keyword) {
+    return true
+  }
+  const name = String(option?.name || '').toLowerCase()
+  const path = String(option?.path || '').toLowerCase()
+  const method = String(option?.method || '').toLowerCase()
+  return name.includes(keyword) || path.includes(keyword) || method.includes(keyword)
+}
+
 const info = ref({})
 
 const { data, refetch } = useOne({
@@ -120,6 +131,7 @@ const devOpen = ref(false)
         <DuxTreeFilter
           v-model:value="filter.id"
           path="docs/catalogs"
+          :filter="filterCatalogNode"
           :params="treeParams"
           :data="docs"
           key-field="id"

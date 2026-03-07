@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [0.2.1] - 2026-03-07
+
+- fix: 修正编辑计划任务问题
+
 ## [0.2.0] - 2026-02-26
 
 - feat: 处理部分字段的兼容性问题

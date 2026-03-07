@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "502abc3c9113c0e7ec1f7232dae52a3e",
+    "content-hash": "fe2f7a8fe5112d86df9a3482bda82a3d",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -56,11 +56,11 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.371.1",
+            "version": "3.372.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.371.1/aws-aws-sdk-php-3.371.1.zip",
-                "reference": "26cd04f9f47ca0d66baa59303f70bff5a5d48706",
+                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.372.1/aws-aws-sdk-php-3.372.1.zip",
+                "reference": "a48ff951eaad7f038eca3e0e89f168048b99082b",
                 "shasum": ""
             },
             "require": {
@@ -123,11 +123,11 @@
             "authors": [
                 {
                     "name": "Amazon Web Services",
-                    "homepage": "http://aws.amazon.com"
+                    "homepage": "https://aws.amazon.com"
                 }
             ],
             "description": "AWS SDK for PHP - Use Amazon Web Services in your PHP project",
-            "homepage": "http://aws.amazon.com/sdkforphp",
+            "homepage": "https://aws.amazon.com/sdk-for-php",
             "keywords": [
                 "amazon",
                 "aws",
@@ -141,9 +141,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.372.1"
             },
-            "time": "2026-02-25T19:05:28+00:00"
+            "time": "2026-03-06T21:27:21+00:00"
         },
         {
             "name": "brick/math",
@@ -845,11 +845,11 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "4.4.1",
+            "version": "4.4.2",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/doctrine/dbal/4.4.1/doctrine-dbal-4.4.1.zip",
-                "reference": "3d544473fb93f5c25b483ea4f4ce99f8c4d9d44c",
+                "url": "https://mirrors.tencent.com/repository/composer/doctrine/dbal/4.4.2/doctrine-dbal-4.4.2.zip",
+                "reference": "476f7f0fa6ea4aa5364926db7fabdf6049075722",
                 "shasum": ""
             },
             "require": {
@@ -865,9 +865,9 @@
                 "phpstan/phpstan": "2.1.30",
                 "phpstan/phpstan-phpunit": "2.0.7",
                 "phpstan/phpstan-strict-rules": "^2",
-                "phpunit/phpunit": "11.5.23",
-                "slevomat/coding-standard": "8.24.0",
-                "squizlabs/php_codesniffer": "4.0.0",
+                "phpunit/phpunit": "11.5.50",
+                "slevomat/coding-standard": "8.27.1",
+                "squizlabs/php_codesniffer": "4.0.1",
                 "symfony/cache": "^6.3.8|^7.0|^8.0",
                 "symfony/console": "^5.4|^6.3|^7.0|^8.0"
             },
@@ -925,9 +925,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/4.4.1"
+                "source": "https://github.com/doctrine/dbal/tree/4.4.2"
             },
-            "time": "2025-12-04T10:11:03+00:00"
+            "time": "2026-02-26T12:12:19+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1149,11 +1149,11 @@
         },
         {
             "name": "duxweb/dux-lite",
-            "version": "v2.3.7",
+            "version": "v2.3.10",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite/v2.3.7/duxweb-dux-lite-v2.3.7.zip",
-                "reference": "93bc8ff27d9c90d27cbba738c517b612bef03a2d",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite/v2.3.10/duxweb-dux-lite-v2.3.10.zip",
+                "reference": "39862e33d7057eed52ce2e2e66108852d0d1a4c1",
                 "shasum": ""
             },
             "require": {
@@ -1186,6 +1186,7 @@
                 "react/event-loop": "^1.5",
                 "slim/psr7": "^1.7",
                 "slim/slim": "4.*",
+                "spatie/async": "^1.8",
                 "symfony/cache": "^7.1",
                 "symfony/console": "^7.1",
                 "symfony/event-dispatcher": "^7.1",
@@ -1236,15 +1237,15 @@
                 "issues": "https://github.com/duxweb/dux-lite/issues",
                 "source": "https://github.com/duxweb/dux-lite"
             },
-            "time": "2026-02-25T16:02:42+00:00"
+            "time": "2026-03-04T07:25:07+00:00"
         },
         {
             "name": "duxweb/dux-lite-cloud",
-            "version": "v0.0.2",
+            "version": "dev-main",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-cloud/v0.0.2/duxweb-dux-lite-cloud-v0.0.2.zip",
-                "reference": "57027b34678bd7406b52c0fd7552c0c4feac843a",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-cloud/dev-main/duxweb-dux-lite-cloud-dev-main.zip",
+                "reference": "18794413afd242446d9eff9af9aeacaa0386eb39",
                 "shasum": ""
             },
             "require": {
@@ -1278,9 +1279,9 @@
             "description": "DuxLite v2 cloud service expansion package",
             "support": {
                 "issues": "https://github.com/duxweb/dux-lite-cloud/issues",
-                "source": "https://github.com/duxweb/dux-lite-cloud/tree/v0.0.2"
+                "source": "https://github.com/duxweb/dux-lite-cloud/tree/main"
             },
-            "time": "2026-02-26T09:33:52+00:00"
+            "time": "2026-02-28T09:07:27+00:00"
         },
         {
             "name": "eftec/bladeone",
@@ -1595,11 +1596,11 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "9.0.24",
+            "version": "9.0.25",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/giggsey/libphonenumber-for-php/9.0.24/giggsey-libphonenumber-for-php-9.0.24.zip",
-                "reference": "6c31b050e667641cdc1cd1dc38497901f62c1d3c",
+                "url": "https://mirrors.tencent.com/repository/composer/giggsey/libphonenumber-for-php/9.0.25/giggsey-libphonenumber-for-php-9.0.25.zip",
+                "reference": "774ca57b2b0ed04bd279d25f877dd03b090811fc",
                 "shasum": ""
             },
             "require": {
@@ -1661,7 +1662,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2026-02-23T10:46:03+00:00"
+            "time": "2026-02-26T09:06:29+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -5417,6 +5418,61 @@
             "time": "2025-11-21T12:23:44+00:00"
         },
         {
+            "name": "spatie/async",
+            "version": "1.8.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/spatie/async/1.8.2/spatie-async-1.8.2.zip",
+                "reference": "a34c4752f7189f1677675638e7e6312e29168d66",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/serializable-closure": "^1.3.7|^2.0.0",
+                "php": "^8.3|^8.4|^8.5",
+                "symfony/process": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.1",
+                "pestphp/pest": "^3.0|^4.0",
+                "symfony/stopwatch": "^7.2|^8.0"
+            },
+            "suggest": {
+                "ext-pcntl": "Required to use async processes",
+                "ext-posix": "Required to use async processes"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Spatie\\Async\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Asynchronous and parallel PHP with the PCNTL extension",
+            "homepage": "https://github.com/spatie/async",
+            "keywords": [
+                "async",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/async/issues",
+                "source": "https://github.com/spatie/async/tree/1.8.2"
+            },
+            "time": "2026-02-09T15:07:43+00:00"
+        },
+        {
             "name": "staudenmeir/eloquent-has-many-deep-contracts",
             "version": "v1.2.1",
             "dist": {
@@ -5547,11 +5603,11 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v7.4.5",
+            "version": "v7.4.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/cache/v7.4.5/symfony-cache-v7.4.5.zip",
-                "reference": "8dde98d5a4123b53877aca493f9be57b333f14bd",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/cache/v7.4.7/symfony-cache-v7.4.7.zip",
+                "reference": "665522ec357540e66c294c08583b40ee576574f0",
                 "shasum": ""
             },
             "require": {
@@ -5621,9 +5677,9 @@
                 "psr6"
             ],
             "support": {
-                "source": "https://github.com/symfony/cache/tree/v7.4.5"
+                "source": "https://github.com/symfony/cache/tree/v7.4.7"
             },
-            "time": "2026-01-27T16:16:02+00:00"
+            "time": "2026-03-06T08:14:57+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -5736,11 +5792,11 @@
         },
         {
             "name": "symfony/console",
-            "version": "v7.4.4",
+            "version": "v7.4.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/console/v7.4.4/symfony-console-v7.4.4.zip",
-                "reference": "41e38717ac1dd7a46b6bda7d6a82af2d98a78894",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/console/v7.4.7/symfony-console-v7.4.7.zip",
+                "reference": "e1e6770440fb9c9b0cf725f81d1361ad1835329d",
                 "shasum": ""
             },
             "require": {
@@ -5804,17 +5860,17 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.4.4"
+                "source": "https://github.com/symfony/console/tree/v7.4.7"
             },
-            "time": "2026-01-13T11:36:38+00:00"
+            "time": "2026-03-06T14:06:20+00:00"
         },
         {
             "name": "symfony/css-selector",
-            "version": "v7.4.0",
+            "version": "v7.4.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/css-selector/v7.4.0/symfony-css-selector-v7.4.0.zip",
-                "reference": "ab862f478513e7ca2fe9ec117a6f01a8da6e1135",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/css-selector/v7.4.6/symfony-css-selector-v7.4.6.zip",
+                "reference": "2e7c52c647b406e2107dd867db424a4dbac91864",
                 "shasum": ""
             },
             "require": {
@@ -5849,9 +5905,9 @@
             "description": "Converts CSS selectors to XPath expressions",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/css-selector/tree/v7.4.0"
+                "source": "https://github.com/symfony/css-selector/tree/v7.4.6"
             },
-            "time": "2025-10-30T13:39:42+00:00"
+            "time": "2026-02-17T07:53:42+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -6019,11 +6075,11 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v8.0.1",
+            "version": "v8.0.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/filesystem/v8.0.1/symfony-filesystem-v8.0.1.zip",
-                "reference": "d937d400b980523dc9ee946bb69972b5e619058d",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/filesystem/v8.0.6/symfony-filesystem-v8.0.6.zip",
+                "reference": "7bf9162d7a0dff98d079b72948508fa48018a770",
                 "shasum": ""
             },
             "require": {
@@ -6059,17 +6115,17 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v8.0.1"
+                "source": "https://github.com/symfony/filesystem/tree/v8.0.6"
             },
-            "time": "2025-12-01T09:13:36+00:00"
+            "time": "2026-02-25T16:59:43+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v8.0.5",
+            "version": "v8.0.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/finder/v8.0.5/symfony-finder-v8.0.5.zip",
-                "reference": "8bd576e97c67d45941365bf824e18dc8538e6eb0",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/finder/v8.0.6/symfony-finder-v8.0.6.zip",
+                "reference": "441404f09a54de6d1bd6ad219e088cdf4c91f97c",
                 "shasum": ""
             },
             "require": {
@@ -6103,9 +6159,9 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v8.0.5"
+                "source": "https://github.com/symfony/finder/tree/v8.0.6"
             },
-            "time": "2026-01-26T15:08:38+00:00"
+            "time": "2026-01-29T09:41:02+00:00"
         },
         {
             "name": "symfony/lock",
@@ -6168,11 +6224,11 @@
         },
         {
             "name": "symfony/messenger",
-            "version": "v7.4.6",
+            "version": "v7.4.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/messenger/v7.4.6/symfony-messenger-v7.4.6.zip",
-                "reference": "9da6166eb98937d903ed3685b317b426c82d3496",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/messenger/v7.4.7/symfony-messenger-v7.4.7.zip",
+                "reference": "13a00f01a46ba7d47ac7f0e3d9a901d19f9432f0",
                 "shasum": ""
             },
             "require": {
@@ -6232,9 +6288,9 @@
             "description": "Helps applications send and receive messages to/from other applications or via message queues",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/messenger/tree/v7.4.6"
+                "source": "https://github.com/symfony/messenger/tree/v7.4.7"
             },
-            "time": "2026-02-25T16:50:00+00:00"
+            "time": "2026-03-04T13:54:41+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -6809,11 +6865,11 @@
         },
         {
             "name": "symfony/string",
-            "version": "v8.0.4",
+            "version": "v8.0.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/string/v8.0.4/symfony-string-v8.0.4.zip",
-                "reference": "758b372d6882506821ed666032e43020c4f57194",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/string/v8.0.6/symfony-string-v8.0.6.zip",
+                "reference": "6c9e1108041b5dce21a9a4984b531c4923aa9ec4",
                 "shasum": ""
             },
             "require": {
@@ -6869,17 +6925,17 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v8.0.4"
+                "source": "https://github.com/symfony/string/tree/v8.0.6"
             },
-            "time": "2026-01-12T12:37:40+00:00"
+            "time": "2026-02-09T10:14:57+00:00"
         },
         {
             "name": "symfony/translation",
-            "version": "v8.0.4",
+            "version": "v8.0.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/translation/v8.0.4/symfony-translation-v8.0.4.zip",
-                "reference": "db70c8ce7db74fd2da7b1d268db46b2a8ce32c10",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/translation/v8.0.6/symfony-translation-v8.0.6.zip",
+                "reference": "13ff19bcf2bea492d3c2fbeaa194dd6f4599ce1b",
                 "shasum": ""
             },
             "require": {
@@ -6938,9 +6994,9 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v8.0.4"
+                "source": "https://github.com/symfony/translation/tree/v8.0.6"
             },
-            "time": "2026-01-13T13:06:50+00:00"
+            "time": "2026-02-17T13:07:04+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -7002,11 +7058,11 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v7.4.4",
+            "version": "v7.4.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/var-dumper/v7.4.4/symfony-var-dumper-v7.4.4.zip",
-                "reference": "0e4769b46a0c3c62390d124635ce59f66874b282",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/var-dumper/v7.4.6/symfony-var-dumper-v7.4.6.zip",
+                "reference": "045321c440ac18347b136c63d2e9bf28a2dc0291",
                 "shasum": ""
             },
             "require": {
@@ -7059,9 +7115,9 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v7.4.4"
+                "source": "https://github.com/symfony/var-dumper/tree/v7.4.6"
             },
-            "time": "2026-01-01T22:13:48+00:00"
+            "time": "2026-02-15T10:53:20+00:00"
         },
         {
             "name": "symfony/var-exporter",
@@ -7121,11 +7177,11 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v7.4.1",
+            "version": "v7.4.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/yaml/v7.4.1/symfony-yaml-v7.4.1.zip",
-                "reference": "24dd4de28d2e3988b311751ac49e684d783e2345",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/yaml/v7.4.6/symfony-yaml-v7.4.6.zip",
+                "reference": "58751048de17bae71c5aa0d13cb19d79bca26391",
                 "shasum": ""
             },
             "require": {
@@ -7167,9 +7223,9 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v7.4.1"
+                "source": "https://github.com/symfony/yaml/tree/v7.4.6"
             },
-            "time": "2025-12-04T18:11:45+00:00"
+            "time": "2026-02-09T09:33:46+00:00"
         },
         {
             "name": "tuupola/slim-basic-auth",
@@ -7547,7 +7603,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "duxweb/dux-lite-cloud": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

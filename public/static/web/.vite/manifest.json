@@ -1,11 +1,11 @@
 {
   "../node_modules/@duxweb/dvha-core/dist/esm/components/loader/loader.js": {
-    "file": "assets/loader-B97PcGt-.js",
+    "file": "assets/loader-B8Dfu1Jg.js",
     "name": "loader",
     "src": "../node_modules/@duxweb/dvha-core/dist/esm/components/loader/loader.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-dux-C6I2-DXU.js",
       "_vendor-vue-D9f1V04D.js",
       "_vendor-lodash-x-1vNJto.js",
       "_vendor-pinia-Z9aGIU1t.js",
@@ -21,12 +21,12 @@
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/flowEditor/components/jsonEditor.js": {
-    "file": "assets/jsonEditor-BzteYmGP.js",
+    "file": "assets/jsonEditor-BCoOx6GN.js",
     "name": "jsonEditor",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/flowEditor/components/jsonEditor.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-dux-C6I2-DXU.js",
       "_vendor-naive-BOIcG1FR.js",
       "_vendor-vue-D9f1V04D.js",
       "_vendor-pinia-Z9aGIU1t.js",
@@ -41,12 +41,12 @@
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/json.js": {
-    "file": "assets/json-BdK1B1uj.js",
+    "file": "assets/json-BxvYRQHj.js",
     "name": "json",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/json.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-dux-C6I2-DXU.js",
       "_vendor-vue-D9f1V04D.js",
       "_vendor-pinia-Z9aGIU1t.js",
       "_vendor-lodash-x-1vNJto.js",
@@ -61,12 +61,12 @@
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/preview.js": {
-    "file": "assets/preview-DCnug1sy.js",
+    "file": "assets/preview-DD8KD0BX.js",
     "name": "preview",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/formEditor/preview.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-dux-C6I2-DXU.js",
       "_vendor-vue-D9f1V04D.js",
       "_vendor-pinia-Z9aGIU1t.js",
       "_vendor-lodash-x-1vNJto.js",
@@ -81,12 +81,12 @@
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/components/textImageEditor/textModal.js": {
-    "file": "assets/textModal-7OibRfmj.js",
+    "file": "assets/textModal-jnnNWnd5.js",
     "name": "textModal",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/components/textImageEditor/textModal.js",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-dux-C6I2-DXU.js",
       "_vendor-naive-BOIcG1FR.js",
       "_vendor-vue-D9f1V04D.js",
       "_vendor-pinia-Z9aGIU1t.js",
@@ -101,7 +101,7 @@
     ]
   },
   "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.js": {
-    "file": "assets/uno-_orknPVZ.js",
+    "file": "assets/uno-BXyX9Txd.js",
     "name": "uno",
     "src": "../node_modules/@duxweb/dvha-pro/dist/esm/theme/uno.js",
     "isDynamicEntry": true
@@ -122,8 +122,8 @@
     "file": "assets/vendor-ace-Vs9FM0tY.js",
     "name": "vendor-ace"
   },
-  "_vendor-dux-BAbWqcTR.js": {
-    "file": "assets/vendor-dux-BAbWqcTR.js",
+  "_vendor-dux-C6I2-DXU.js": {
+    "file": "assets/vendor-dux-C6I2-DXU.js",
     "name": "vendor-dux",
     "imports": [
       "_vendor-vue-D9f1V04D.js",
@@ -212,13 +212,13 @@
     ]
   },
   "main.ts": {
-    "file": "assets/index-MqGA9VFJ.js",
+    "file": "assets/index-8Jyuqjgg.js",
     "name": "index",
     "src": "main.ts",
     "isEntry": true,
     "imports": [
       "_vendor-vue-D9f1V04D.js",
-      "_vendor-dux-BAbWqcTR.js",
+      "_vendor-dux-C6I2-DXU.js",
       "_vendor-naive-BOIcG1FR.js",
       "_vendor-pinia-Z9aGIU1t.js",
       "_vendor-lodash-x-1vNJto.js",
@@ -232,7 +232,7 @@
     ]
   },
   "style.css": {
-    "file": "assets/style-V6JRBGgL.css",
+    "file": "assets/style-CGrFWN89.css",
     "src": "style.css"
   }
 }
