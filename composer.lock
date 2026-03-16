@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe2f7a8fe5112d86df9a3482bda82a3d",
+    "content-hash": "287c25ce98befc210f123140864dcce0",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -56,11 +56,11 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.372.1",
+            "version": "3.373.2",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.372.1/aws-aws-sdk-php-3.372.1.zip",
-                "reference": "a48ff951eaad7f038eca3e0e89f168048b99082b",
+                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.373.2/aws-aws-sdk-php-3.373.2.zip",
+                "reference": "483fba51c28b3a0c0647bf5100e0edca82090b18",
                 "shasum": ""
             },
             "require": {
@@ -81,12 +81,12 @@
                 "aws/aws-php-sns-message-validator": "~1.0",
                 "behat/behat": "~3.0",
                 "composer/composer": "^2.7.8",
-                "dms/phpunit-arraysubset-asserts": "^0.4.0",
+                "dms/phpunit-arraysubset-asserts": "^v0.5.0",
                 "doctrine/cache": "~1.4",
                 "ext-dom": "*",
                 "ext-openssl": "*",
                 "ext-sockets": "*",
-                "phpunit/phpunit": "^9.6",
+                "phpunit/phpunit": "^10.0",
                 "psr/cache": "^2.0 || ^3.0",
                 "psr/simple-cache": "^2.0 || ^3.0",
                 "sebastian/comparator": "^1.2.3 || ^4.0 || ^5.0",
@@ -141,9 +141,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.372.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.2"
             },
-            "time": "2026-03-06T21:27:21+00:00"
+            "time": "2026-03-13T18:08:30+00:00"
         },
         {
             "name": "brick/math",
@@ -1149,11 +1149,11 @@
         },
         {
             "name": "duxweb/dux-lite",
-            "version": "v2.3.10",
+            "version": "v2.4.2",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite/v2.3.10/duxweb-dux-lite-v2.3.10.zip",
-                "reference": "39862e33d7057eed52ce2e2e66108852d0d1a4c1",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite/v2.4.2/duxweb-dux-lite-v2.4.2.zip",
+                "reference": "53e2fe068d8f79e1875cecc755fec9e76777c43a",
                 "shasum": ""
             },
             "require": {
@@ -1237,15 +1237,15 @@
                 "issues": "https://github.com/duxweb/dux-lite/issues",
                 "source": "https://github.com/duxweb/dux-lite"
             },
-            "time": "2026-03-04T07:25:07+00:00"
+            "time": "2026-03-13T14:27:30+00:00"
         },
         {
             "name": "duxweb/dux-lite-cloud",
-            "version": "dev-main",
+            "version": "v0.0.4",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-cloud/dev-main/duxweb-dux-lite-cloud-dev-main.zip",
-                "reference": "18794413afd242446d9eff9af9aeacaa0386eb39",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-cloud/v0.0.4/duxweb-dux-lite-cloud-v0.0.4.zip",
+                "reference": "e3ed2b838eec13e4414370673e44714d30ab69fb",
                 "shasum": ""
             },
             "require": {
@@ -1279,9 +1279,50 @@
             "description": "DuxLite v2 cloud service expansion package",
             "support": {
                 "issues": "https://github.com/duxweb/dux-lite-cloud/issues",
-                "source": "https://github.com/duxweb/dux-lite-cloud/tree/main"
+                "source": "https://github.com/duxweb/dux-lite-cloud/tree/v0.0.4"
             },
-            "time": "2026-02-28T09:07:27+00:00"
+            "time": "2026-03-10T06:34:00+00:00"
+        },
+        {
+            "name": "duxweb/dux-lite-runtime",
+            "version": "v0.1.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-runtime/v0.1.2/duxweb-dux-lite-runtime-v0.1.2.zip",
+                "reference": "01960c70b81dbcca61349329943c789aedcd6efe",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "duxweb/dux-lite": "^2.4.0",
+                "spiral/goridge": "^4.2"
+            },
+            "require-dev": {
+                "pestphp/pest": "*"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Core\\Runtime\\Plugin",
+                "duxlite": {
+                    "providers": [
+                        "Core\\Runtime\\RuntimeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Core\\Runtime\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "DuxLite runtime extension package",
+            "support": {
+                "issues": "https://github.com/duxweb/dux-lite-runtime/issues",
+                "source": "https://github.com/duxweb/dux-lite-runtime/tree/v0.1.2"
+            },
+            "time": "2026-03-13T14:28:48+00:00"
         },
         {
             "name": "eftec/bladeone",
@@ -1335,50 +1376,6 @@
                 "source": "https://github.com/EFTEC/BladeOne/tree/4.19.1"
             },
             "time": "2025-09-03T20:50:39+00:00"
-        },
-        {
-            "name": "erusev/parsedown",
-            "version": "1.8.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/erusev/parsedown/1.8.0/erusev-parsedown-1.8.0.zip",
-                "reference": "96baaad00f71ba04d76e45b4620f54d3beabd6f7",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.5|^8.5|^9.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Parsedown": ""
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Emanuil Rusev",
-                    "email": "hello@erusev.com",
-                    "homepage": "http://erusev.com"
-                }
-            ],
-            "description": "Parser for Markdown.",
-            "homepage": "http://parsedown.org",
-            "keywords": [
-                "markdown",
-                "parser"
-            ],
-            "support": {
-                "issues": "https://github.com/erusev/parsedown/issues",
-                "source": "https://github.com/erusev/parsedown/tree/1.8.0"
-            },
-            "time": "2026-02-16T11:41:01+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -1596,11 +1593,11 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "9.0.25",
+            "version": "9.0.26",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/giggsey/libphonenumber-for-php/9.0.25/giggsey-libphonenumber-for-php-9.0.25.zip",
-                "reference": "774ca57b2b0ed04bd279d25f877dd03b090811fc",
+                "url": "https://mirrors.tencent.com/repository/composer/giggsey/libphonenumber-for-php/9.0.26/giggsey-libphonenumber-for-php-9.0.26.zip",
+                "reference": "53c2c418d3de20018662158a0c441fbaacc21da6",
                 "shasum": ""
             },
             "require": {
@@ -1662,7 +1659,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2026-02-26T09:06:29+00:00"
+            "time": "2026-03-13T10:51:39+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -1988,11 +1985,11 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.8.0",
+            "version": "2.9.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/guzzlehttp/psr7/2.8.0/guzzlehttp-psr7-2.8.0.zip",
-                "reference": "21dc724a0583619cd1652f673303492272778051",
+                "url": "https://mirrors.tencent.com/repository/composer/guzzlehttp/psr7/2.9.0/guzzlehttp-psr7-2.9.0.zip",
+                "reference": "7d0ed42f28e42d61352a7a79de682e5e67fec884",
                 "shasum": ""
             },
             "require": {
@@ -2008,6 +2005,7 @@
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "http-interop/http-factory-tests": "0.9.0",
+                "jshttp/mime-db": "1.54.0.1",
                 "phpunit/phpunit": "^8.5.44 || ^9.6.25"
             },
             "suggest": {
@@ -2078,9 +2076,9 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.8.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.9.0"
             },
-            "time": "2025-08-23T21:21:41+00:00"
+            "time": "2026-03-10T16:41:02+00:00"
         },
         {
             "name": "hassankhan/config",
@@ -3570,11 +3568,11 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.11.1",
+            "version": "3.11.3",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/nesbot/carbon/3.11.1/nesbot-carbon-3.11.1.zip",
-                "reference": "f438fcc98f92babee98381d399c65336f3a3827f",
+                "url": "https://mirrors.tencent.com/repository/composer/nesbot/carbon/3.11.3/nesbot-carbon-3.11.3.zip",
+                "reference": "6a7e652845bb018c668220c2a545aded8594fbbf",
                 "shasum": ""
             },
             "require": {
@@ -3651,7 +3649,7 @@
                 "issues": "https://github.com/CarbonPHP/carbon/issues",
                 "source": "https://github.com/CarbonPHP/carbon"
             },
-            "time": "2026-01-29T09:26:29+00:00"
+            "time": "2026-03-11T17:23:39+00:00"
         },
         {
             "name": "nette/utils",
@@ -3925,82 +3923,6 @@
                 "source": "https://github.com/openspout/openspout/tree/v4.32.0"
             },
             "time": "2025-09-03T16:03:54+00:00"
-        },
-        {
-            "name": "pelago/emogrifier",
-            "version": "v7.3.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/pelago/emogrifier/v7.3.0/pelago-emogrifier-v7.3.0.zip",
-                "reference": "6e00d9d8235e8cc8eec857e8dcd6cfeefdfd0cd6",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-libxml": "*",
-                "php": "~7.3.0 || ~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-                "sabberworm/php-css-parser": "^8.7.0",
-                "symfony/css-selector": "^4.4.23 || ^5.4.0 || ^6.0.0 || ^7.0.0"
-            },
-            "require-dev": {
-                "php-parallel-lint/php-parallel-lint": "1.4.0",
-                "phpstan/extension-installer": "1.4.3",
-                "phpstan/phpstan": "1.12.7",
-                "phpstan/phpstan-phpunit": "1.4.0",
-                "phpstan/phpstan-strict-rules": "1.6.1",
-                "phpunit/phpunit": "9.6.21",
-                "rawr/cross-data-providers": "2.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "8.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Pelago\\Emogrifier\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Oliver Klee",
-                    "email": "github@oliverklee.de"
-                },
-                {
-                    "name": "Zoli Szabó",
-                    "email": "zoli.szabo+github@gmail.com"
-                },
-                {
-                    "name": "John Reeve",
-                    "email": "jreeve@pelagodesign.com"
-                },
-                {
-                    "name": "Jake Hotson",
-                    "email": "jake.github@qzdesign.co.uk"
-                },
-                {
-                    "name": "Cameron Brooks"
-                },
-                {
-                    "name": "Jaime Prado"
-                }
-            ],
-            "description": "Converts CSS styles into inline style attributes in your HTML code",
-            "homepage": "https://www.myintervals.com/emogrifier.php",
-            "keywords": [
-                "css",
-                "email",
-                "pre-processing"
-            ],
-            "support": {
-                "issues": "https://github.com/MyIntervals/emogrifier/issues",
-                "source": "https://github.com/MyIntervals/emogrifier"
-            },
-            "time": "2024-10-28T16:12:26+00:00"
         },
         {
             "name": "peppeocchi/php-cron-scheduler",
@@ -4861,6 +4783,148 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
+            "name": "ramsey/collection",
+            "version": "2.1.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/ramsey/collection/2.1.1/ramsey-collection-2.1.1.zip",
+                "reference": "344572933ad0181accbf4ba763e85a0306a8c5e2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "captainhook/plugin-composer": "^5.3",
+                "ergebnis/composer-normalize": "^2.45",
+                "fakerphp/faker": "^1.24",
+                "hamcrest/hamcrest-php": "^2.0",
+                "jangregor/phpstan-prophecy": "^2.1",
+                "mockery/mockery": "^1.6",
+                "php-parallel-lint/php-console-highlighter": "^1.0",
+                "php-parallel-lint/php-parallel-lint": "^1.4",
+                "phpspec/prophecy-phpunit": "^2.3",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-mockery": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "ramsey/coding-standard": "^2.3",
+                "ramsey/conventional-commits": "^1.6",
+                "roave/security-advisories": "dev-latest"
+            },
+            "type": "library",
+            "extra": {
+                "captainhook": {
+                    "force-install": true
+                },
+                "ramsey/conventional-commits": {
+                    "configFile": "conventional-commits.json"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ramsey\\Collection\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Ramsey",
+                    "email": "ben@benramsey.com",
+                    "homepage": "https://benramsey.com"
+                }
+            ],
+            "description": "A PHP library for representing and manipulating collections.",
+            "keywords": [
+                "array",
+                "collection",
+                "hash",
+                "map",
+                "queue",
+                "set"
+            ],
+            "support": {
+                "issues": "https://github.com/ramsey/collection/issues",
+                "source": "https://github.com/ramsey/collection/tree/2.1.1"
+            },
+            "time": "2025-03-22T05:38:12+00:00"
+        },
+        {
+            "name": "ramsey/uuid",
+            "version": "4.9.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/ramsey/uuid/4.9.2/ramsey-uuid-4.9.2.zip",
+                "reference": "8429c78ca35a09f27565311b98101e2826affde0",
+                "shasum": ""
+            },
+            "require": {
+                "brick/math": "^0.8.16 || ^0.9 || ^0.10 || ^0.11 || ^0.12 || ^0.13 || ^0.14",
+                "php": "^8.0",
+                "ramsey/collection": "^1.2 || ^2.0"
+            },
+            "replace": {
+                "rhumsaa/uuid": "self.version"
+            },
+            "require-dev": {
+                "captainhook/captainhook": "^5.25",
+                "captainhook/plugin-composer": "^5.3",
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+                "ergebnis/composer-normalize": "^2.47",
+                "mockery/mockery": "^1.6",
+                "paragonie/random-lib": "^2",
+                "php-mock/php-mock": "^2.6",
+                "php-mock/php-mock-mockery": "^1.5",
+                "php-parallel-lint/php-parallel-lint": "^1.4.0",
+                "phpbench/phpbench": "^1.2.14",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-mockery": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.6",
+                "slevomat/coding-standard": "^8.18",
+                "squizlabs/php_codesniffer": "^3.13"
+            },
+            "suggest": {
+                "ext-bcmath": "Enables faster math with arbitrary-precision integers using BCMath.",
+                "ext-gmp": "Enables faster math with arbitrary-precision integers using GMP.",
+                "ext-uuid": "Enables the use of PeclUuidTimeGenerator and PeclUuidRandomGenerator.",
+                "paragonie/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
+                "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
+            },
+            "type": "library",
+            "extra": {
+                "captainhook": {
+                    "force-install": true
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Ramsey\\Uuid\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A PHP library for generating and working with universally unique identifiers (UUIDs).",
+            "keywords": [
+                "guid",
+                "identifier",
+                "uuid"
+            ],
+            "support": {
+                "issues": "https://github.com/ramsey/uuid/issues",
+                "source": "https://github.com/ramsey/uuid/tree/4.9.2"
+            },
+            "time": "2025-12-14T04:43:48+00:00"
+        },
+        {
             "name": "rap2hpoutre/fast-excel",
             "version": "v5.6.0",
             "dist": {
@@ -5038,66 +5102,6 @@
                 "source": "https://github.com/reactphp/promise/tree/v3.3.0"
             },
             "time": "2025-08-19T18:57:03+00:00"
-        },
-        {
-            "name": "sabberworm/php-css-parser",
-            "version": "v8.9.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/sabberworm/php-css-parser/v8.9.0/sabberworm-php-css-parser-v8.9.0.zip",
-                "reference": "d8e916507b88e389e26d4ab03c904a082aa66bb9",
-                "shasum": ""
-            },
-            "require": {
-                "ext-iconv": "*",
-                "php": "^5.6.20 || ^7.0.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "5.7.27 || 6.5.14 || 7.5.20 || 8.5.41",
-                "rawr/cross-data-providers": "^2.0.0"
-            },
-            "suggest": {
-                "ext-mbstring": "for parsing UTF-8 CSS"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "9.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Sabberworm\\CSS\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Raphael Schweikert"
-                },
-                {
-                    "name": "Oliver Klee",
-                    "email": "github@oliverklee.de"
-                },
-                {
-                    "name": "Jake Hotson",
-                    "email": "jake.github@qzdesign.co.uk"
-                }
-            ],
-            "description": "Parser for CSS Files written in PHP",
-            "homepage": "https://www.sabberworm.com/blog/2010/6/10/php-css-parser",
-            "keywords": [
-                "css",
-                "parser",
-                "stylesheet"
-            ],
-            "support": {
-                "issues": "https://github.com/MyIntervals/PHP-CSS-Parser/issues",
-                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.9.0"
-            },
-            "time": "2025-07-11T13:20:48+00:00"
         },
         {
             "name": "seld/jsonlint",
@@ -5473,6 +5477,118 @@
             "time": "2026-02-09T15:07:43+00:00"
         },
         {
+            "name": "spiral/goridge",
+            "version": "4.2.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/spiral/goridge/4.2.1/spiral-goridge-4.2.1.zip",
+                "reference": "2a372118dac1f0c0511e2862f963ce649fefd9fa",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-sockets": "*",
+                "php": ">=8.1",
+                "spiral/roadrunner": "^2023 || ^2024.1 || ^2025.1"
+            },
+            "require-dev": {
+                "google/protobuf": "^3.22 || ^4.0",
+                "infection/infection": "^0.29.0",
+                "jetbrains/phpstorm-attributes": "^1.0",
+                "phpunit/phpunit": "^10.5.45",
+                "rybakit/msgpack": "^0.7",
+                "spiral/code-style": "*",
+                "vimeo/psalm": "^6.0"
+            },
+            "suggest": {
+                "ext-msgpack": "MessagePack codec support",
+                "ext-protobuf": "Protobuf codec support",
+                "google/protobuf": "(^3.0) Protobuf codec support",
+                "rybakit/msgpack": "(^0.7) MessagePack codec support"
+            },
+            "type": "goridge",
+            "autoload": {
+                "psr-4": {
+                    "Spiral\\Goridge\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Valery Piashchynski",
+                    "homepage": "https://github.com/rustatian"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "homepage": "https://github.com/roxblnfk"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
+                }
+            ],
+            "description": "High-performance PHP-to-Golang RPC bridge",
+            "homepage": "https://spiral.dev/",
+            "support": {
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://docs.roadrunner.dev",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/goridge/tree/4.2.1"
+            },
+            "time": "2025-05-05T13:55:33+00:00"
+        },
+        {
+            "name": "spiral/roadrunner",
+            "version": "v2025.1.9",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/spiral/roadrunner/v2025.1.9/spiral-roadrunner-v2025.1.9.zip",
+                "reference": "1ffc187037ebcd84082d4b951504d5d4d9f968fc",
+                "shasum": ""
+            },
+            "type": "metapackage",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Titov / Wolfy-J",
+                    "email": "wolfy.jd@gmail.com"
+                },
+                {
+                    "name": "Valery Piashchynski",
+                    "homepage": "https://github.com/rustatian"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
+                }
+            ],
+            "description": "RoadRunner: High-performance PHP application server and process manager written in Go and powered with plugins",
+            "homepage": "https://roadrunner.dev/",
+            "support": {
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://docs.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2025.1.9"
+            },
+            "time": "2026-03-14T18:29:01+00:00"
+        },
+        {
             "name": "staudenmeir/eloquent-has-many-deep-contracts",
             "version": "v1.2.1",
             "dist": {
@@ -5558,48 +5674,6 @@
                 "source": "https://github.com/staudenmeir/eloquent-json-relations/tree/v1.13.3"
             },
             "time": "2025-02-16T14:49:18+00:00"
-        },
-        {
-            "name": "stevebauman/hypertext",
-            "version": "v1.1.2",
-            "dist": {
-                "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/stevebauman/hypertext/v1.1.2/stevebauman-hypertext-v1.1.2.zip",
-                "reference": "3960f5315c7499aeba6df0c679159b1efc202d77",
-                "shasum": ""
-            },
-            "require": {
-                "ezyang/htmlpurifier": "^4.16"
-            },
-            "require-dev": {
-                "pestphp/pest": "^2.24",
-                "spatie/ray": "^1.39"
-            },
-            "suggest": {
-                "ext-dom": "Required for filtering HTML.",
-                "ext-libxml": "Required for filtering HTML."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Stevebauman\\Hypertext\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Steve Bauman",
-                    "email": "steven_bauman@outlook.com"
-                }
-            ],
-            "description": "The best HTML to text transformer",
-            "support": {
-                "issues": "https://github.com/stevebauman/hypertext/issues",
-                "source": "https://github.com/stevebauman/hypertext/tree/v1.1.2"
-            },
-            "time": "2024-10-12T16:28:03+00:00"
         },
         {
             "name": "symfony/cache",
@@ -5863,51 +5937,6 @@
                 "source": "https://github.com/symfony/console/tree/v7.4.7"
             },
             "time": "2026-03-06T14:06:20+00:00"
-        },
-        {
-            "name": "symfony/css-selector",
-            "version": "v7.4.6",
-            "dist": {
-                "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/css-selector/v7.4.6/symfony-css-selector-v7.4.6.zip",
-                "reference": "2e7c52c647b406e2107dd867db424a4dbac91864",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\CssSelector\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Jean-François Simon",
-                    "email": "jeanfrancois.simon@sensiolabs.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Converts CSS selectors to XPath expressions",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/css-selector/tree/v7.4.6"
-            },
-            "time": "2026-02-17T07:53:42+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -7435,63 +7464,6 @@
             "time": "2024-11-21T01:49:47+00:00"
         },
         {
-            "name": "voku/simple_html_dom",
-            "version": "4.8.10",
-            "dist": {
-                "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/voku/simple_html_dom/4.8.10/voku-simple_html_dom-4.8.10.zip",
-                "reference": "716822ed52ed3a1881542be07a786270de390e99",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-libxml": "*",
-                "ext-simplexml": "*",
-                "php": ">=7.0.0",
-                "symfony/css-selector": "~3.0 || ~4.0 || ~5.0 || ~6.0 || ~7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
-            },
-            "suggest": {
-                "voku/portable-utf8": "If you need e.g. UTF-8 fixed output."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "voku\\helper\\": "src/voku/helper/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "dimabdc",
-                    "email": "support@titor.ru",
-                    "homepage": "https://github.com/dimabdc",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Lars Moelleken",
-                    "homepage": "https://www.moelleken.org/",
-                    "role": "Fork-Maintainer"
-                }
-            ],
-            "description": "Simple HTML DOM package.",
-            "homepage": "https://github.com/voku/simple_html_dom",
-            "keywords": [
-                "HTML Parser",
-                "dom",
-                "php dom"
-            ],
-            "support": {
-                "issues": "https://github.com/voku/simple_html_dom/issues",
-                "source": "https://github.com/voku/simple_html_dom/tree/4.8.10"
-            },
-            "time": "2024-07-03T16:05:14+00:00"
-        },
-        {
             "name": "willdurand/negotiation",
             "version": "3.1.0",
             "dist": {
@@ -7603,9 +7575,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "duxweb/dux-lite-cloud": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

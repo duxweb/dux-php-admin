@@ -252,9 +252,9 @@ class Wizard
             $this->runInstallStage(
                 $body,
                 $output,
-                'composer update',
-                '开始执行 composer update',
-                fn () => $this->service()->runComposerUpdate($output)
+                'composer install --ignore-platform-req=ext-*',
+                '开始执行 composer install（忽略扩展依赖）',
+                fn () => $this->service()->runComposerInstall($output)
             );
             $this->runInstallStage(
                 $body,

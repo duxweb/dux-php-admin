@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\System\Web;
 
+use App\System\Event\ManageConfigEvent;
 use App\System\Event\ManageEvent;
 use App\System\Models\SystemStorage;
 use App\System\Service\Config;
@@ -116,6 +117,25 @@ class Manage
             $manageList[$index] = $item;
         }
 
+        $config = [
+            'defaultManage' => $defaultManageName,
+            'theme' => [
+                'logo' => null,
+                'darkLogo' => null,
+                "appLogo" => null,
+                "appDarkLogo" => null,
+                'banner' => null,
+                'darkBanner' => null,
+                'layout' => 'app',
+                ...$themeConfig,
+            ],
+            'copyright' => $systemConfig['copyright'] ?: App::config('use')->get('app.copyright'),
+            'manage' => $manageList,
+        ];
+
+        $configEvent = new ManageConfigEvent();
+        App::event()->dispatch($configEvent, 'system.manage.config');
+
         $assign = [
             "title" => $systemConfig['title'] ?: App::config('use')->get('app.name'),
             "lang" => $lang,
@@ -128,19 +148,8 @@ class Manage
                 'css' => $data['style.css']['file'],
             ],
             'config' => [
-                'defaultManage' => $defaultManageName,
-                'theme' => [
-                    'logo' => null,
-                    'darkLogo' => null,
-                    "appLogo" => null,
-                    "appDarkLogo" => null,
-                    'banner' => null,
-                    'darkBanner' => null,
-                    'layout' => 'app',
-                    ...$themeConfig,
-                ],
-                'copyright' => $systemConfig['copyright'] ?: App::config('use')->get('app.copyright'),
-                'manage' => $manageList,
+                ...$config,
+                ...$configEvent->getConfig(),
             ],
         ];
 

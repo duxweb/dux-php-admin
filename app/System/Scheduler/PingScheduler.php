@@ -9,7 +9,7 @@ use Core\Scheduler\Attribute\Scheduler;
 
 class PingScheduler
 {
-    #[Scheduler(name: 'ping', desc: '写入 ping 日志用于测试')]
+    #[Scheduler(name: 'ping', desc: '写入 ping 测试')]
     public function handle(array $params = []): void
     {
         App::log('ping')->info('ping', [

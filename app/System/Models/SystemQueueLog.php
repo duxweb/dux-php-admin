@@ -23,7 +23,7 @@ class SystemQueueLog extends Model
         $table->string('job_method')->comment('任务方法');
         $table->string('job_id')->comment('任务ID');
         $table->text('params_json')->comment('参数');
-        $table->unsignedInteger('delay_ms')->default(0)->comment('延迟毫秒');
+        $table->unsignedBigInteger('delay_ms')->default(0)->comment('延迟毫秒');
         $table->string('error_message')->nullable()->comment('错误信息');
         $table->string('error_file')->nullable()->comment('错误位置');
         $table->unsignedInteger('duration_ms')->default(0)->comment('执行耗时');

@@ -38,8 +38,13 @@ const model = ref({
       <DuxFormItem label="任务名称" path="name" required>
         <NInput v-model:value="model.name" placeholder="请输入任务名称" />
       </DuxFormItem>
-      <DuxFormItem label="Cron 表达式" path="cron" required>
-        <NInput v-model:value="model.cron" placeholder="* * * * *" />
+      <DuxFormItem
+        label="Cron 表达式"
+        path="cron"
+        required
+        description="秒级定时器需要服务器安装相应扩展包"
+      >
+        <NInput v-model:value="model.cron" placeholder="5 位：* * * * *，6 位：*/30 * * * * *" />
       </DuxFormItem>
       <DuxFormItem label="排序" path="sort">
         <NInputNumber v-model:value="model.sort" class="w-full" />

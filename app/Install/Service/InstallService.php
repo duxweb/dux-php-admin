@@ -43,6 +43,8 @@ class InstallService
         $dbConfig = $this->validateDbConfig((array)($payload['db'] ?? []));
         $cloudServer = $this->resolveCloudServer((string)($payload['cloud_server'] ?? ''));
 
+        $this->ensureDatabaseReady($dbConfig);
+
         $this->writeUseConfig($appConfig['name'], $appConfig['domain'], $appConfig['cloud_key'], $cloudServer['url']);
         $this->writeDatabaseConfig($dbConfig);
         $this->reloadRuntimeConfig();
@@ -158,7 +160,7 @@ class InstallService
         );
     }
 
-    public function runComposerUpdate(OutputInterface $output): void
+    public function runComposerInstall(OutputInterface $output): void
     {
         try {
             $phpBinary = RuntimeService::phpBinary();
@@ -169,7 +171,16 @@ class InstallService
         $output->writeln('[env] php cli: ' . $phpBinary);
         $output->writeln('[env] composer: ' . $composerScript);
 
-        $process = new Process([$phpBinary, $composerScript, 'update', '--no-interaction', '--no-progress'], base_path());
+        $output->writeln('[env] composer args: install --no-interaction --no-progress --ignore-platform-req=ext-*');
+
+        $process = new Process([
+            $phpBinary,
+            $composerScript,
+            'install',
+            '--no-interaction',
+            '--no-progress',
+            '--ignore-platform-req=ext-*',
+        ], base_path());
         $process->setTimeout(ConfigService::getCommandTimeout());
         $process->run(function ($type, $buffer) use ($output): void {
             $output->write($buffer);
@@ -232,7 +243,7 @@ class InstallService
 
     private function validateDbConfig(array $db): array
     {
-        $driver = strtolower(trim((string)($db['driver'] ?? 'mysql')));
+        $driver = $this->normalizeDriver((string)($db['driver'] ?? 'mysql'));
         if (!in_array($driver, ['mysql', 'sqlite', 'pgsql'], true)) {
             throw new ExceptionBusiness('Database driver must be mysql, sqlite or pgsql');
         }
@@ -243,8 +254,11 @@ class InstallService
         }
 
         if ($driver === 'sqlite') {
-            $database = self::SQLITE_DATABASE_FILE;
-            $absoluteFile = base_path($database);
+            $database = trim((string)($db['database'] ?? ''));
+            if ($database === '') {
+                $database = self::SQLITE_DATABASE_FILE;
+            }
+            $absoluteFile = $this->resolveDatabasePath($database);
             $dir = dirname($absoluteFile);
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
@@ -254,7 +268,7 @@ class InstallService
             }
             return [
                 'driver' => $driver,
-                'database' => $database,
+                'database' => $absoluteFile,
                 'prefix' => $prefix,
             ];
         }
@@ -289,6 +303,117 @@ class InstallService
             'username' => $username,
             'password' => (string)($db['password'] ?? ''),
         ];
+    }
+
+    private function normalizeDriver(string $driver): string
+    {
+        $driver = strtolower(trim($driver));
+        if ($driver === '') {
+            return 'mysql';
+        }
+        return $driver;
+    }
+
+    private function ensureDatabaseReady(array $dbConfig): void
+    {
+        $driver = (string)($dbConfig['driver'] ?? '');
+        if ($driver === 'sqlite') {
+            return;
+        }
+
+        if ($driver === 'mysql') {
+            $this->ensureMysqlDatabaseReady($dbConfig);
+            return;
+        }
+
+        if ($driver === 'pgsql') {
+            $this->ensurePgsqlDatabaseReady($dbConfig);
+        }
+    }
+
+    private function ensureMysqlDatabaseReady(array $dbConfig): void
+    {
+        $database = (string)$dbConfig['database'];
+
+        try {
+            $pdo = new \PDO(
+                sprintf('mysql:host=%s;port=%d;charset=utf8mb4', (string)$dbConfig['host'], (int)$dbConfig['port']),
+                (string)$dbConfig['username'],
+                (string)$dbConfig['password'],
+                [
+                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+                ]
+            );
+        } catch (\PDOException $e) {
+            throw new ExceptionBusiness('数据库连接失败：请检查主机、端口、账号和密码是否正确。', 500, $e);
+        }
+
+        try {
+            $pdo->exec(sprintf('CREATE DATABASE IF NOT EXISTS `%s` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci', str_replace('`', '``', $database)));
+        } catch (\PDOException $e) {
+            throw new ExceptionBusiness('数据库不存在，且当前账号无权限自动创建数据库：' . $database, 500, $e);
+        }
+
+        try {
+            $test = new \PDO(
+                sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', (string)$dbConfig['host'], (int)$dbConfig['port'], $database),
+                (string)$dbConfig['username'],
+                (string)$dbConfig['password'],
+                [
+                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+                ]
+            );
+            unset($test);
+        } catch (\PDOException $e) {
+            throw new ExceptionBusiness('数据库已创建，但无法连接到数据库：' . $database, 500, $e);
+        }
+    }
+
+    private function ensurePgsqlDatabaseReady(array $dbConfig): void
+    {
+        $database = (string)$dbConfig['database'];
+
+        try {
+            $pdo = new \PDO(
+                sprintf('pgsql:host=%s;port=%d;dbname=postgres', (string)$dbConfig['host'], (int)$dbConfig['port']),
+                (string)$dbConfig['username'],
+                (string)$dbConfig['password'],
+                [
+                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+                ]
+            );
+        } catch (\PDOException $e) {
+            throw new ExceptionBusiness('数据库连接失败：请检查主机、端口、账号和密码是否正确。', 500, $e);
+        }
+
+        try {
+            $stmt = $pdo->prepare('SELECT 1 FROM pg_database WHERE datname = :name');
+            $stmt->execute(['name' => $database]);
+            $exists = (bool)$stmt->fetchColumn();
+            if (!$exists) {
+                $pdo->exec(sprintf('CREATE DATABASE "%s"', str_replace('"', '""', $database)));
+            }
+        } catch (\PDOException $e) {
+            throw new ExceptionBusiness('数据库不存在，且当前账号无权限自动创建数据库：' . $database, 500, $e);
+        }
+
+        try {
+            $test = new \PDO(
+                sprintf('pgsql:host=%s;port=%d;dbname=%s', (string)$dbConfig['host'], (int)$dbConfig['port'], $database),
+                (string)$dbConfig['username'],
+                (string)$dbConfig['password'],
+                [
+                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+                ]
+            );
+            unset($test);
+        } catch (\PDOException $e) {
+            throw new ExceptionBusiness('数据库已创建，但无法连接到数据库：' . $database, 500, $e);
+        }
     }
 
     private function writeUseConfig(string $name, string $domain, string $cloudKey, string $cloudUrl): void

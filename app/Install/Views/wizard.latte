@@ -620,6 +620,7 @@
             init(step) {
                 this.step = step || 'license';
                 this.load();
+                this.normalizeDbForm();
                 this.applySystemDefaults();
                 this.applyDriverDefaults();
                 if (this.step === 'modules') {
@@ -648,6 +649,7 @@
                             },
                         };
                     }
+                    this.normalizeDbForm();
                     if (Array.isArray(data?.modules)) {
                         this.selectedModules = data.modules;
                     }
@@ -687,7 +689,27 @@
                     cloud_server: this.cloudServer,
                 }));
             },
+            normalizeDbForm() {
+                const drivers = ['mysql', 'sqlite', 'pgsql']
+                if (!drivers.includes(this.form.db.driver)) {
+                    this.form.db.driver = 'mysql'
+                }
+
+                if (this.form.db.driver !== 'sqlite' && this.form.db.database === 'data/database.db') {
+                    this.form.db.database = ''
+                }
+
+                if (this.form.db.driver === 'mysql') {
+                    if (!this.form.db.host) {
+                        this.form.db.host = 'localhost'
+                    }
+                    if (!this.form.db.username) {
+                        this.form.db.username = 'root'
+                    }
+                }
+            },
             applyDriverDefaults() {
+                this.normalizeDbForm();
                 if (this.form.db.driver === 'mysql' && !this.form.db.port) {
                     this.form.db.port = 3306;
                 }
@@ -696,6 +718,9 @@
                 }
                 if (this.form.db.driver === 'sqlite') {
                     this.form.db.database = 'data/database.db';
+                }
+                if (this.form.db.driver !== 'sqlite' && this.form.db.database === 'data/database.db') {
+                    this.form.db.database = '';
                 }
                 this.save();
             },
@@ -711,6 +736,7 @@
                 this.go('/install/next/system');
             },
             nextDatabase() {
+                this.normalizeDbForm();
                 if (this.form.db.driver === 'sqlite') {
                     this.form.db.database = 'data/database.db';
                 }
@@ -862,6 +888,8 @@
                     return;
                 }
 
+                this.normalizeDbForm();
+                this.applyDriverDefaults();
                 this.save();
                 this.status = 'running';
                 this.logs = [];

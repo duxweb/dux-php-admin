@@ -56,7 +56,7 @@ class Scheduler extends Resources
         $taskValues = collect($options)->pluck('value')->filter()->values()->toArray();
 
         \Valitron\Validator::addRule('cron', static function ($field, $value, array $params, array $fields): bool {
-            return $value !== '' && CronExpression::isValidExpression((string)$value);
+            return self::validateCron((string)$value);
         });
 
         return [
@@ -69,7 +69,7 @@ class Scheduler extends Resources
             ],
             'cron' => [
                 ['required', '请输入 Cron 表达式'],
-                ['cron', 'Cron 表达式不正确'],
+                ['cron', 'Cron 表达式不正确，支持 5 位或 6 位'],
             ],
         ];
     }
@@ -140,6 +140,119 @@ class Scheduler extends Resources
     private function refreshSchedulerFile(): void
     {
         SchedulerService::generate();
+    }
+
+    private static function validateCron(string $cron): bool
+    {
+        $cron = trim($cron);
+        if ($cron === '') {
+            return false;
+        }
+
+        $parts = preg_split('/\s+/', $cron, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        if (count($parts) === 5) {
+            return CronExpression::isValidExpression($cron);
+        }
+        if (count($parts) !== 6) {
+            return false;
+        }
+
+        foreach ($parts as $index => $part) {
+            if (!self::validateCronPart($part, $index === 5)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static function validateCronPart(string $expression, bool $weekday = false): bool
+    {
+        foreach (explode(',', strtoupper($expression)) as $segment) {
+            if (!self::validateCronSegment(trim($segment), $weekday)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static function validateCronSegment(string $segment, bool $weekday = false): bool
+    {
+        if ($segment === '' || $segment === '*' || $segment === '?') {
+            return $segment !== '';
+        }
+
+        $step = 1;
+        $base = $segment;
+        if (str_contains($segment, '/')) {
+            [$base, $stepValue] = explode('/', $segment, 2);
+            if (!ctype_digit($stepValue) || (int)$stepValue <= 0) {
+                return false;
+            }
+            $step = (int)$stepValue;
+        }
+
+        if ($base === '*') {
+            return $step > 0;
+        }
+
+        if (str_contains($base, '-')) {
+            [$start, $end] = explode('-', $base, 2);
+            $startValue = self::cronValue($start, $weekday);
+            $endValue = self::cronValue($end, $weekday);
+            return $startValue >= 0 && $endValue >= 0 && $startValue <= $endValue;
+        }
+
+        return self::cronValue($base, $weekday) >= 0;
+    }
+
+    private static function cronValue(string $value, bool $weekday = false): int
+    {
+        $value = strtoupper(trim($value));
+        if ($value === '') {
+            return -1;
+        }
+
+        if ($weekday) {
+            $map = [
+                'SUN' => 0,
+                'MON' => 1,
+                'TUE' => 2,
+                'WED' => 3,
+                'THU' => 4,
+                'FRI' => 5,
+                'SAT' => 6,
+                '7' => 0,
+            ];
+            if (isset($map[$value])) {
+                return $map[$value];
+            }
+        } else {
+            $map = [
+                'JAN' => 1,
+                'FEB' => 2,
+                'MAR' => 3,
+                'APR' => 4,
+                'MAY' => 5,
+                'JUN' => 6,
+                'JUL' => 7,
+                'AUG' => 8,
+                'SEP' => 9,
+                'OCT' => 10,
+                'NOV' => 11,
+                'DEC' => 12,
+            ];
+            if (isset($map[$value])) {
+                return $map[$value];
+            }
+        }
+
+        if (!preg_match('/^\d+$/', $value)) {
+            return -1;
+        }
+
+        return (int)$value;
     }
 
     #[Action(methods: 'GET', route: '/options')]

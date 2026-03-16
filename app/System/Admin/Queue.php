@@ -20,7 +20,7 @@ class Queue
     #[Route(methods: 'GET', route: '')]
     public function list(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $rows = App::queue()->stats();
+        $rows = $this->mergeRuntimeStats(App::queue()->stats());
         $data = format_data(collect($rows), static fn (array $row) => $row);
 
         return send($response, 'ok', $data['data'], $data['meta']);
@@ -71,5 +71,56 @@ class Queue
         return send($response, 'ok', [
             'work' => $work,
         ]);
+    }
+
+    private function mergeRuntimeStats(array $rows): array
+    {
+        $metrics = $this->runtimeMetrics();
+        if (!$metrics) {
+            return $rows;
+        }
+
+        $dispatchers = [];
+        foreach ($metrics['queue']['dispatchers'] ?? [] as $item) {
+            $name = (string)($item['name'] ?? '');
+            if (!$name) {
+                continue;
+            }
+            $dispatchers[$name] = $item;
+        }
+
+        foreach ($rows as &$row) {
+            $name = (string)($row['name'] ?? '');
+            $runtime = $dispatchers[$name] ?? null;
+            if (!$runtime) {
+                continue;
+            }
+            $row['running'] = $runtime['active'] ?? $row['running'];
+        }
+        unset($row);
+
+        return $rows;
+    }
+
+    private function runtimeMetrics(): ?array
+    {
+        $runtimePackage = base_path('vendor/duxweb/dux-runtime');
+        if (!is_dir($runtimePackage)) {
+            return null;
+        }
+
+        $port = (string)App::config('use')->get('runtime.realtime_addr', getenv('DUX_RUNTIME_REALTIME_ADDR') ?: ':9504');
+        $url = str_starts_with($port, ':') ? 'http://127.0.0.1' . $port : 'http://' . $port;
+        $payload = @file_get_contents(rtrim($url, '/') . '/metrics');
+        if (!$payload) {
+            return null;
+        }
+
+        $data = json_decode($payload, true);
+        if (!is_array($data) || !is_array($data['runtime'] ?? null)) {
+            return null;
+        }
+
+        return $data['runtime'];
     }
 }
