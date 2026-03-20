@@ -6,6 +6,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [0.0.6] - 2026-03-20
+
+- 优化应用商店详情样式
+
 ## [0.0.5] - 2026-03-10
 
 - 修正安装器默认数据库类型

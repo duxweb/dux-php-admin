@@ -4,6 +4,6 @@
     "dependencies": {
         "duxweb/data": "0.1.1",
         "duxweb/system": "0.2.8",
-        "duxweb/install": "0.0.5"
+        "duxweb/install": "0.0.6"
     }
 }
