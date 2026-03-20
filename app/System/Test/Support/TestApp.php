@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\NullOutput;
 final class TestApp
 {
     private static bool $booted = false;
+    private static ?string $sqlitePath = null;
 
     /**
      * @var array<int, class-string>
@@ -66,10 +67,18 @@ final class TestApp
             error_reporting($previousReporting);
         }
 
+        if (self::$sqlitePath && is_file(self::$sqlitePath)) {
+            @unlink(self::$sqlitePath);
+        }
+        self::$sqlitePath = tempnam(sys_get_temp_dir(), 'cloud1-test-');
+        if (self::$sqlitePath === false) {
+            throw new \RuntimeException('Unable to create sqlite test database file.');
+        }
+
         $capsule = new Capsule();
         $capsule->addConnection([
             'driver' => 'sqlite',
-            'database' => ':memory:',
+            'database' => self::$sqlitePath,
             'prefix' => '',
             'foreign_key_constraints' => true,
         ], 'default');

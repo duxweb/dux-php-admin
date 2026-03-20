@@ -12,6 +12,16 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+
+## [0.2.8] - 2026-03-19
+
+- Update
+
+## [0.2.8] - 2026-03-19
+
+- fix: worker模式下模板路径缓存
+
 ## [0.2.7] - 2026-03-14
 
 - chore: 优化配置参数

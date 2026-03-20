@@ -153,6 +153,6 @@ class Manage
             ],
         ];
 
-        return sendTpl($response, dirname(__DIR__) . "/Views/manage.latte", $assign);
+        return sendTpl($response, dirname(__DIR__) . "/Views/manage.latte", $assign, 'manage');
     }
 }

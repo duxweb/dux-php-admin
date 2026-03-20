@@ -56,11 +56,11 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.373.2",
+            "version": "3.373.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.373.2/aws-aws-sdk-php-3.373.2.zip",
-                "reference": "483fba51c28b3a0c0647bf5100e0edca82090b18",
+                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.373.6/aws-aws-sdk-php-3.373.6.zip",
+                "reference": "adad2a5f7785e71928b4a9eb1eaadf5d0ede5edc",
                 "shasum": ""
             },
             "require": {
@@ -141,9 +141,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.6"
             },
-            "time": "2026-03-13T18:08:30+00:00"
+            "time": "2026-03-19T19:38:25+00:00"
         },
         {
             "name": "brick/math",
@@ -1149,11 +1149,11 @@
         },
         {
             "name": "duxweb/dux-lite",
-            "version": "v2.4.2",
+            "version": "v2.4.3",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite/v2.4.2/duxweb-dux-lite-v2.4.2.zip",
-                "reference": "53e2fe068d8f79e1875cecc755fec9e76777c43a",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite/v2.4.3/duxweb-dux-lite-v2.4.3.zip",
+                "reference": "b9e33e07be52e6c745c62eb725208dba99355ea7",
                 "shasum": ""
             },
             "require": {
@@ -1237,7 +1237,7 @@
                 "issues": "https://github.com/duxweb/dux-lite/issues",
                 "source": "https://github.com/duxweb/dux-lite"
             },
-            "time": "2026-03-13T14:27:30+00:00"
+            "time": "2026-03-19T12:56:55+00:00"
         },
         {
             "name": "duxweb/dux-lite-cloud",
@@ -2138,10 +2138,10 @@
         },
         {
             "name": "illuminate/bus",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/bus/v11.47.0/illuminate-bus-v11.47.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/bus/v11.50.0/illuminate-bus-v11.50.0.zip",
                 "reference": "2adf211bada7184410501b37882845230d6bf2f4",
                 "shasum": ""
             },
@@ -2185,10 +2185,10 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/collections/v11.47.0/illuminate-collections-v11.47.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/collections/v11.50.0/illuminate-collections-v11.50.0.zip",
                 "reference": "856b1da953e46281ba61d7c82d337072d3ee1825",
                 "shasum": ""
             },
@@ -2235,10 +2235,10 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/conditionable/v11.47.0/illuminate-conditionable-v11.47.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/conditionable/v11.50.0/illuminate-conditionable-v11.50.0.zip",
                 "reference": "319b717e0587bd7c8a3b44464f0e27867b4bcda9",
                 "shasum": ""
             },
@@ -2275,10 +2275,10 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/container/v11.47.0/illuminate-container-v11.47.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/container/v11.50.0/illuminate-container-v11.50.0.zip",
                 "reference": "79bf9149ad7ddd7e14326ebcdd41197d2c4ee36a",
                 "shasum": ""
             },
@@ -2320,10 +2320,10 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/contracts/v11.47.0/illuminate-contracts-v11.47.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/contracts/v11.50.0/illuminate-contracts-v11.50.0.zip",
                 "reference": "4787042340aae19a7ea0fa82f4073c4826204a48",
                 "shasum": ""
             },
@@ -2362,11 +2362,11 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/database/v11.47.0/illuminate-database-v11.47.0.zip",
-                "reference": "96abcce13f405701363d916dd312835e04848d04",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/database/v11.50.0/illuminate-database-v11.50.0.zip",
+                "reference": "a0dd90cb4982f887fe3b5580bc5f10cd4997512c",
                 "shasum": ""
             },
             "require": {
@@ -2421,14 +2421,14 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-09-29T09:23:31+00:00"
+            "time": "2026-02-23T15:40:51+00:00"
         },
         {
             "name": "illuminate/events",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/events/v11.47.0/illuminate-events-v11.47.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/events/v11.50.0/illuminate-events-v11.50.0.zip",
                 "reference": "b72dab66d8e05d22dc5aa949efec150bbc73e827",
                 "shasum": ""
             },
@@ -2474,10 +2474,10 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/macroable/v11.47.0/illuminate-macroable-v11.47.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/macroable/v11.50.0/illuminate-macroable-v11.50.0.zip",
                 "reference": "e1cb9e51b9ed5d3c9bc1ab431d0a52fe42a990ed",
                 "shasum": ""
             },
@@ -2514,10 +2514,10 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/pagination/v11.47.0/illuminate-pagination-v11.47.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/pagination/v11.50.0/illuminate-pagination-v11.50.0.zip",
                 "reference": "2c4970463f7ede55be207fbdc27608b4c4178380",
                 "shasum": ""
             },
@@ -2558,10 +2558,10 @@
         },
         {
             "name": "illuminate/pipeline",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/pipeline/v11.47.0/illuminate-pipeline-v11.47.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/pipeline/v11.50.0/illuminate-pipeline-v11.50.0.zip",
                 "reference": "f73bb7cab13ac8ef91094dc46976f5e992eea127",
                 "shasum": ""
             },
@@ -2600,11 +2600,11 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v11.47.0",
+            "version": "v11.50.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/illuminate/support/v11.47.0/illuminate-support-v11.47.0.zip",
-                "reference": "20fbd9f9f502a55de0cbba3f3f81444b7c44af4b",
+                "url": "https://mirrors.tencent.com/repository/composer/illuminate/support/v11.50.0/illuminate-support-v11.50.0.zip",
+                "reference": "11cc8bd46991e277f6af19eb9dee5d4c1f65c7d2",
                 "shasum": ""
             },
             "require": {
@@ -2667,7 +2667,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-11-27T16:16:32+00:00"
+            "time": "2026-01-20T15:25:35+00:00"
         },
         {
             "name": "intervention/gif",
@@ -2861,11 +2861,11 @@
         },
         {
             "name": "jimtools/jwt-auth",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/jimtools/jwt-auth/3.0.0/jimtools-jwt-auth-3.0.0.zip",
-                "reference": "266a02352ee5df57107c653827aab3d91a76857e",
+                "url": "https://mirrors.tencent.com/repository/composer/jimtools/jwt-auth/3.0.1/jimtools-jwt-auth-3.0.1.zip",
+                "reference": "9e116b1e976b91d60c701bc37ee4c7c2a9fcadb9",
                 "shasum": ""
             },
             "require": {
@@ -2915,9 +2915,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JimTools/jwt-auth/issues",
-                "source": "https://github.com/JimTools/jwt-auth/tree/3.0.0"
+                "source": "https://github.com/JimTools/jwt-auth/tree/3.0.1"
             },
-            "time": "2025-12-20T14:28:36+00:00"
+            "time": "2026-03-17T23:38:37+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -5553,11 +5553,11 @@
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2025.1.9",
+            "version": "v2025.1.11",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/spiral/roadrunner/v2025.1.9/spiral-roadrunner-v2025.1.9.zip",
-                "reference": "1ffc187037ebcd84082d4b951504d5d4d9f968fc",
+                "url": "https://mirrors.tencent.com/repository/composer/spiral/roadrunner/v2025.1.11/spiral-roadrunner-v2025.1.11.zip",
+                "reference": "e2c3615ad42d34cc30e01978c091c6ca51d0a005",
                 "shasum": ""
             },
             "type": "metapackage",
@@ -5584,9 +5584,9 @@
                 "chat": "https://discord.gg/V6EK4he",
                 "docs": "https://docs.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2025.1.9"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2025.1.11"
             },
-            "time": "2026-03-14T18:29:01+00:00"
+            "time": "2026-03-16T22:10:18+00:00"
         },
         {
             "name": "staudenmeir/eloquent-has-many-deep-contracts",
