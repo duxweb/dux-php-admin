@@ -11,6 +11,7 @@
 <p align="center">
   <a href="https://pam.docs.dux.plus/" target="_blank">📖 中文文档</a> |
   <a href="https://github.com/duxweb/dux-php-admin" target="_blank">🏠 GitHub</a> |
+  <a href="https://cloud.dux.plus" target="_blank">云市场</a> |
   <a href="https://www.dux.cn" target="_blank">🌐 官网</a>
 </p>
 
