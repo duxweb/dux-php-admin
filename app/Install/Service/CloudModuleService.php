@@ -22,10 +22,6 @@ class CloudModuleService
 {
     private const STORE_RUNNING_LOCK_FILE = 'store.running';
     private const STORE_PENDING_DIR = 'install/store/pending';
-    private const CLOUD_SERVERS = [
-        'global' => 'https://cloud.dux.plus',
-        'cn' => 'https://cn1.cloud.dux.plus',
-    ];
     private const PROTECTED_MODULES = ['system', 'data'];
 
     private ?InstallService $installService = null;
@@ -33,7 +29,7 @@ class CloudModuleService
     public function listModules(?string $cloudKey = null, ?string $cloudServer = null): array
     {
         $server = $this->applyRuntimeCloudServer($cloudServer);
-        $servers = $this->cloudServerStatus($server);
+        $servers = ConfigService::cloudServerStatus($server);
 
         $cloudKey = $this->resolveCloudKey($cloudKey);
         if ($cloudKey === '') {
@@ -240,7 +236,7 @@ class CloudModuleService
         }
 
         $tasks = $this->normalizeTasks((array)($payload['tasks'] ?? []));
-        $resolvedServer = $this->resolveCloudServer($cloudServer ?: (string)($payload['cloud_server'] ?? ''));
+        $resolvedServer = ConfigService::resolveCloudServer($cloudServer ?: (string)($payload['cloud_server'] ?? ''));
         $token = bin2hex(random_bytes(16));
         $this->saveStoreToken($token, [
             'app' => $app,
@@ -534,91 +530,13 @@ class CloudModuleService
 
     private function applyRuntimeCloudKey(string $cloudKey): void
     {
-        App::config('use')->set('cloud.key', $cloudKey);
+        ConfigService::setKey($cloudKey);
     }
 
     private function applyRuntimeCloudServer(?string $server = null): string
     {
-        $resolved = $this->resolveCloudServer($server);
-        ConfigService::init([
-            'api' => [
-                'url' => $resolved['url'],
-            ],
-        ]);
-        App::config('use')->set('cloud.url', $resolved['url']);
+        $resolved = ConfigService::applyCloudServer($server);
         return $resolved['key'];
-    }
-
-    private function resolveCloudServer(?string $server = null): array
-    {
-        $value = strtolower(trim((string)$server));
-        if ($value === '') {
-            $value = trim((string)App::config('use')->get('cloud.url', ''));
-        }
-
-        if ($value !== '') {
-            if (isset(self::CLOUD_SERVERS[$value])) {
-                return [
-                    'key' => $value,
-                    'url' => self::CLOUD_SERVERS[$value],
-                ];
-            }
-            foreach (self::CLOUD_SERVERS as $key => $url) {
-                if (rtrim(strtolower($url), '/') === rtrim(strtolower($value), '/')) {
-                    return [
-                        'key' => $key,
-                        'url' => $url,
-                    ];
-                }
-            }
-        }
-
-        return [
-            'key' => 'global',
-            'url' => self::CLOUD_SERVERS['global'],
-        ];
-    }
-
-    private function cloudServerStatus(string $selectedServer): array
-    {
-        $rows = [];
-        foreach (self::CLOUD_SERVERS as $key => $url) {
-            $rows[] = [
-                'key' => $key,
-                'title' => parse_url($url, PHP_URL_HOST) ?: $url,
-                'url' => $url,
-                'latency_ms' => $this->cloudServerLatency($url),
-                'selected' => $selectedServer === $key,
-            ];
-        }
-        return $rows;
-    }
-
-    private function cloudServerLatency(string $url): ?int
-    {
-        if (!function_exists('stream_socket_client')) {
-            return null;
-        }
-        $host = (string)(parse_url($url, PHP_URL_HOST) ?: '');
-        if ($host === '') {
-            return null;
-        }
-        $port = (int)(parse_url($url, PHP_URL_PORT) ?: 443);
-        $start = microtime(true);
-        $errno = 0;
-        $errstr = '';
-        $client = @stream_socket_client(
-            sprintf('tcp://%s:%d', $host, $port),
-            $errno,
-            $errstr,
-            2,
-            STREAM_CLIENT_CONNECT
-        );
-        if (!is_resource($client)) {
-            return null;
-        }
-        fclose($client);
-        return (int)round((microtime(true) - $start) * 1000);
     }
 
     private function normalizeApp(string $name): string

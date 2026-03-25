@@ -1,10 +1,10 @@
 {
     "name": "duxweb/system",
     "description": "System Application",
-    "version": "0.2.8",
+    "version": "0.2.12",
     "phpDependencies": {
-        "duxweb/dux-lite": "^2.4.1",
-        "duxweb/dux-lite-cloud": "^0.0.4",
+        "duxweb/dux-lite": "^2.4.7",
+        "duxweb/dux-lite-cloud": "^0.0.7",
         "godruoyi/php-snowflake": "^3.2",
         "ramsey/uuid": "^4.9.2",
         "jaybizzle/crawler-detect": "^1.3",

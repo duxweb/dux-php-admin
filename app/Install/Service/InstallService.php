@@ -25,10 +25,6 @@ class InstallService
     private const RUNNING_LOCK_FILE = 'install.running';
     private const PENDING_DIR = 'install/pending';
     private const SQLITE_DATABASE_FILE = 'data/database.db';
-    private const CLOUD_SERVERS = [
-        'global' => 'https://cloud.dux.plus',
-        'cn' => 'https://cn1.cloud.dux.plus',
-    ];
 
     private ?CloudModuleService $cloudModuleService = null;
 
@@ -41,7 +37,7 @@ class InstallService
     {
         $appConfig = $this->validateAppConfig((array)($payload['app'] ?? []));
         $dbConfig = $this->validateDbConfig((array)($payload['db'] ?? []));
-        $cloudServer = $this->resolveCloudServer((string)($payload['cloud_server'] ?? ''));
+        $cloudServer = ConfigService::resolveCloudServer((string)($payload['cloud_server'] ?? ''));
 
         $this->ensureDatabaseReady($dbConfig);
 
@@ -486,39 +482,6 @@ class InstallService
             throw new ExceptionBusiness('Install token is invalid', 400);
         }
         return $token;
-    }
-
-    /**
-     * @return array{key:string,url:string}
-     */
-    private function resolveCloudServer(?string $server = null): array
-    {
-        $value = strtolower(trim((string)$server));
-        if ($value === '') {
-            $value = trim((string)App::config('use')->get('cloud.url', ''));
-        }
-
-        if ($value !== '') {
-            if (isset(self::CLOUD_SERVERS[$value])) {
-                return [
-                    'key' => $value,
-                    'url' => self::CLOUD_SERVERS[$value],
-                ];
-            }
-            foreach (self::CLOUD_SERVERS as $key => $url) {
-                if (rtrim(strtolower($url), '/') === rtrim(strtolower($value), '/')) {
-                    return [
-                        'key' => $key,
-                        'url' => $url,
-                    ];
-                }
-            }
-        }
-
-        return [
-            'key' => 'global',
-            'url' => self::CLOUD_SERVERS['global'],
-        ];
     }
 
     private function generateSecretKey(): string

@@ -7,6 +7,26 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+
+
+
+## [0.0.10] - 2026-03-21
+
+- Update
+
+## [0.0.9] - 2026-03-21
+
+- Update
+
+## [0.0.8] - 2026-03-21
+
+- Update
+
+## [0.0.7] - 2026-03-21
+
+- feat: 增加说明文件
+
 ## [0.0.6] - 2026-03-20
 
 - 优化应用商店详情样式

@@ -2,8 +2,8 @@
     "name": "project",
     "description": "This is the dux application dependency configuration",
     "dependencies": {
-        "duxweb/data": "0.1.1",
-        "duxweb/system": "0.2.8",
-        "duxweb/install": "0.0.6"
+        "duxweb/data": "0.1.4",
+        "duxweb/system": "0.2.12",
+        "duxweb/install": "0.0.10"
     }
 }

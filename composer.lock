@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "287c25ce98befc210f123140864dcce0",
+    "content-hash": "26d27f765c17120c0ae095fc4508ce94",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -56,11 +56,11 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.373.6",
+            "version": "3.373.9",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.373.6/aws-aws-sdk-php-3.373.6.zip",
-                "reference": "adad2a5f7785e71928b4a9eb1eaadf5d0ede5edc",
+                "url": "https://mirrors.tencent.com/repository/composer/aws/aws-sdk-php/3.373.9/aws-aws-sdk-php-3.373.9.zip",
+                "reference": "a73e12fe5d010f3c6cda2f6f020b5a475444487d",
                 "shasum": ""
             },
             "require": {
@@ -141,9 +141,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.6"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.9"
             },
-            "time": "2026-03-19T19:38:25+00:00"
+            "time": "2026-03-24T18:06:07+00:00"
         },
         {
             "name": "brick/math",
@@ -1149,11 +1149,11 @@
         },
         {
             "name": "duxweb/dux-lite",
-            "version": "v2.4.3",
+            "version": "v2.4.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite/v2.4.3/duxweb-dux-lite-v2.4.3.zip",
-                "reference": "b9e33e07be52e6c745c62eb725208dba99355ea7",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite/v2.4.7/duxweb-dux-lite-v2.4.7.zip",
+                "reference": "2d40f5f23cf9ccb5833f42b86795f7fb0ef3e1a1",
                 "shasum": ""
             },
             "require": {
@@ -1237,15 +1237,15 @@
                 "issues": "https://github.com/duxweb/dux-lite/issues",
                 "source": "https://github.com/duxweb/dux-lite"
             },
-            "time": "2026-03-19T12:56:55+00:00"
+            "time": "2026-03-23T04:16:07+00:00"
         },
         {
             "name": "duxweb/dux-lite-cloud",
-            "version": "v0.0.4",
+            "version": "v0.0.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-cloud/v0.0.4/duxweb-dux-lite-cloud-v0.0.4.zip",
-                "reference": "e3ed2b838eec13e4414370673e44714d30ab69fb",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-cloud/v0.0.7/duxweb-dux-lite-cloud-v0.0.7.zip",
+                "reference": "82c14c3aa8155188f4dbce90e4d1caddb7ecab45",
                 "shasum": ""
             },
             "require": {
@@ -1279,17 +1279,17 @@
             "description": "DuxLite v2 cloud service expansion package",
             "support": {
                 "issues": "https://github.com/duxweb/dux-lite-cloud/issues",
-                "source": "https://github.com/duxweb/dux-lite-cloud/tree/v0.0.4"
+                "source": "https://github.com/duxweb/dux-lite-cloud/tree/v0.0.7"
             },
-            "time": "2026-03-10T06:34:00+00:00"
+            "time": "2026-03-21T04:08:29+00:00"
         },
         {
             "name": "duxweb/dux-lite-runtime",
-            "version": "v0.1.2",
+            "version": "v0.1.3",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-runtime/v0.1.2/duxweb-dux-lite-runtime-v0.1.2.zip",
-                "reference": "01960c70b81dbcca61349329943c789aedcd6efe",
+                "url": "https://mirrors.tencent.com/repository/composer/duxweb/dux-lite-runtime/v0.1.3/duxweb-dux-lite-runtime-v0.1.3.zip",
+                "reference": "da8de5616e0f2bb5737da5d1eb0815c65e5966a5",
                 "shasum": ""
             },
             "require": {
@@ -1320,9 +1320,9 @@
             "description": "DuxLite runtime extension package",
             "support": {
                 "issues": "https://github.com/duxweb/dux-lite-runtime/issues",
-                "source": "https://github.com/duxweb/dux-lite-runtime/tree/v0.1.2"
+                "source": "https://github.com/duxweb/dux-lite-runtime/tree/v0.1.3"
             },
-            "time": "2026-03-13T14:28:48+00:00"
+            "time": "2026-03-23T04:00:47+00:00"
         },
         {
             "name": "eftec/bladeone",
@@ -1484,11 +1484,11 @@
         },
         {
             "name": "fileeye/mimemap",
-            "version": "2.2.4",
+            "version": "2.2.5",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/fileeye/mimemap/2.2.4/fileeye-mimemap-2.2.4.zip",
-                "reference": "83664df5aae5e5df55f37a2b7d10b0ce4b46b778",
+                "url": "https://mirrors.tencent.com/repository/composer/fileeye/mimemap/2.2.5/fileeye-mimemap-2.2.5.zip",
+                "reference": "d85461d6663501d29d1838d1ad65222a1ce44d7b",
                 "shasum": ""
             },
             "require": {
@@ -1530,9 +1530,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FileEye/MimeMap/issues",
-                "source": "https://github.com/FileEye/MimeMap/tree/2.2.4"
+                "source": "https://github.com/FileEye/MimeMap/tree/2.2.5"
             },
-            "time": "2026-01-02T12:46:25+00:00"
+            "time": "2026-03-22T21:57:45+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -3102,11 +3102,11 @@
         },
         {
             "name": "latte/latte",
-            "version": "v3.1.2",
+            "version": "v3.1.3",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/latte/latte/v3.1.2/latte-latte-v3.1.2.zip",
-                "reference": "734ab908c17b28bd75b9331debd1901bec2f23ef",
+                "url": "https://mirrors.tencent.com/repository/composer/latte/latte/v3.1.3/latte-latte-v3.1.3.zip",
+                "reference": "d9f96802ef103705f8a389cd66cbf830d470b537",
                 "shasum": ""
             },
             "require": {
@@ -3181,9 +3181,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/latte/issues",
-                "source": "https://github.com/nette/latte/tree/v3.1.2"
+                "source": "https://github.com/nette/latte/tree/v3.1.3"
             },
-            "time": "2026-02-24T21:38:20+00:00"
+            "time": "2026-03-22T23:12:17+00:00"
         },
         {
             "name": "league/mime-type-detection",
@@ -4926,21 +4926,21 @@
         },
         {
             "name": "rap2hpoutre/fast-excel",
-            "version": "v5.6.0",
+            "version": "v5.7.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/rap2hpoutre/fast-excel/v5.6.0/rap2hpoutre-fast-excel-v5.6.0.zip",
-                "reference": "a460ac5b78f01162eadcae49053017686c53e102",
+                "url": "https://mirrors.tencent.com/repository/composer/rap2hpoutre/fast-excel/v5.7.0/rap2hpoutre-fast-excel-v5.7.0.zip",
+                "reference": "c5c2118c4e1b20395cab3d7ad32648ea9331c5cc",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
+                "illuminate/support": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
                 "openspout/openspout": "^4.24",
                 "php": "^8.0"
             },
             "require-dev": {
-                "illuminate/database": "^6.20.12 || ^7.30.4 || ^8.24.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
-                "phpunit/phpunit": "^9.5 || ^10.1",
+                "illuminate/database": "^6.20.12 || ^7.30.4 || ^8.24.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
+                "phpunit/phpunit": "^9.5 || ^10.1 || ^11.0 || ^12.0 || ^13.0",
                 "squizlabs/php_codesniffer": "3.*"
             },
             "type": "library",
@@ -4978,9 +4978,9 @@
             ],
             "support": {
                 "issues": "https://github.com/rap2hpoutre/fast-excel/issues",
-                "source": "https://github.com/rap2hpoutre/fast-excel/tree/v5.6.0"
+                "source": "https://github.com/rap2hpoutre/fast-excel/tree/v5.7.0"
             },
-            "time": "2025-02-18T12:50:31+00:00"
+            "time": "2026-03-24T09:13:16+00:00"
         },
         {
             "name": "react/event-loop",

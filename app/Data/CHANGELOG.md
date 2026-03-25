@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+
+
+## [0.1.4] - 2026-03-21
+
+- Update
+
+## [0.1.3] - 2026-03-21
+
+- Update
+
+## [0.1.2] - 2026-03-21
+
+- feat: 增加说明文件
+
 ## [0.1.1] - 2026-02-24
 
 - feat: 数据配置增加分享与导入功能（支持分享码生成与粘贴导入）
