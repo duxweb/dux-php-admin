@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://pam.docs.dux.plus/" target="_blank">📖 中文文档</a> |
-  <a href="https://github.com/duxweb/dux-php-admin" target="_blank">🏠 GitHub</a> |
+  <a href="https://ai.docs.dux.plus/" target="_blank">📖 最新文档</a> |
+  <a href="https://github.com/duxweb/dux-ai" target="_blank">🏠 主仓库</a> |
   <a href="https://cloud.dux.plus" target="_blank">云市场</a> |
   <a href="https://www.dux.cn" target="_blank">🌐 官网</a>
 </p>
@@ -23,6 +23,14 @@
 </p>
 
 ---
+
+> [!IMPORTANT]
+> 业务调整说明：
+> 为了方便开发者的维护工作、更好服务用户，并顺应当前 AI 时代的发展方向，`dux-php-admin` 已并入 `DuxAI`。
+> 后续框架能力、AI 模块、系统模块与相关文档将统一在 Dux AI 体系内持续维护。
+>
+> 最新文档：`https://ai.docs.dux.plus/`
+> 主仓库：`https://github.com/duxweb/dux-ai`
 
 ## ✨ 核心特性
 
@@ -43,6 +51,11 @@
 既保留传统全栈的直观体验，又保持前后端分离的规范化优势。
 
 ## 🚀 快速开始（最短流程）
+
+最新安装与使用说明请优先以 Dux AI 文档为准：
+
+- 文档入口：https://ai.docs.dux.plus/
+- 主仓库：https://github.com/duxweb/dux-ai
 
 ### 1) 确认环境
 
@@ -113,17 +126,17 @@ bun run build
 
 ## 📚 文档
 
-- 快速开始：https://pam.docs.dux.plus/guide/getting-started
-- 项目介绍：https://pam.docs.dux.plus/guide/introduction
-- 开发指南：https://pam.docs.dux.plus/dev/quick-start/environment
+- 最新文档：https://ai.docs.dux.plus/
+- 框架说明：https://ai.docs.dux.plus/foundation/introduction
+- 扩展开发：https://ai.docs.dux.plus/extensions/
 
 ## 🤝 参与贡献
 
-欢迎提交 Issues 和 Pull Requests。
+后续问题反馈与功能演进请优先在 Dux AI 主仓库进行。
 
-- Issues：https://github.com/duxweb/dux-php-admin/issues
-- Discussions：https://github.com/duxweb/dux-php-admin/discussions
-- PR：https://github.com/duxweb/dux-php-admin/pulls
+- Issues：https://github.com/duxweb/dux-ai/issues
+- Discussions：https://github.com/duxweb/dux-ai/discussions
+- PR：https://github.com/duxweb/dux-ai/pulls
 
 ## 📄 开源协议
 
