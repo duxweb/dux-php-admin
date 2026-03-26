@@ -28,6 +28,13 @@ declare global {
           label?: string
           icon?: string
           path?: string
+          url?: string
+          loader?: string
+          type?: string
+          title?: string
+          width?: number | string
+          draggable?: boolean
+          componentProps?: Record<string, any>
         }>
       }>
     }
